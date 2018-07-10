@@ -1,5 +1,15 @@
 package com.nexters.rezoom.controller;
 
-public class MemberController {
+import javax.annotation.Resource;
 
+import org.springframework.stereotype.Controller;
+
+import com.nexters.rezoom.service.MemberService;
+
+@Controller
+public class MemberController {
+	
+	@Resource
+	MemberService service;
+	
 }
