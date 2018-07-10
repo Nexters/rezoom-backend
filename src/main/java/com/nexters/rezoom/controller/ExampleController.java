@@ -22,5 +22,9 @@ public class ExampleController {
 		List<Example> examples = exampleService.getExampleList();
 		return examples;
 	}
+	@GetMapping("/")
+	public String testMethod(){
+		return "";
+	}
 	
 }
