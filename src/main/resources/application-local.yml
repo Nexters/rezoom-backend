@@ -1,0 +1,10 @@
+# port
+server:
+  port: 8080
+
+# database 
+spring:
+  datasource.url: jdbc:mysql://localhost:3306/rezoom?useSSL=false&characterEncoding=UTF-8
+  datasource: username=root
+  datasource.password: 1234
+  datasource.driver-class-name: com.mysql.jdbc.Driver
