@@ -25,5 +25,9 @@
 /.nb-gradle/
 
 ##### Secure Data #####
-application-dev.properties
+src/main/resources/application-dev.yml
+src/main/resources/application-dev.properties
 application-prod.properties
+mvnw
+mvnw.cmd
+.mvn
