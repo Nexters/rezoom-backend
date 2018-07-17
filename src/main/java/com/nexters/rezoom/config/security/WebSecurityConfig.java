@@ -37,15 +37,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 보안 처리
 		http.cors().and().csrf().disable();
 		
-		// 요청 처리
+		// 요청 처리 : 디버깅할 때는 모두 허락..
 		http.authorizeRequests()
-			.antMatchers("/").permitAll()
-			.antMatchers("/static/**").permitAll()
-			.antMatchers("/favicon.ico").permitAll()
-			.antMatchers("/resources/**").permitAll()
-			.antMatchers("/webjars/**").permitAll()
-			.antMatchers("/error/**").permitAll()
-			.anyRequest().authenticated();
+				.antMatchers("/**").permitAll();
+
+		// 요청 처리: 필요할 때 주석 해제(위에껀 주석 달고..)
+//		http.authorizeRequests()
+//			.antMatchers("/").permitAll()
+//			.antMatchers("/static/**").permitAll()
+//			.antMatchers("/favicon.ico").permitAll()
+//			.antMatchers("/resources/**").permitAll()
+//			.antMatchers("/webjars/**").permitAll()
+//			.antMatchers("/error/**").permitAll()
+//			.anyRequest().authenticated();
 		
 		// 로그인 성공시 / 이동
 		// TODO : 로그인 성공하면 / 이동이 되어야 하는데 안됌...
