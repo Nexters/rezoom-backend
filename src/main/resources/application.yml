@@ -1,0 +1,15 @@
+# profile
+spring:
+  application:
+    name: rezoom
+  profiles:
+    active: dev
+
+# tomcat
+server:
+  tomcat.uri-encoding: UTF-8
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*_mapper.xml
+  type-aliases-package: com.nexters.rezoom.domain
