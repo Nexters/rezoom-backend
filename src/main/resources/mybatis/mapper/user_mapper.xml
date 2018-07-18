@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nexters.rezoom.repository.UserRepository">
+    <insert id="insertOne" parameterType="map">
+       INSERT INTO user
+       (user_name, social_type)
+       VALUES
+       (#{userName}, #{socialType})
+    </insert>
+
+    <select id="selectOne" parameterType="map" resultType="User">
+        SELECT user_name, social_type
+        FROM user
+        WHERE user_name=#{userName} AND social_type=#{socialType}
+    </select>
+</mapper>
