@@ -8,6 +8,7 @@ public class User {
     private String userName;
     private String socialType;
 
+    public User() {}
     public User(String userName, String socialType) {
         this.userName = userName;
         this.socialType = socialType;

@@ -53,28 +53,31 @@ public class SocialProviderConfig {
 	}
 
 	@Bean
+	@ConfigurationProperties("google")
+	public ClientResources google() { return new ClientResources(); }
+
+	@Bean
 	public Filter ssoFilter() {
 		CompositeFilter filter = new CompositeFilter();
 		List<Filter> filters = new ArrayList<>();
 		filters.add(ssoFilter(facebook(), "/login/facebook"));
 		filters.add(ssoFilter(github(), "/login/github"));
+		filters.add(ssoFilter(google(), "/login/google"));
 		filter.setFilters(filters);
 		return filter;
 	}
+    // TODO : ------------------------------------------------------------------------------------------------------
 
 	private Filter ssoFilter(ClientResources client, String path) {
-		OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(
-				path);
+		OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(path);
 		OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
 		oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
-		UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
-				client.getClient().getClientId());
+		UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(), client.getClient().getClientId());
 		tokenServices.setRestTemplate(oAuth2RestTemplate);
 		oAuth2ClientAuthenticationFilter.setTokenServices(tokenServices);
 
 		String socialProviderName = path.substring(7);
-		oAuth2ClientAuthenticationFilter
-				.setAuthenticationSuccessHandler(new OAuth2SuccessHandler(socialProviderName, userRepository));
+		oAuth2ClientAuthenticationFilter.setAuthenticationSuccessHandler(new OAuth2SuccessHandler(socialProviderName, userRepository));
 
 		return oAuth2ClientAuthenticationFilter;
 	}
@@ -90,7 +93,6 @@ class ClientResources {
 	public AuthorizationCodeResourceDetails getClient() {
 		return client;
 	}
-
 	public ResourceServerProperties getResource() {
 		return resource;
 	}

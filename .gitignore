@@ -15,6 +15,7 @@
 *.iws
 *.iml
 *.ipr
+/out
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +32,4 @@ application-prod.properties
 mvnw
 mvnw.cmd
 .mvn
+/src/test/
