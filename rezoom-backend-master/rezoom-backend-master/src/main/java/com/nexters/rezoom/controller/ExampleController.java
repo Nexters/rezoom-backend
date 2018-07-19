@@ -16,11 +16,12 @@ public class ExampleController {
 
 	@Autowired
 	ExampleService exampleService;
-	
+
 	@GetMapping("/")
 	public List<Example> getAllExamples() {
 		List<Example> examples = exampleService.getExampleList();
 		return examples;
 	}
+
 	
 }
