@@ -1,10 +1,9 @@
 package com.nexters.rezoom.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("serial")
-public class Resume implements Serializable {
+
+public class Resume {
 
     private int resumeId;
     private String userId;

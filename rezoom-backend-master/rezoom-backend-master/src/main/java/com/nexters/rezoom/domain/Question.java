@@ -1,8 +1,6 @@
 package com.nexters.rezoom.domain;
 
-import java.io.Serializable;
-@SuppressWarnings("serial")
-public class Question implements Serializable {
+public class Question {
 
     private int resumeId;
     private String userId;

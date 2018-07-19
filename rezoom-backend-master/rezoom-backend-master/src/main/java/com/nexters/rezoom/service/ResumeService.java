@@ -1,17 +1,13 @@
 package com.nexters.rezoom.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.nexters.rezoom.domain.Question;
-import com.nexters.rezoom.domain.Resume;
 import com.nexters.rezoom.repository.ResumeRepository;
 
 @Service
 public class ResumeService {
-
+	
     @Autowired
     ResumeRepository resumeRepository;
 
