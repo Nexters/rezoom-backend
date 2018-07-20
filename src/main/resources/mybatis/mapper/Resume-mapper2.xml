@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nexters.rezoom.repository.ResumeRepository">
+   <resultMap id="resumeResult" type="com.nexters.rezoom.domain.Resume">
+      <id property="resumeId" column="resume_id"/>
+      <id property="userId" column="user_id"/>
+      
+      <result property="date" column="time_posted"/>
+      <result property="passFail" column="passfail"/>
+      <result property="companyName" column="company_name"/>
+      <result property="year" column="first_second_half"/>
+      
+      <collection property="qeustionList" javaType="java.util.List">
+		<id property="questionId" column="question_id"/>
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+   		</collection>
+   </resultMap> 
+   
+	<delete id="deleteResume"> <!-- 이력서 삭제 -->
+	delete from resume where user_id=#{userId} 
+	<!-- AND resume_id=#{resumeId} -->
+	</delete>	
+
+</mapper>
