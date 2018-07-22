@@ -26,6 +26,7 @@
 /.nb-gradle/
 
 ##### Secure Data #####
+src/main/resources/application-local.yml
 src/main/resources/application-dev.yml
 src/main/resources/application-dev.properties
 application-prod.properties

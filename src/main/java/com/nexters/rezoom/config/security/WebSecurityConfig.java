@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// 로그인 성공시 / 이동
 		// TODO : 로그인 성공하면 / 이동이 되어야 하는데 안됌...
+		// >>>>> Success Handler로 해결했음
 		http.exceptionHandling()
 			.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"));
 		

@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.constraints.AssertTrue;
 
 import com.nexters.rezoom.domain.User;
 import com.nexters.rezoom.repository.UserRepository;
@@ -29,14 +31,27 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 	    this.userRepository = userRepository;
 	}
 
+	/**
+	 * 소셜 로그인 성공시 실행되는 메소드
+	 * - 인증된 사용자의 username으로 DB를 조회하고 없으면 저장한다.
+	 * - 세션에 userId를 저장함
+	 */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication auth) throws IOException, ServletException {
         String userName = auth.getName();
 
         User user = userRepository.selectOne(userName, socialType);
-        if (user == null)  userRepository.insertOne(new User(userName, socialType));
+        if (user == null) {
+        	user = new User(userName, socialType);
+			userRepository.insertOne(user);
+		}
 
-        // TODO : 홈으로 가는지 테스트
+		HttpSession session = req.getSession();
+		if (session != null) {
+			int userId = user.getUserId();
+			session.setAttribute("user", user);
+		}
+
         res.sendRedirect("/");
 	}
 

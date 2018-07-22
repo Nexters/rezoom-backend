@@ -8,8 +8,16 @@ public class User {
     private String userName;
     private String socialType;
 
-    public User() {}
+    public User() {
+    }
+
     public User(String userName, String socialType) {
+        this.userName = userName;
+        this.socialType = socialType;
+    }
+
+    public User(int userId, String userName, String socialType) {
+        this.userId = userId;
         this.userName = userName;
         this.socialType = socialType;
     }
@@ -26,8 +34,8 @@ public class User {
         return userName;
     }
 
-    public void setUserName(String username) {
-        this.userName = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getSocialType() {
