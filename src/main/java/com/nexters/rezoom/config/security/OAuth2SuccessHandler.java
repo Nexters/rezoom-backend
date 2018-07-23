@@ -1,18 +1,19 @@
 package com.nexters.rezoom.config.security;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.constraints.AssertTrue;
-
 import com.nexters.rezoom.domain.User;
 import com.nexters.rezoom.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+import static com.nexters.rezoom.config.security.SecurityConstants.SESSION_USER;
+import static com.nexters.rezoom.config.security.SecurityConstants.HEADER_USER_ID;
 
 /**
  * 소셜 로그인 성공시 실행됌
@@ -20,7 +21,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  *
  */
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
-
 	@Autowired
 	UserRepository userRepository;
 
@@ -48,11 +48,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
 		HttpSession session = req.getSession();
 		if (session != null) {
-			int userId = user.getUserId();
-			session.setAttribute("user", user);
+			session.setAttribute(SESSION_USER, user);
+			res.setHeader(HEADER_USER_ID, user.getUserId()+"");
 		}
-
-        res.sendRedirect("/");
 	}
-
 }

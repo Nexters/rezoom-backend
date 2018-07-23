@@ -38,29 +38,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable();
 		
 		// 요청 처리 : 디버깅할 때는 모두 허락..
-		http.authorizeRequests()
-				.antMatchers("/**").permitAll();
+//		http.authorizeRequests()
+//				.antMatchers("/**").permitAll();
 
 		// 요청 처리: 필요할 때 주석 해제(위에껀 주석 달고..)
-//		http.authorizeRequests()
-//			.antMatchers("/").permitAll()
-//			.antMatchers("/static/**").permitAll()
-//			.antMatchers("/favicon.ico").permitAll()
-//			.antMatchers("/resources/**").permitAll()
-//			.antMatchers("/webjars/**").permitAll()
-//			.antMatchers("/error/**").permitAll()
-//			.anyRequest().authenticated();
+		http.authorizeRequests()
+			.antMatchers("/").permitAll()
+			.antMatchers("/static/**").permitAll()
+			.antMatchers("/favicon.ico").permitAll()
+			.antMatchers("/resources/**").permitAll()
+			.antMatchers("/webjars/**").permitAll()
+			.antMatchers("/error/**").permitAll()
+			.anyRequest().authenticated();
 		
-		// 로그인 성공시 / 이동
-		// TODO : 로그인 성공하면 / 이동이 되어야 하는데 안됌...
-		// >>>>> Success Handler로 해결했음
-		http.exceptionHandling()
-			.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"));
+		// 로그인 성공시 이동
+		// -> 안되서 SuccessHandler에서 redirection 사용
+		// -> Front와 Back의 완전한 분리를 위해
+		/*http.exceptionHandling()
+			.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"));*/
 		
 		// 로그아웃시 / 이동
 		http.logout()
-//			.deleteCookies(cookieName, "JSESSIONID")
-			.logoutSuccessUrl("/").permitAll();
+//			/*.deleteCookies("JSESSIONID")*/
+			.logoutSuccessUrl("/").permitAll(false);
 		
 		// 권한이 없으면 무조건 401 Unauthhorized error를 보낸다.
 		http.exceptionHandling()
@@ -68,7 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// Basic Auth 끄기
 		http.httpBasic().disable();
-		
 		
 		// 소셜 관련 필터 
 		http.addFilterBefore(ssoFilter, BasicAuthenticationFilter.class);

@@ -5,4 +5,5 @@ package com.nexters.rezoom.config.security;
  */
 public class SecurityConstants {
     public final static String SESSION_USER = "user";
+    public final static String HEADER_USER_ID = "userId";
 }
