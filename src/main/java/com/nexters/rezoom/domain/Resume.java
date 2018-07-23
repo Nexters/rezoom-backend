@@ -2,20 +2,20 @@ package com.nexters.rezoom.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 public class Resume {
-
     private int resumeId;
     private int userId;
-    private int year;
-    private String type;
+    private int applicationYear;
+    private String applicationType;
     private String companyName;
     private String halfType;
-    private int pass;
-    private int finish;
+    private int passFlag;
+    private int finishFlag;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private java.sql.Timestamp date;
+    private Timestamp createDate;
 
     public int getResumeId() {
         return resumeId;
@@ -33,20 +33,20 @@ public class Resume {
         this.userId = userId;
     }
 
-    public int getYear() {
-        return year;
+    public int getApplicationYear() {
+        return applicationYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setApplicationYear(int applicationYear) {
+        this.applicationYear = applicationYear;
     }
 
-    public String getType() {
-        return type;
+    public String getApplicationType() {
+        return applicationType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setApplicationType(String applicationType) {
+        this.applicationType = applicationType;
     }
 
     public String getCompanyName() {
@@ -65,27 +65,27 @@ public class Resume {
         this.halfType = halfType;
     }
 
-    public int getPass() {
-        return pass;
+    public int getPassFlag() {
+        return passFlag;
     }
 
-    public void setPass(int pass) {
-        this.pass = pass;
+    public void setPassFlag(int passFlag) {
+        this.passFlag = passFlag;
     }
 
-    public int getFinish() {
-        return finish;
+    public int getFinishFlag() {
+        return finishFlag;
     }
 
-    public void setFinish(int finish) {
-        this.finish = finish;
+    public void setFinishFlag(int finishFlag) {
+        this.finishFlag = finishFlag;
     }
 
-    public java.sql.Timestamp getDate() {
-        return date;
+    public Timestamp getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(java.sql.Timestamp date) {
-        this.date = date;
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 }

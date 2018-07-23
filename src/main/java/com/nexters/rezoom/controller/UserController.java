@@ -3,6 +3,8 @@ package com.nexters.rezoom.controller;
 import com.nexters.rezoom.domain.User;
 import com.nexters.rezoom.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +21,14 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    // GET : /
-    // 한명의 유저 데이터를 얻는다.
-    // 메인 페이지에서 회원 이름, 소셜 타입 보여줄 때 쓰임.
-    @GetMapping("/current")
+    // 현재 세션에 저장된 유저 데이터를 얻는다.
+    @GetMapping
     public User getCurrentUser(HttpSession session) {
         User user = (User) session.getAttribute(SESSION_USER);
         return user;
     }
+
+    // TODO : 소셜 인증 해제 API 구현
+    // 찾아보니까 딱히 없는 것 같음. 실제 페이지로 리디렉션시켜줘야 할듯..
 
 }

@@ -3,11 +3,15 @@ spring:
   application:
     name: rezoom
   profiles:
-    active: local
+    active: dev
+  http:
+    encoding:
+      charset: UTF-8
 
 # tomcat
 server:
   tomcat.uri-encoding: UTF-8
+
 
 # mybatis
 mybatis:

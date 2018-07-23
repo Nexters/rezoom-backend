@@ -8,18 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-@Repository
 public interface ResumeRepository {
-
-    Resume getResume(@Param("resumeId") int resumeId, @Param("userId") int userId);
-
-    void updateResume(@Param("resume")Resume resume, @Param("resumeId") int resumeId, @Param("userId") int userId);
-
-    void deleteResume(@Param("resumeId") int resumeId, @Param("userId") int userId);
-
     void createResume(Resume resume);
-
-    int getUserId(@Param("userName") String userName);
-
+    Resume selectOne(@Param("resumeId") int resumeId, @Param("userId") int userId);
+    List<Resume> selectAll(@Param("userId") int userId);
+    void updateResume(@Param("resume")Resume resume, @Param("resumeId") int resumeId, @Param("userId") int userId);
+    void deleteResume(@Param("resumeId") int resumeId, @Param("userId") int userId);
 }
