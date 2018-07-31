@@ -1,0 +1,21 @@
+# profile
+spring:
+  application:
+    name: rezoom
+  profiles:
+    active: dev
+  http:
+    encoding:
+      charset: UTF-8
+
+# tomcat
+server:
+  tomcat.uri-encoding: UTF-8
+
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*_mapper.xml
+  type-aliases-package: com.nexters.rezoom.domain
+  configuration:
+    map-underscore-to-camel-case: true
