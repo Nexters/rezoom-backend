@@ -23,11 +23,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private RESTAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder,
+                             RESTAuthenticationEntryPoint authenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -50,6 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
             .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint);
 
         // disables session creation on Spring Security
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
