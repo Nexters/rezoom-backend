@@ -11,7 +11,7 @@ spring:
 # tomcat
 server:
   tomcat.uri-encoding: UTF-8
-
+  port: 8080
 
 # mybatis
 mybatis:

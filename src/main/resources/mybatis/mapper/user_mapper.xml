@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nexters.rezoom.repository.UserRepository">
-    <insert id="insertOne" parameterType="User" useGeneratedKeys="true" keyProperty="userId" keyColumn="user_id">
-       INSERT INTO user
-       (user_name, social_type)
+<mapper namespace="com.nexters.rezoom.repository.ApplicationUserRepository">
+
+    <!-- security에서 사용하는 sql -->
+    <select id="selectOneByUsernameOnSecurity" parameterType="String" resultType="ApplicationUser">
+        SELECT user_name, password
+        FROM application_user
+        WHERE user_name=#{userName}
+    </select>
+
+    <insert id="insertOne" parameterType="ApplicationUser">
+       INSERT INTO application_user
+       (user_name, password)
        VALUES
-       (#{userName}, #{socialType})
+       (#{username}, #{password})
     </insert>
 
-    <select id="selectOne" parameterType="User" resultType="User">
-        SELECT *
-        FROM user
-        WHERE user_name=#{userName} AND social_type=#{socialType}
-    </select>
 </mapper>

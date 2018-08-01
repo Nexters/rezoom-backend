@@ -1,9 +1,12 @@
 package com.nexters.rezoom.config.security;
 
 /**
- * Created by JaeeonJin on 2018-07-22.
+ * Created by JaeeonJin on 2018-07-31.
  */
 public class SecurityConstants {
-    public final static String SESSION_USER = "user";
-    public final static String HEADER_USER_ID = "userId";
+    public static final String SECRET = "SecretKeyToGenJWTs";
+    public static final long EXPIRATION_TIME = 864_000_000; // 10 days
+    public static final String TOKEN_PREFIX = "JWT ";
+    public static final String HEADER_STRING = "Authorization";
+    public static final String SIGN_UP_URL = "/users/sign-up";
 }
