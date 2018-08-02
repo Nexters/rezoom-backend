@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nexters.rezoom.repository.SearchRepository">
+    <select id="getResumeByHashTag" resultType="Resume">
+        SELECT r.resume_id, r.user_name, application_year, application_type,
+        company_name, half_type, pass_flag, finish_flag, create_date
+        FROM question q, resume r
+        WHERE q.resume_id = r.resume_id AND r.user_name = #{username} AND question_id IN (SELECT question_id
+        from question_has_hashtag q, hashtag h where q.hashtag_id = h.hashtag_id
+        AND (
+        <foreach collection="hashList" item="item" separator="or">
+            hashtag_keyword IN ( #{item, jdbcType=VARCHAR} )
+        </foreach>
+        ))
+    </select>
+</mapper>
