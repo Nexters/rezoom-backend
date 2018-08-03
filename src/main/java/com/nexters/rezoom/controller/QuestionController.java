@@ -5,6 +5,7 @@ import com.nexters.rezoom.dto.QuestionDTO;
 import com.nexters.rezoom.dto.QuestionListRequestDTO;
 import com.nexters.rezoom.dto.QuestionListResponseDTO;
 import com.nexters.rezoom.service.QuestionService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     // 이력서에 여러 개 문항 삽입
+    @ApiOperation(value = "특정 이력서 내에 여러개의 문항을 생성한다.")
     @PostMapping(value = "")
     @ResponseStatus(HttpStatus.CREATED)
     public void createQuestions(@RequestBody QuestionListRequestDTO questionListRequestDTO, Principal principal) {
@@ -27,6 +29,7 @@ public class QuestionController {
     }
 
     // 이력서 내 모든 문항 조회
+    @ApiOperation(value = "특정 이력서 내에 존재하는 모든 문항을 조회한다.")
     @GetMapping(value="")
     @ResponseStatus(HttpStatus.OK)
     public List<QuestionListResponseDTO> getAllQuestion(@RequestParam int resumeId, Principal principal) {
@@ -34,6 +37,7 @@ public class QuestionController {
     }
 
     // 단일 문항 상세 조회
+    @ApiOperation(value = "특정 이력서 내의 하나의 문항을 조회한다.")
     @GetMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)
     public QuestionDTO getQuestion(@RequestParam int resumeId, @PathVariable int questionId, Principal principal){
