@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class Resume {
     private int resumeId;
-    private int userId;
+    private String username;
     private int applicationYear;
     private String applicationType;
     private String companyName;
@@ -25,12 +25,12 @@ public class Resume {
         this.resumeId = resumeId;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getApplicationYear() {

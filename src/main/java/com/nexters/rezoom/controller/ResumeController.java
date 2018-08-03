@@ -25,7 +25,7 @@ public class ResumeController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public int createResume(@RequestBody Resume resume) {
-        resume.setUserId(getUserId());
+        resume.setUsername(getUserId());
         resumeService.createResume(resume);
         return resume.getResumeId();
     }
