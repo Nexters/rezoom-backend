@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nexters.rezoom.repository.ResumeRepository">
+
+    <delete id = "deleteResume" parameterType="Map">
+        DELETE FROM resume
+        WHERE resume_id = #{resumeId} AND user_name = #{username}
+    </delete>
+
+    <update id = "updateResume" parameterType="Map">
+        UPDATE resume
+        SET
+          application_year = #{resume.applicationYear},
+          application_type=#{resume.applicationType},
+          company_name=#{resume.companyName},
+          half_type=#{resume.halfType},
+          pass_flag=#{resume.passFlag},
+          finish_flag=#{resume.finishFlag}
+        WHERE resume_id = #{resume.resumeId} AND user_name = #{username}
+    </update>
+
+    <insert id="createResume" parameterType="Resume" useGeneratedKeys="true" keyProperty="resumeId">
+        INSERT INTO resume
+        (user_name, application_year, application_type, company_name, half_type, pass_flag, finish_flag)
+        VALUES
+        (#{username}, #{applicationYear}, #{applicationType}, #{companyName}, #{halfType}, #{passFlag}, #{finishFlag})
+    </insert>
+
+    <select id="selectOne" resultType="Resume">
+        SELECT *
+        FROM resume
+        WHERE resume_id = #{resumeId} AND user_name = #{username}
+    </select>
+
+    <select id="selectAll" resultType="Resume">
+        SELECT *
+        FROM resume
+        WHERE user_name = #{username}
+    </select>
+
+</mapper>

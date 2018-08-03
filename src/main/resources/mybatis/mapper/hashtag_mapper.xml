@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nexters.rezoom.repository.HashTagRepository">
+
+	<!-- 해쉬태그 삽입 -->
+	<insert id="insertHashtags" parameterType="Map" useGeneratedKeys="true" keyProperty="hashtagId" keyColumn="hashtag_id">
+		INSERT INTO hashtag
+			(user_name, hashtag_keyword)
+		VALUES
+			<foreach collection="list" item="hashtag" separator=",">
+				(#{username}, #{hashtag.hashtagKeyword})
+			</foreach>
+	</insert>
+
+	<!-- 문항 - 해쉬태그 맵핑 삽입 -->
+	<insert id ="insertQuestionHashtagMapping" parameterType="Map">
+		INSERT INTO question_has_hashtag
+			(question_id, hashtag_id)
+		VALUES
+			<foreach collection="list" item="question">
+				<foreach collection="question.hashTags" item="hashtag" separator=",">
+					(#{question.questionId}, #{hashtag.hashtagId})
+				</foreach>
+			</foreach>
+	</insert>
+
+
+</mapper>
