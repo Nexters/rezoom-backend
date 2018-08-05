@@ -1,10 +1,10 @@
 package com.nexters.rezoom.repository;
 
-import com.nexters.rezoom.domain.Question;
+import com.nexters.rezoom.dto.QuestionDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface SearchRepository {
-    List<Question> getResumeByHashTag(@Param("hashList") List<String> hashList);
+    List<QuestionDTO> getResumeByHashTag(@Param("hashList") List<String> hashList, @Param("username") String username);
 }
