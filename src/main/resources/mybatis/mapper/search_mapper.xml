@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nexters.rezoom.repository.SearchRepository">
-    <!-- resultType수정 필요 -->
-    <select id="getResumeByHashTag" resultType="QuestionDTO">
-        SELECT question_id, resume_id, user_name, title, content
-        FROM question
-        WHERE question_id IN (SELECT question_id
+    <!-- 해시태그로 검색 -->
+    <select id="getQuestionByHashTag" resultType="QuestionListBySearchDTO">
+        SELECT question_id, title, content, company_name
+        FROM question q, resume r
+        WHERE r.resume_id = q.resume_id AND q.user_name = #{username} AND question_id IN (SELECT question_id
         from question_has_hashtag q, hashtag h where q.hashtag_id = h.hashtag_id
         AND (
         <foreach collection="hashList" item="item" separator="or">
             hashtag_keyword IN ( #{item, jdbcType=VARCHAR} )
         </foreach>
         ))
+    </select>
+
+    <!-- 키워드로 검색 -->
+    <select id="getQuestionByKeyword" resultType="QuestionListBySearchDTO">
+        SELECT question_id, title, content, company_name
+        FROM question q, resume r
+        WHERE r.resume_id = q.resume_id AND q.user_name = #{username}
+        AND  ( title LIKE CONCAT('%',#{keyword},'%') OR content LIKE CONCAT('%',#{keyword},'%') )
+    </select>
+
+    <!-- 회사명으로 이력서 검색 -->
+    <select id="getResumeByKeyword" resultType="Resume">
+        SELECT *
+        FROM resume
+        WHERE user_name = #{username} AND company_name = #{keyword}
     </select>
 </mapper>
