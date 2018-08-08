@@ -13,6 +13,7 @@ public class Resume {
     private String halfType;
     private int passFlag;
     private int finishFlag;
+    private String jobType;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp createDate;
@@ -79,6 +80,14 @@ public class Resume {
 
     public void setFinishFlag(int finishFlag) {
         this.finishFlag = finishFlag;
+    }
+
+    public String getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
     }
 
     public Timestamp getCreateDate() {
