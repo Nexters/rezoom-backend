@@ -2,6 +2,7 @@ package com.nexters.rezoom.repository;
 
 import com.nexters.rezoom.dto.QuestionDTO;
 import com.nexters.rezoom.dto.QuestionListResponseDTO;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface QuestionRepository {
 
     // 이력서 내 단일 문항 상세보기
     QuestionDTO getQuestion(@Param("username") String username, @Param("resumeId") int resumeId, @Param("questionId") int questionId);
+
 }

@@ -16,10 +16,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    /**
-     * TODO : 현재 기본설정만 되어있는 상태. 수정 필요
-     */
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

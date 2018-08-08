@@ -7,10 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface SearchRepository {
-
-    List<Resume> getResumeByKeyword(@Param("username") String username, @Param("keyword") String keyword);
-
-    List<QuestionListBySearchDTO> getQuestionByHashTag(@Param("hashList") List<String> hashList, @Param("username") String username);
-
-    List<QuestionListBySearchDTO> getQuestionByKeyword(@Param("username") String username, @Param("keyword") String keyword);
+    List<QuestionListBySearchDTO> selectQuestionsByHashTags(@Param("hashList") List<String> hashList, @Param("username") String username);
+    List<QuestionListBySearchDTO> selectQuestionsByKeyword(@Param("username") String username, @Param("keyword") String keyword);
+    List<Resume> selectResumesByCompanyName(@Param("username") String username, @Param("companyName") String companyName);
 }

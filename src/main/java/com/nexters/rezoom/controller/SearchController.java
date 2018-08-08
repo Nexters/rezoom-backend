@@ -20,28 +20,30 @@ public class SearchController {
     private SearchService searchService;
 
     @ApiOperation(value = "회사명으로 내가 쓴 이력서를 검색한다.")
-    @GetMapping("/resume")
+    @GetMapping("/resumes")
     @ResponseStatus(HttpStatus.OK)
-    public List<Resume> getResumeByKeyword(Principal principal, @RequestParam(value="keyword") String keyword){
-        List<Resume> resumeList = searchService.getResumeByKeyword(principal.getName(), keyword);
+    public List<Resume> getResumesByCompanyName(Principal principal, @RequestParam String companyName){
+        List<Resume> resumeList = searchService.getResumesByCompanyName(principal.getName(), companyName);
         return resumeList;
     }
 
     @ApiOperation(value = "키워드로 문항을 검색한다.")
-    @GetMapping("")
+    @GetMapping("/questions")
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionListBySearchDTO> getQuestionByKeyword(Principal principal, @RequestParam(value="keyword") String keyword){
-        List<QuestionListBySearchDTO> questionList = searchService.getQuestionByKeyword(principal.getName(), keyword);
-        return questionList;
-    }
+    public List<QuestionListBySearchDTO> getQuestionByKeyword(Principal principal, @RequestParam("type") String searchType, @RequestParam String keyword){
+        List<QuestionListBySearchDTO> result = null;
 
-    @ApiOperation(value = "해시태그로 문항을 검색한다.")
-    @GetMapping("/{type}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<QuestionListBySearchDTO> getQuestionByHashTag(Principal principal, @PathVariable("type") String type, @RequestParam(value="keyword") String keyword){
-        List<String> keywordList = Arrays.asList(keyword.split(","));
-        List<QuestionListBySearchDTO> questionList = searchService.getQuestionByHashTag(keywordList, principal.getName());
-        return questionList;
+        switch (searchType) {
+            case "keyword":
+                result = searchService.getQuestionsByKeyword(principal.getName(), keyword);
+                return result;
+            case "hashTag":
+                List<String> hashTagList = Arrays.asList(keyword.split(","));
+                result = searchService.getQuestionsByHashTags(hashTagList, principal.getName());
+                return result;
+            default:
+                return result;
+        }
     }
 
 }

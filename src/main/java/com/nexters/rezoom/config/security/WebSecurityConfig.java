@@ -41,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // authenticate
         http.authorizeRequests()
+//                .antMatchers("/**").permitAll();
             .antMatchers("/").permitAll()
 			.antMatchers("/static/**").permitAll()
 			.antMatchers("/favicon.ico").permitAll()
@@ -55,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
             .addFilter(new JWTAuthorizationFilter(authenticationManager()));
 
+        // 401 error
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint);
 
@@ -62,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
+    // permit swagger url
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
@@ -78,4 +81,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
+
 }
