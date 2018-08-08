@@ -27,7 +27,8 @@ public class SearchController {
         return resumeList;
     }
 
-    @ApiOperation(value = "키워드로 문항을 검색한다.")
+    // TODO : 분기처리로직 - 인터페이스로 의존성 분리.
+    @ApiOperation(value = "키워드 또는 해쉬태그... 로 문항을 검색한다.")
     @GetMapping("/questions")
     @ResponseStatus(HttpStatus.OK)
     public List<QuestionListBySearchDTO> getQuestionByKeyword(Principal principal, @RequestParam("type") String searchType, @RequestParam String keyword){
