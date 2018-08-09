@@ -54,13 +54,7 @@ public class QuestionController {
         return question;
     }
 
-    //사용자가 입력한 모든 해시태그 조회
-    @ApiOperation(value = "사용자가 작성한 모든 해시태그를 조회한다.")
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    public List<HashTagList> getAllHashTag(Principal principal){
-    	return questionService.getAllHashTag(principal.getName());
-    }
+
     
     // TODO : 이력서 내 모든 문항 수정 API 필요
     /**

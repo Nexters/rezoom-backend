@@ -24,5 +24,10 @@
 			</foreach>
 	</insert>
 
-
+	<!-- 사용자가 입력한 모든 해시태그 조회 -->
+	<select id="selectAll" parameterType="Map" resultType="HashTag">
+		SELECT hashtag_id, hashtag_keyword
+		FROM hashtag
+		WHERE user_name=#{username};
+	</select>
 </mapper>

@@ -26,8 +26,6 @@ public class QuestionService {
     @Autowired
     HashTagRepository hashTagRepository;
 
-    // 문항 여러개 삽입
-
     /**
      * 여러 개의 문항을 삽입한다.<br>
      * 1. 문항 데이터를 삽입한다.<br>
@@ -64,9 +62,5 @@ public class QuestionService {
         return questionRepository.getQuestion(username, resumeId, questionId);
     }
 
-    // 사용자가 입력한 모든 해시태그 조회
-    public List<HashTagList> getAllHashTag(String username){
-    	return questionRepository.getAllHashTag(username);
-    }
 }
 

@@ -1,5 +1,7 @@
 package com.nexters.rezoom.repository;
 
+import com.nexters.rezoom.domain.HashTag;
+import com.nexters.rezoom.domain.HashTagList;
 import com.nexters.rezoom.dto.QuestionDTO;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,5 +13,5 @@ import java.util.List;
 public interface HashTagRepository {
     void insertHashtags(@Param("list") List<String> hashtags, @Param("username") String username);
     void insertQuestionHashtagMapping(List<QuestionDTO> questions);
-  
+    List<HashTag> selectAll(@Param("username") String username);
 }

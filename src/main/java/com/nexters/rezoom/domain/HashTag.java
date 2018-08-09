@@ -4,18 +4,23 @@ package com.nexters.rezoom.domain;
  * Created by JaeeonJin on 2018-08-02.
  */
 public class HashTag {
-    private String hashtagId;
+    private int hashtagId;
     private String hashtagKeyword;
 
     public HashTag(String hashtagKeyword) {
         this.hashtagKeyword = hashtagKeyword;
     }
 
-    public String getHashtagId() {
+    public HashTag(int hashtagId, String hashtagKeyword) {
+        this.hashtagId = hashtagId;
+        this.hashtagKeyword = hashtagKeyword;
+    }
+
+    public int getHashtagId() {
         return hashtagId;
     }
 
-    public void setHashtagId(String hashtagId) {
+    public void setHashtagId(int hashtagId) {
         this.hashtagId = hashtagId;
     }
 
