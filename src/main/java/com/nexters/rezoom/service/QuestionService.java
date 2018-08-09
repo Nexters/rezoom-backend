@@ -1,19 +1,20 @@
 package com.nexters.rezoom.service;
 
-import com.nexters.rezoom.domain.HashTag;
-import com.nexters.rezoom.dto.QuestionDTO;
-import com.nexters.rezoom.dto.QuestionListRequestDTO;
-import com.nexters.rezoom.dto.QuestionListResponseDTO;
-import com.nexters.rezoom.repository.HashTagRepository;
-
-import com.nexters.rezoom.repository.QuestionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.nexters.rezoom.domain.HashTag;
+import com.nexters.rezoom.domain.HashTagList;
+import com.nexters.rezoom.dto.QuestionDTO;
+import com.nexters.rezoom.dto.QuestionListRequestDTO;
+import com.nexters.rezoom.dto.QuestionListResponseDTO;
+import com.nexters.rezoom.repository.HashTagRepository;
+import com.nexters.rezoom.repository.QuestionRepository;
 
 
 @Service
@@ -63,5 +64,9 @@ public class QuestionService {
         return questionRepository.getQuestion(username, resumeId, questionId);
     }
 
+    // 사용자가 입력한 모든 해시태그 조회
+    public List<HashTagList> getAllHashTag(String username){
+    	return questionRepository.getAllHashTag(username);
+    }
 }
 

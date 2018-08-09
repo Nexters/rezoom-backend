@@ -1,18 +1,26 @@
 package com.nexters.rezoom.controller;
 
-import com.nexters.rezoom.domain.HashTag;
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nexters.rezoom.domain.HashTagList;
 import com.nexters.rezoom.dto.QuestionDTO;
 import com.nexters.rezoom.dto.QuestionListRequestDTO;
 import com.nexters.rezoom.dto.QuestionListResponseDTO;
 import com.nexters.rezoom.service.QuestionService;
+
 import io.swagger.annotations.ApiOperation;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/questions")
@@ -46,6 +54,14 @@ public class QuestionController {
         return question;
     }
 
+    //사용자가 입력한 모든 해시태그 조회
+    @ApiOperation(value = "사용자가 작성한 모든 해시태그를 조회한다.")
+    @GetMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    public List<HashTagList> getAllHashTag(Principal principal){
+    	return questionService.getAllHashTag(principal.getName());
+    }
+    
     // TODO : 이력서 내 모든 문항 수정 API 필요
     /**
      * 이력서의 문항이 1,2,3,4 있었는데 사용자가 수정해서 1,2만 남김

@@ -46,14 +46,4 @@
 		WHERE question.user_name=#{username} AND question.resume_id=#{resumeId} AND question.question_id=#{questionId};
 	</select>
 
-	<!-- 사용자가 입력한 모든 해시태그 조회 -->
-	<resultMap id="hashTagListResult" type="HashTagList">
-		<id property="hashtagId" column="hashtag_id" />
-		<result property="hashtagKeyword" column="hashtag_keyword"/>
-	</resultMap>
-	<select id="getAllHashTag" parameterType="Map" resultMap="hashTagListResult">
-		SELECT convert(hashtag_id, char(50)), hashtag_keyword
-		FROM hashtag
-		WHERE user_name=#{username};
-	</select>
 </mapper>

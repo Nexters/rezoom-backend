@@ -11,4 +11,5 @@ import java.util.List;
 public interface HashTagRepository {
     void insertHashtags(@Param("list") List<String> hashtags, @Param("username") String username);
     void insertQuestionHashtagMapping(List<QuestionDTO> questions);
+  
 }
