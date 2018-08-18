@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nexters.rezoom.repository.DashboardRepository">
+	<!-- 사용자가 이력서 조회시, 이력서 조회 이력을 남기는 쿼리 -->
+	<insert id="insertResumeClick" parameterType="RecentClickResume">
+		INSERT INTO recent_click_resume (resume_id, user_name, click_date)
+		VALUES ( #{resumeId}, #{username}, #{clickDate})
+	</insert>
+
+	<!-- 사용자가 최근 조회한 이력서 가져오기 -->
+	<!-- 중복제거 후 시간 내림차순 최대 4개 가져오기를 해야하는데 일단 자바 코드로 해결함 -->
+	<select id="selectRecentResumeClick" parameterType="Map" resultType="RecentClickResumeDTO">
+		SELECT recent_click_resume.resume_id, company_name, job_type, click_date
+		FROM recent_click_resume
+		LEFT JOIN resume ON resume.resume_id = recent_click_resume.resume_id
+		WHERE recent_click_resume.user_name = #{username}
+		ORDER BY click_date DESC
+	</select>
+
+	<select id="selectResumeStatistics" parameterType="Map" resultType="ResumeStatisticsSummary">
+		SELECT
+			COUNT( * ) as resume_size,
+			COUNT( if (finish_flag=1 AND pass_flag=1, 1, null)) as pass,
+			COUNT( if (finish_flag=1 AND pass_flag=0, 1, null)) as non_pass,
+			COUNT( if (finish_flag=0, 1, null)) as non_submit
+		FROM resume;
+	</select>
+</mapper>

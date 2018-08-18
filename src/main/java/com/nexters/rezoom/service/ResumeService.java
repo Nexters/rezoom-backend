@@ -2,7 +2,7 @@ package com.nexters.rezoom.service;
 
 import com.nexters.rezoom.domain.RecentClickResume;
 import com.nexters.rezoom.domain.Resume;
-import com.nexters.rezoom.repository.RecentClickResumeRepository;
+import com.nexters.rezoom.repository.DashboardRepository;
 import com.nexters.rezoom.repository.ResumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class ResumeService {
     ResumeRepository resumeRepository;
 
     @Autowired
-    RecentClickResumeRepository clickRepository;
+    DashboardRepository clickRepository;
 
     public void createResume(Resume resume){
         resumeRepository.createResume(resume);
@@ -33,7 +33,7 @@ public class ResumeService {
         RecentClickResume recentClickResume = new RecentClickResume();
         recentClickResume.setResumeId(resumeId);
         recentClickResume.setUsername(username);
-        clickRepository.insertByResume(recentClickResume);
+        clickRepository.insertResumeClick(recentClickResume);
 
         return resumeRepository.selectOne(resumeId, username);
     }
