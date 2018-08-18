@@ -34,12 +34,14 @@ public class DashboardController {
 
     @ApiOperation(value="합격, 불합격, 미제출 이력서의 통계 정보를 가져온다.")
     @GetMapping("/statistics/resume")
+    @ResponseStatus(HttpStatus.OK)
     public ResumeStatisticsDTO getDashboardInfo(Principal principal){
         return dashboardService.getResumeStatistics(principal.getName());
     }
 
     @ApiOperation(value="마감이 임박한 자기소개서를 가져온다.")
     @GetMapping("/deadline")
+    @ResponseStatus(HttpStatus.OK)
     public List<ResumeDeadlineDTO> getDeadlineResumes(Principal principal) {
         return dashboardService.getDeadlineInfo(principal.getName());
     }

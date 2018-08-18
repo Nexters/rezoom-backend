@@ -4,6 +4,7 @@ import com.nexters.rezoom.domain.Resume;
 import com.nexters.rezoom.dto.QuestionListBySearchDTO;
 import com.nexters.rezoom.service.SearchService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,10 @@ public class SearchController {
     @ApiOperation(value = "키워드 또는 해쉬태그... 로 문항을 검색한다.")
     @GetMapping("/questions")
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionListBySearchDTO> getQuestionByKeyword(Principal principal, @RequestParam("type") String searchType, @RequestParam String keyword){
+    public List<QuestionListBySearchDTO> getQuestionByKeyword(
+            Principal principal,
+            @ApiParam(value="keyword 또는 hashTag") @RequestParam("type") String searchType,
+            @ApiParam(value="검색 keyword 또는 해쉬태그(예시: \"태그1,태그2,태그3\")") @RequestParam String keyword){
         List<QuestionListBySearchDTO> result = null;
 
         switch (searchType) {
