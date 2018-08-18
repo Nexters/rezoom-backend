@@ -26,7 +26,7 @@ public class ResumeController {
         return resume.getResumeId();
     }
 
-    @ApiOperation(value="자신의 모든 이력서를 조회한다.")
+    @ApiOperation(value="모든 이력서를 조회한다.")
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public List<Resume> getResumeList(Principal principal) {

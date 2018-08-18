@@ -17,6 +17,7 @@
 		ORDER BY click_date DESC
 	</select>
 
+	<!-- 이력서 지원 통계 조회 -->
 	<select id="selectResumeStatistics" parameterType="Map" resultType="ResumeStatisticsSummary">
 		SELECT
 			COUNT( * ) as resume_size,
@@ -24,5 +25,14 @@
 			COUNT( if (finish_flag=1 AND pass_flag=0, 1, null)) as non_pass,
 			COUNT( if (finish_flag=0, 1, null)) as non_submit
 		FROM resume;
+	</select>
+
+	<!-- 지원 마감이 임박한 이력서 리스트 조회 -->
+	<!-- TODO : 일단, 현재날짜 이상으로 했는데, 굳이 일주일/한달 등의 기준이 없어도 될 듯 함 - 회의하고 결정 -->
+	<select id="selectResumeWithDeadline" parameterType="Map" resultType="ResumeDeadlineDTO">
+		SELECT deadline, company_name, job_type
+		FROM resume
+		WHERE deadline >= curdate() AND pass_flag = 0 AND user_name = #{username}
+		ORDER BY deadline;
 	</select>
 </mapper>

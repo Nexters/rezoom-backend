@@ -2,6 +2,7 @@ package com.nexters.rezoom.service;
 
 import com.nexters.rezoom.domain.ResumeStatisticsSummary;
 import com.nexters.rezoom.dto.RecentClickResumeDTO;
+import com.nexters.rezoom.dto.ResumeDeadlineDTO;
 import com.nexters.rezoom.dto.ResumeStatisticsDTO;
 import com.nexters.rezoom.repository.DashboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +54,7 @@ public class DashboardService {
         return dto;
     }
 
+    public List<ResumeDeadlineDTO> getDeadlineInfo(String username) {
+        return dashboardRepository.selectResumeWithDeadline(username);
+    }
 }

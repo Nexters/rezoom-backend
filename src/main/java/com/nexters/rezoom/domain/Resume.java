@@ -15,7 +15,7 @@ public class Resume {
     private int finishFlag;
     private String jobType;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Timestamp createDate;
 
     public int getResumeId() {

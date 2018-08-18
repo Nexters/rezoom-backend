@@ -1,6 +1,7 @@
 package com.nexters.rezoom.controller;
 
 import com.nexters.rezoom.dto.RecentClickResumeDTO;
+import com.nexters.rezoom.dto.ResumeDeadlineDTO;
 import com.nexters.rezoom.dto.ResumeStatisticsDTO;
 import com.nexters.rezoom.service.DashboardService;
 import io.swagger.annotations.ApiOperation;
@@ -35,5 +36,11 @@ public class DashboardController {
     @GetMapping("/statistics/resume")
     public ResumeStatisticsDTO getDashboardInfo(Principal principal){
         return dashboardService.getResumeStatistics(principal.getName());
+    }
+
+    @ApiOperation(value="마감이 임박한 자기소개서를 가져온다.")
+    @GetMapping("/deadline")
+    public List<ResumeDeadlineDTO> getDeadlineResumes(Principal principal) {
+        return dashboardService.getDeadlineInfo(principal.getName());
     }
 }
