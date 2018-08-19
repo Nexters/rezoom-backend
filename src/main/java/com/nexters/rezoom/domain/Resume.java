@@ -17,7 +17,10 @@ public class Resume {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp createDate;
-
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Timestamp deadline;
+    
     public int getResumeId() {
         return resumeId;
     }
@@ -97,4 +100,14 @@ public class Resume {
     public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
+
+	public Timestamp getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Timestamp deadline) {
+		this.deadline = deadline;
+	}
+    
+    
 }
