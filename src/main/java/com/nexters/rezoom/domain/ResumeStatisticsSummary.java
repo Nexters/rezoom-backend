@@ -7,6 +7,16 @@ public class ResumeStatisticsSummary {
     private int resumeSize;
     private int pass;
     private int nonPass;
+    private int submit;
+
+    public int getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(int submit) {
+        this.submit = submit;
+    }
+
     private int nonSubmit;
 
     public int getResumeSize() {

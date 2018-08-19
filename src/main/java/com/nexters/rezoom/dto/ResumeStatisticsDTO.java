@@ -5,12 +5,19 @@ import com.nexters.rezoom.domain.ResumeStatisticsSummary;
 /**
  * Created by JaeeonJin on 2018-08-19.
  */
-
-
 public class ResumeStatisticsDTO {
     private ResumeStatisticsDetail pass;
     private ResumeStatisticsDetail nonPass;
+    private ResumeStatisticsDetail submit;
     private ResumeStatisticsDetail nonSubmit;
+
+    public ResumeStatisticsDetail getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(ResumeStatisticsDetail submit) {
+        this.submit = submit;
+    }
 
     public ResumeStatisticsDetail getPass() {
         return pass;
@@ -36,16 +43,18 @@ public class ResumeStatisticsDTO {
         this.nonSubmit = nonSubmit;
     }
 
-    private enum PASS_TYPE { 합격, 불합격, 미제출 }
+    private enum PASS_TYPE { 합격, 불합격, 제출, 미제출 }
 
     public ResumeStatisticsDTO (ResumeStatisticsSummary summary) {
         final int resumeSize = summary.getResumeSize();
         final int pass = summary.getPass();
         final int nonPass = summary.getNonPass();
+        final int submit = summary.getSubmit();
         final int nonSubmit = summary.getNonSubmit();
 
         this.pass = new ResumeStatisticsDetail(PASS_TYPE.합격.name(), pass, calculateRatio(resumeSize, pass));
         this.nonPass = new ResumeStatisticsDetail(PASS_TYPE.불합격.name(), nonPass, calculateRatio(resumeSize, nonPass));
+        this.submit = new ResumeStatisticsDetail(PASS_TYPE.제출.name(), submit, calculateRatio(resumeSize, submit));
         this.nonSubmit = new ResumeStatisticsDetail(PASS_TYPE.미제출.name(), nonSubmit, calculateRatio(resumeSize, nonSubmit));
     }
 
@@ -86,6 +95,6 @@ public class ResumeStatisticsDTO {
     }
 
     private static double calculateRatio(int resumeSize, int targetSize) {
-        return ((double)targetSize / (double)resumeSize)  * 100;
+        return Math.round( ((double)targetSize / (double)resumeSize)  * 100 * 100d) / 100d ;
     }
 }

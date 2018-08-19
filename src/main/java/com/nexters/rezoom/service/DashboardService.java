@@ -54,6 +54,11 @@ public class DashboardService {
         return dto;
     }
 
+    /**
+     * 미지원 이력서 중 마감기한이 얼마남지 않은 가져오기
+     * @param username
+     * @return
+     */
     public List<ResumeDeadlineDTO> getDeadlineInfo(String username) {
         return dashboardRepository.selectResumeWithDeadline(username);
     }

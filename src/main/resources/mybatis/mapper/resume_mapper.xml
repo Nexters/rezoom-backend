@@ -15,7 +15,7 @@
           company_name=#{resume.companyName},
           half_type=#{resume.halfType},
           pass_flag=#{resume.passFlag},
-          finish_flag=#{resume.finishFlag}
+          finish_flag=#{resume.finishFlag},
           job_type=#{resume.jobType}
         WHERE resume_id = #{resume.resumeId} AND user_name = #{username}
     </update>

@@ -23,7 +23,8 @@
 			COUNT( * ) as resume_size,
 			COUNT( if (finish_flag=1 AND pass_flag=1, 1, null)) as pass,
 			COUNT( if (finish_flag=1 AND pass_flag=0, 1, null)) as non_pass,
-			COUNT( if (finish_flag=0, 1, null)) as non_submit
+			COUNT( if (finish_flag=1 AND pass_flag IS NULL, 1, null)) as submit,
+			COUNT( if (finish_flag=0 AND pass_flag IS NULL, 1, null)) as non_submit
 		FROM resume;
 	</select>
 
@@ -32,7 +33,7 @@
 	<select id="selectResumeWithDeadline" parameterType="Map" resultType="ResumeDeadlineDTO">
 		SELECT deadline, company_name, job_type
 		FROM resume
-		WHERE deadline >= curdate() AND pass_flag = 0 AND user_name = #{username}
+		WHERE deadline >= curdate() AND finish_flag = 0 AND pass_flag IS NULL AND user_name = #{username}
 		ORDER BY deadline;
 	</select>
 </mapper>
