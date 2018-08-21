@@ -17,7 +17,7 @@
 		INSERT INTO question_has_hashtag
 			(question_id, hashtag_id)
 		VALUES
-			<foreach collection="list" item="question">
+			<foreach collection="list" item="question" separator=",">
 				<foreach collection="question.hashTags" item="hashtag" separator=",">
 					(#{question.questionId}, #{hashtag.hashtagId})
 				</foreach>
