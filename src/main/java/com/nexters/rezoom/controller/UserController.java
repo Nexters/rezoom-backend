@@ -3,6 +3,8 @@ package com.nexters.rezoom.controller;
 import com.nexters.rezoom.domain.ApplicationUser;
 import com.nexters.rezoom.repository.ApplicationUserRepository;
 import io.swagger.annotations.ApiOperation;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,18 @@ public class UserController {
     @GetMapping
     public String getUsername(Principal principal) {
         return principal.getName();
+    }
+    
+    @ApiOperation(value="로그인한 유저의 현재 비밀번호를 확인한다.")
+    @PostMapping("/passwords")
+    public int confirmPassword(@RequestBody ApplicationUser user) {
+    	//확인한 결과(리턴된 비밀번호)가 맞으면 1 아니면 0 리턴
+    	String password = applicationUserRepository.confirmPassword(user.getUsername());
+
+    	if(!bCryptPasswordEncoder.matches(user.getPassword(), password))
+    		return 0;
+    	else
+    		return 1;
     }
 
 

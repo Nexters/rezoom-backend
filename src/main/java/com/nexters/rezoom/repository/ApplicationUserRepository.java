@@ -8,4 +8,5 @@ import com.nexters.rezoom.domain.ApplicationUser;
 public interface ApplicationUserRepository {
     ApplicationUser selectOneByUsernameOnSecurity(String username);
     void insertOne(ApplicationUser user);
+    String confirmPassword(String username); //비밀번호 리턴
 }

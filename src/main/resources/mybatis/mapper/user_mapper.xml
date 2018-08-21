@@ -16,4 +16,10 @@
        (#{username}, #{password})
     </insert>
 
+
+	<select id="confirmPassword" parameterType="String" resultType="String">
+	SELECT password 
+	FROM application_user 
+	WHERE user_name=#{username};
+	</select>
 </mapper>
