@@ -15,6 +15,17 @@ public class Resume {
     private int finishFlag;
     private String jobType;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH")
+    private Timestamp deadline;
+
+    public Timestamp getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
+    }
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Timestamp createDate;
 

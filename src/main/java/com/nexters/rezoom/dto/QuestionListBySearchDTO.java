@@ -9,6 +9,16 @@ public class QuestionListBySearchDTO {
     private String title;
     private String content;
     private String companyName;
+    private String jobType;
+
+    public String getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
+    }
+
     private List<HashTag> hashTags;
 
     public int getQuestionId() {

@@ -3,7 +3,7 @@
 <mapper namespace="com.nexters.rezoom.repository.SearchRepository">
     <!-- 해시태그로 문항 검색 -->
     <select id="selectQuestionsByHashTags" resultMap="questionSearchListResult">
-        SELECT question_id, title, content, company_name
+        SELECT question_id, title, content, company_name, job_type
         FROM question q, resume r
         WHERE r.resume_id = q.resume_id AND q.user_name = #{username} AND question_id IN (SELECT question_id
         from question_has_hashtag q, hashtag h where q.hashtag_id = h.hashtag_id
@@ -16,7 +16,7 @@
 
     <!-- 키워드로 문항 검색 -->
     <select id="selectQuestionsByKeyword" resultMap="questionSearchListResult">
-        SELECT question_id, title, content, company_name
+        SELECT question_id, title, content, company_name, job_type
         FROM question q, resume r
         WHERE r.resume_id = q.resume_id AND q.user_name = #{username}
         AND  ( title LIKE CONCAT('%' ,#{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%') )
@@ -34,6 +34,7 @@
         <result property="title" column="title"/>
         <result property="content" column="content"/>
         <result property="companyName" column="company_name"/>
+        <result property="jobType" column="job_type"/>
         <collection property="hashTags" column="question_id" javaType="java.util.List" ofType="String" select="selectHashtagsByQuestionId"/>
     </resultMap>
     <select id="selectHashtagsByQuestionId" resultType="String">
