@@ -12,6 +12,16 @@
 		</foreach>
 	</insert>
 
+	<!-- 문항 1개 수정 -->
+	<update id="updateQuestion" parameterType="Map">
+		UPDATE question
+		SET
+			title = #{question.title},
+			content = #{question.content}
+		WHERE
+			user_name = #{username} AND resume_id = #{resumeId} AND question_id = #{question.questionId}
+	</update>
+
 	<!-- 하나의 이력서에 존재하는 모든 문항(제목,내용,해쉬태그 조회 -->
 	<resultMap id="questionListResult" type="QuestionListResponseDTO">
 		<id property="questionId" column="question_id"/>

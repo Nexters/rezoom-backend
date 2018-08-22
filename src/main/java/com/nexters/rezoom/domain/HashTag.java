@@ -31,4 +31,10 @@ public class HashTag {
     public void setHashtagKeyword(String hashtagKeyword) {
         this.hashtagKeyword = hashtagKeyword;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        HashTag hashTag = (HashTag) obj;
+        return hashTag.getHashtagId() == this.getHashtagId() && hashTag.getHashtagKeyword().equals(this.hashtagKeyword);
+    }
 }

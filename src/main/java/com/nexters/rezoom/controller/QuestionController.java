@@ -5,14 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.nexters.rezoom.domain.HashTagList;
 import com.nexters.rezoom.dto.QuestionDTO;
@@ -54,12 +47,11 @@ public class QuestionController {
         return question;
     }
 
+    @ApiOperation(value = "이력서 내 모든 문항 정보(제목,내용,해쉬태그)을 수정한다.")
+    @PutMapping("")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void modifyAllQuestion(@RequestBody QuestionListRequestDTO questionListRequestDTO, Principal principal) {
+        questionService.updateAllQuestion(questionListRequestDTO, principal.getName());
+    }
 
-    
-    // TODO : 이력서 내 모든 문항 수정 API 필요
-    /**
-     * 이력서의 문항이 1,2,3,4 있었는데 사용자가 수정해서 1,2만 남김
-     * 그럼 1,2에 대한 문항은 수정하고 3,4에 대한 문항은 삭제해야함
-     * 또한, 각 문항에 해쉬태그를 업데이트해야하는데 이건  insert into on duplicate key update를 해야함..
-     */
 }
