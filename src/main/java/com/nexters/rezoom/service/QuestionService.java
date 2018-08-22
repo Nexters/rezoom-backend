@@ -44,8 +44,29 @@ public class QuestionService {
             hashtags.addAll(question.getHashTags());
         }
 
+        // 2 -2 해쉬태그 저장
+        if (isUsable(hashtags)) {
+            hashTagRepository.insertHashtags(new ArrayList(hashtags), username);
+
+            // 2 -3 기존 + 추가된 모든 해쉬태그의 ID값을 가져온다.
+            List<HashTag> hashTags = hashTagRepository.selectHashTagByKeyword(new ArrayList(hashtags), username);
+            Map<String, Integer> hashtagMap = new HashMap<>();
+            for (HashTag tag : hashTags) {
+                hashtagMap.put(tag.getHashtagKeyword(), tag.getHashtagId());
+            }
+
+            for (QuestionDTO question : questions) {
+                List<HashTag> hashTagList = question.getHashTags();
+                if (hashTagList != null) {
+                    for (HashTag hashTag : hashTagList) {
+                        hashTag.setHashtagId(hashtagMap.get(hashTag.getHashtagKeyword()));
+                    }
+                }
+            }
+        }
+
         // 2 -2 해쉬태그 저장 -> key 할당
-        hashTagRepository.insertHashtags(new ArrayList(hashtags), username);
+        // hashTagRepository.insertHashtags(new ArrayList(hashtags), username);
 
         // 여기까지 왔으면 각 객체별 id가 할당되어 있다.
         // 3. question-hashtag mapping 저장
