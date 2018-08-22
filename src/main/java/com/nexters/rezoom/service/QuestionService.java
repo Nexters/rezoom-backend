@@ -38,7 +38,6 @@ public class QuestionService {
         // 1 문항 저장 -> key 할당
         questionRepository.insertQuestions(requestDTO.getResumeId(), questions, username);
 
-
         // 2 -1 전달받은 모든 해쉬태그를 중복없이 저장한다.
         Set<HashTag> hashtags = new HashSet<>();
         for (QuestionDTO question : questions) {
@@ -89,12 +88,28 @@ public class QuestionService {
     // 이력서 내 모든 문항 수정
     public void updateAllQuestion(@RequestParam QuestionListRequestDTO requestDTO, String username) {
         List<QuestionDTO> questions = requestDTO.getQuestions();
+        List<QuestionDTO> newQuestions = new ArrayList<>();
 
         // 1 문항 수정
         for (QuestionDTO questionDTO : questions) {
             int resumeId = requestDTO.getResumeId();
-            questionRepository.updateQuestion(resumeId, questionDTO, username);
+
+            // 새롭게 추가된 문항은 아이디를 할당받아야 하기 떄문에 따로 모아 insert 수행
+            if (questionDTO.getQuestionId() != 0 )  questionRepository.updateQuestion(resumeId, questionDTO, username);
+            else newQuestions.add(questionDTO);
         }
+
+        // 1-2 새롭게 추가된 문항 삽입
+        if (!newQuestions.isEmpty())
+        questionRepository.insertQuestions(requestDTO.getResumeId(), newQuestions, username);
+
+        // 1-3 여기까지 왔으면 모든 question에 id가 할당되어 있다.
+        // 이 question id를 제외한 나머지 question를 삭제해줘야 한다. (삭제된게 있을 수 있으므로)
+        List<Integer> questionIds = new ArrayList<>();
+        for (QuestionDTO questionDTO : questions) {
+            questionIds.add(questionDTO.getQuestionId());
+        }
+        questionRepository.deleteQuestion(requestDTO.getResumeId(), questionIds, username);
 
         // 2 -1 전달받은 모든 해쉬태그를 중복없이 저장한다.
         Set<HashTag> hashtags = new HashSet<>();

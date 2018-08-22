@@ -22,4 +22,6 @@ public interface QuestionRepository {
     // 문항 1개 수정
     void updateQuestion(@Param("resumeId") int resumeId, @Param("question") QuestionDTO question, @Param("username") String username);
 
+    // 문항 삭제
+    void deleteQuestion(@Param("resumeId") int resumeId, @Param("list") List<Integer> questionIds, @Param("username") String username);
 }

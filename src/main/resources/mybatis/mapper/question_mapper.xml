@@ -56,4 +56,11 @@
 		WHERE question.user_name=#{username} AND question.resume_id=#{resumeId} AND question.question_id=#{questionId};
 	</select>
 
+	<delete id="deleteQuestion" parameterType="Map">
+		DELETE FROM question
+		WHERE
+		<foreach collection="list" item="questionId" separator="AND">
+			question_id != #{questionId}
+		</foreach>
+	</delete>
 </mapper>
