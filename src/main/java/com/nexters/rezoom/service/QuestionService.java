@@ -26,6 +26,7 @@ public class QuestionService {
 
     /**
      * TODO : 트랜잭션 필요
+     * TODO : 노답 코드 개선..
      * 여러 개의 문항을 삽입한다.<br>
      * 1. 문항 데이터를 삽입한다.<br>
      * 2. 문항에 속한 해쉬태그를 삽입한다.<br>

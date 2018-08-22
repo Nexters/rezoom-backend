@@ -6,7 +6,7 @@
     <select id="selectOneByUsernameOnSecurity" parameterType="String" resultType="ApplicationUser">
         SELECT user_name, password
         FROM application_user
-        WHERE user_name=#{userName}
+        WHERE user_name = #{userName}
     </select>
 
     <insert id="insertOne" parameterType="ApplicationUser">
@@ -16,10 +16,15 @@
        (#{username}, #{password})
     </insert>
 
+    <select id="selectEmail" parameterType="String" resultType="String">
+        SELECT user_name
+        FROM application_user
+        WHERE user_name = #{username}
+    </select>
 
 	<select id="confirmPassword" parameterType="String" resultType="String">
-	SELECT password 
-	FROM application_user 
-	WHERE user_name=#{username};
+        SELECT password
+        FROM application_user
+        WHERE user_name = #{username};
 	</select>
 </mapper>

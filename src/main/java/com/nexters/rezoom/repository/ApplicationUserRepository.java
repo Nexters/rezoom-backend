@@ -9,4 +9,5 @@ public interface ApplicationUserRepository {
     ApplicationUser selectOneByUsernameOnSecurity(String username);
     void insertOne(ApplicationUser user);
     String confirmPassword(String username);
+    String selectEmail(String username); // TODO : username -> email 수정
 }
