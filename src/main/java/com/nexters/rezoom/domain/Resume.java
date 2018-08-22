@@ -18,14 +18,6 @@ public class Resume {
     @JsonFormat(pattern="yyyy-MM-dd HH")
     private Timestamp deadline;
 
-    public Timestamp getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(Timestamp deadline) {
-        this.deadline = deadline;
-    }
-
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Timestamp createDate;
 
@@ -108,4 +100,13 @@ public class Resume {
     public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
+
+	public Timestamp getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Timestamp deadline) {
+		this.deadline = deadline;
+	}
+    
 }

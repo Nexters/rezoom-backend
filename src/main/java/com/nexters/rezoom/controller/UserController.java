@@ -35,6 +35,12 @@ public class UserController {
     public String getUsername(Principal principal) {
         return principal.getName();
     }
-
+    
+    @ApiOperation(value="회원 정보 수정에서 현재 비밀번호를 확인한다.")
+    @PostMapping("/passwords")
+    public boolean confirmPassword(@RequestBody ApplicationUser user) {
+    	String password = applicationUserRepository.confirmPassword(user.getUsername());
+    	return bCryptPasswordEncoder.matches(user.getPassword(), password);
+    }
 
 }
