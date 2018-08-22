@@ -24,7 +24,6 @@ public class HashTagController {
     @Autowired
     HashTagService hashTagService;
 
-    //사용자가 입력한 모든 해시태그 조회
     @ApiOperation(value = "사용자가 작성한 모든 해시태그를 조회한다.")
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)

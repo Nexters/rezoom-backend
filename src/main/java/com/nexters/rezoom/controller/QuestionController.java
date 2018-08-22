@@ -22,7 +22,6 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    // 이력서에 여러 개 문항 삽입
     @ApiOperation(value = "특정 이력서 내에 여러개의 문항을 생성한다.")
     @PostMapping(value = "")
     @ResponseStatus(HttpStatus.CREATED)
@@ -30,7 +29,6 @@ public class QuestionController {
         questionService.createQuestions(questionListRequestDTO, principal.getName());
     }
 
-    // 이력서 내 모든 문항 조회
     @ApiOperation(value = "특정 이력서 내에 존재하는 모든 문항을 조회한다.")
     @GetMapping(value="")
     @ResponseStatus(HttpStatus.OK)
@@ -38,7 +36,6 @@ public class QuestionController {
         return questionService.getAllQuestion(resumeId, principal.getName());
     }
 
-    // 단일 문항 상세 조회
     @ApiOperation(value = "특정 이력서 내의 하나의 문항을 조회한다.")
     @GetMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)

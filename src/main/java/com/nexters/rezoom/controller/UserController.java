@@ -37,9 +37,9 @@ public class UserController {
     }
     
     @ApiOperation(value="회원 정보 수정에서 현재 비밀번호를 확인한다.")
-    @PostMapping("/passwords")
-    public boolean confirmPassword(@RequestBody ApplicationUser user) {
-    	String password = applicationUserRepository.confirmPassword(user.getUsername());
+    @PostMapping("/confirm/password")
+    public boolean confirmPassword(@RequestBody ApplicationUser user, Principal principal) {
+    	String password = applicationUserRepository.confirmPassword(principal.getName());
     	return bCryptPasswordEncoder.matches(user.getPassword(), password);
     }
 
