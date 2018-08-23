@@ -2,6 +2,8 @@ package com.nexters.rezoom.service;
 
 import java.util.*;
 
+import com.nexters.rezoom.domain.RecentClickResume;
+import com.nexters.rezoom.repository.DashboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class QuestionService {
 
     @Autowired
     HashTagRepository hashTagRepository;
+
+    @Autowired
+    DashboardRepository clickRepository;
 
     /**
      * TODO : 트랜잭션 필요
@@ -65,16 +70,18 @@ public class QuestionService {
             }
         }
 
-        // 2 -2 해쉬태그 저장 -> key 할당
-        // hashTagRepository.insertHashtags(new ArrayList(hashtags), username);
-
         // 여기까지 왔으면 각 객체별 id가 할당되어 있다.
         // 3. question-hashtag mapping 저장
         hashTagRepository.insertQuestionHashtagMapping(questions);
     }
 
     // 이력서 내 모든 문항 조회
+    // TODO : 최근 조회한 데이터는 이력서가 될 수 있고, 증빙자료가 될 수도 있어서,, 공통적으로 처리할 수 있는 AOP 등 사용해서 해결하기
     public List<QuestionListResponseDTO> getAllQuestion(int resumeId, String username) {
+        RecentClickResume recentClickResume = new RecentClickResume();
+        recentClickResume.setResumeId(resumeId);
+        recentClickResume.setUsername(username);
+        clickRepository.insertResumeClick(recentClickResume);
         return questionRepository.selectAllQuestionByResumeId(resumeId, username);
     }
 

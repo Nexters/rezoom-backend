@@ -8,10 +8,7 @@ import com.nexters.rezoom.repository.DashboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by JaeeonJin on 2018-08-19.
@@ -33,7 +30,7 @@ public class DashboardService {
         final int maxSize = 4;
         int count = 0;
 
-        Map<Integer, RecentClickResumeDTO> temp = new HashMap<>();
+        Map<Integer, RecentClickResumeDTO> temp = new LinkedHashMap<>();
         for (RecentClickResumeDTO recentClickResumeDTO : recentClickResumeDTOList) {
             int resumeId = recentClickResumeDTO.getResumeId();
             if (!temp.containsKey(resumeId) && count < maxSize) {
@@ -41,6 +38,7 @@ public class DashboardService {
                 count++;
             }
         }
+
         recentClickResumeDTOList = new ArrayList<>(temp.values());
         return recentClickResumeDTOList;
     }
