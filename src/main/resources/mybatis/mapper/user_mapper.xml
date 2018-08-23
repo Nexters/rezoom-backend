@@ -22,9 +22,16 @@
         WHERE user_name = #{username}
     </select>
 
-	<select id="confirmPassword" parameterType="String" resultType="String">
+	<select id="getPassword" parameterType="String" resultType="String">
         SELECT password
         FROM application_user
         WHERE user_name = #{username};
 	</select>
+
+    <update id="updateOne" parameterType="UserUpdateDTO">
+        UPDATE application_user
+        SET
+            password = #{updateDTO.newPassword}
+        WHERE user_name = #{username}
+    </update>
 </mapper>

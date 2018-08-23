@@ -1,9 +1,12 @@
 package com.nexters.rezoom.service;
 
 import com.nexters.rezoom.domain.ApplicationUser;
+import com.nexters.rezoom.dto.UserUpdateDTO;
 import com.nexters.rezoom.exception.DuplicateEmailException;
+import com.nexters.rezoom.exception.WrongPasswordException;
 import com.nexters.rezoom.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +18,9 @@ public class UserService {
     @Autowired
     ApplicationUserRepository applicationUserRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     /**
      * 이메일 중복체크 후 회원가입
      */
@@ -23,5 +29,23 @@ public class UserService {
 
         if (userEmail == null)  applicationUserRepository.insertOne(user);
         else throw new DuplicateEmailException();
+    }
+
+    /**
+     * 회원 정보 수정
+     * 비밀번호 검증 후 데이터 수정
+     * @param userUpdateDTO
+     */
+    public void updateUserInfo(UserUpdateDTO userUpdateDTO, String username) {
+        // 새로운 비밀번호 암호화
+        userUpdateDTO.setNewPassword(bCryptPasswordEncoder.encode(userUpdateDTO.getNewPassword()));
+
+        // 기존 비밀번호 검증
+        String password = applicationUserRepository.getPassword(username);
+        boolean isRightPassword = bCryptPasswordEncoder.matches(userUpdateDTO.getPassword(), password);
+
+        // 수정 (비밀번호 검증 실패시, 예외처리)
+        if (isRightPassword) applicationUserRepository.updateOne(userUpdateDTO, username);
+        else throw new WrongPasswordException();
     }
 }

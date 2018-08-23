@@ -1,10 +1,12 @@
 package com.nexters.rezoom.controller;
 
 import com.nexters.rezoom.domain.ApplicationUser;
-import com.nexters.rezoom.exception.DuplicateEmailException;
+import com.nexters.rezoom.dto.UserUpdateDTO;
+import com.nexters.rezoom.exception.WrongPasswordException;
 import com.nexters.rezoom.repository.ApplicationUserRepository;
 import com.nexters.rezoom.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,12 +41,11 @@ public class UserController {
     public String getUsername(Principal principal) {
         return principal.getName();
     }
-    
-    @ApiOperation(value="회원 정보 수정에서 현재 비밀번호를 확인한다.")
-    @PostMapping("/confirm/password")
-    public boolean confirmPassword(@RequestBody ApplicationUser user, Principal principal) {
-    	String password = applicationUserRepository.confirmPassword(principal.getName());
-    	return bCryptPasswordEncoder.matches(user.getPassword(), password);
-    }
 
+    @ApiOperation(value = "회원 정보 수정")
+    @PutMapping("")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateUserInfo(@RequestBody UserUpdateDTO userUpdateDTO, Principal principal) {
+        userService.updateUserInfo(userUpdateDTO, principal.getName());
+    }
 }
