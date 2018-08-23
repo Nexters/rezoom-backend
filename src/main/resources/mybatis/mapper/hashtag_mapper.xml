@@ -6,7 +6,8 @@
 	<select id="selectAll" parameterType="Map" resultType="HashTag">
 		SELECT hashtag_id, hashtag_keyword
 		FROM hashtag
-		WHERE user_name=#{username};
+		WHERE user_name=#{username}
+		ORDER BY hashtag_id DESC
 	</select>
 
 	<!-- 키워드로 해쉬태그 가져오기 -->
