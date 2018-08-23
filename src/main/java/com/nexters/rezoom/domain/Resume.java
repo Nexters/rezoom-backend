@@ -11,9 +11,9 @@ public class Resume {
     private String applicationType;
     private String companyName;
     private String halfType;
-    private int passFlag;
-    private int finishFlag;
     private String jobType;
+    private int finishFlag; // 지원 여부
+    private int passFlag; // 합격 여부
 
     @JsonFormat(pattern="yyyy-MM-dd HH")
     private Timestamp deadline;
@@ -108,5 +108,5 @@ public class Resume {
 	public void setDeadline(Timestamp deadline) {
 		this.deadline = deadline;
 	}
-    
+
 }

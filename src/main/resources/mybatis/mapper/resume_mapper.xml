@@ -14,8 +14,8 @@
           application_type=#{resume.applicationType},
           company_name=#{resume.companyName},
           half_type=#{resume.halfType},
-          pass_flag=#{resume.passFlag},
           finish_flag=#{resume.finishFlag},
+          pass_flag=#{resume.passFlag},
           job_type=#{resume.jobType},
           deadline=#{resume.deadline}
         WHERE resume_id = #{resume.resumeId} AND user_name = #{username}
@@ -23,9 +23,20 @@
 
     <insert id="createResume" parameterType="Resume" useGeneratedKeys="true" keyProperty="resumeId">
         INSERT INTO resume
-        (user_name, application_year, application_type, company_name, half_type, pass_flag, finish_flag, job_type, deadline)
+        (
+            user_name, application_year, application_type, company_name, half_type, pass_flag, finish_flag, job_type, deadline)
         VALUES
-        (#{username}, #{applicationYear}, #{applicationType}, #{companyName}, #{halfType}, #{passFlag}, #{finishFlag}, #{jobType}, #{deadline})
+        (
+            #{username},
+            #{applicationYear},
+            #{applicationType},
+            #{companyName},
+            #{halfType},
+            #{passFlag},
+            #{finishFlag},
+            #{jobType},
+            #{deadline}
+        )
     </insert>
 
     <select id="selectOne" resultType="Resume">
