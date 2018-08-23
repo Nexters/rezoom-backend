@@ -22,6 +22,12 @@
         WHERE user_name = #{username}
     </select>
 
+    <select id="selectName" parameterType="String" resultType="String">
+        SELECT name
+        FROM application_user
+        WHERE user_name = #{username}
+    </select>
+
 	<select id="getPassword" parameterType="String" resultType="String">
         SELECT password
         FROM application_user

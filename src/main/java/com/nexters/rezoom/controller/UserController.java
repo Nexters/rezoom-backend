@@ -31,15 +31,24 @@ public class UserController {
 
     @ApiOperation(value="회원가입")
     @PostMapping("/sign-up")
+    @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.signIn(user);
     }
 
-    @ApiOperation(value="로그인한 유저의 이름(username)을 얻는다.")
-    @GetMapping
+    @ApiOperation(value="로그인한 유저의 아이디(username)을 얻는다.")
+    @GetMapping("/username")
+    @ResponseStatus(HttpStatus.OK)
     public String getUsername(Principal principal) {
         return principal.getName();
+    }
+
+    @ApiOperation(value="로그인한 유저의 닉네임(name)을 얻는다.")
+    @GetMapping("/name")
+    @ResponseStatus(HttpStatus.OK)
+    public String getName(Principal principal) {
+        return applicationUserRepository.selectName(principal.getName());
     }
 
     @ApiOperation(value = "회원 정보 수정")

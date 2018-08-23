@@ -13,4 +13,5 @@ public interface ApplicationUserRepository {
     String getPassword(String username);
     String selectEmail(String username); // TODO : username -> email 수정
     void updateOne(@Param("updateDTO") UserUpdateDTO userUpdateDTO, @Param("username") String username);
+    String selectName(String username);
 }
