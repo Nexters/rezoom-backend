@@ -6,6 +6,7 @@ package com.nexters.rezoom.config.security;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexters.rezoom.domain.ApplicationUser;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
+
 
         try {
             ApplicationUser creds = new ObjectMapper()
@@ -65,4 +67,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         res.getWriter().append(TOKEN_PREFIX + token);
     }
 
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(), "로그인 실패했습니다");
+    }
 }
