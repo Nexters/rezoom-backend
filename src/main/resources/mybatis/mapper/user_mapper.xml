@@ -11,9 +11,9 @@
 
     <insert id="insertOne" parameterType="ApplicationUser">
        INSERT INTO application_user
-       (user_name, password)
+       (user_name, name, password)
        VALUES
-       (#{username}, #{password})
+       (#{username}, #{name}, #{password})
     </insert>
 
     <select id="selectEmail" parameterType="String" resultType="String">
