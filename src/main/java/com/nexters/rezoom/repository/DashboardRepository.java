@@ -1,6 +1,6 @@
 package com.nexters.rezoom.repository;
 
-import com.nexters.rezoom.vo.RecentClickResume;
+import com.nexters.rezoom.dto.RecentClickResumeDTO;
 import com.nexters.rezoom.domain.Resume;
 import com.nexters.rezoom.domain.ResumeStatisticsSummary;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface DashboardRepository {
     // 이력서 조회했을 때 조회 내역을 기록
-    void insertResumeClick(RecentClickResume recentClickResume);
+    void insertResumeClick(RecentClickResumeDTO recentClickResume);
 
     // 최근 조회한 이력서 리스트 조회
     List<Resume> selectRecentResumeClick(@Param("username") String username);

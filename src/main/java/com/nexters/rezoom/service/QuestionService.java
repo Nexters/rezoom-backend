@@ -1,7 +1,7 @@
 package com.nexters.rezoom.service;
 
 import com.nexters.rezoom.domain.HashTag;
-import com.nexters.rezoom.vo.RecentClickResume;
+import com.nexters.rezoom.dto.RecentClickResumeDTO;
 import com.nexters.rezoom.domain.Question;
 import com.nexters.rezoom.dto.QuestionListRequestDTO;
 import com.nexters.rezoom.repository.DashboardRepository;
@@ -75,7 +75,7 @@ public class QuestionService {
     // 이력서 내 모든 문항 조회
     // TODO : 최근 조회한 데이터는 이력서가 될 수 있고, 증빙자료가 될 수도 있어서,, 공통적으로 처리할 수 있는 AOP 등 사용해서 해결하기
     public List<Question> getAllQuestion(int resumeId, String username) {
-        RecentClickResume recentClickResume = new RecentClickResume();
+        RecentClickResumeDTO recentClickResume = new RecentClickResumeDTO();
         recentClickResume.setResumeId(resumeId);
         recentClickResume.setUsername(username);
 

@@ -1,16 +1,16 @@
-package com.nexters.rezoom.vo;
+package com.nexters.rezoom.dto;
 
 import java.sql.Timestamp;
 
 /**
  * Created by JaeeonJin on 2018-08-18.
  */
-public class RecentClickResume {
+public class RecentClickResumeDTO {
     private int resumeId;
     private String username;
     private Timestamp clickDate;
 
-    public RecentClickResume() {
+    public RecentClickResumeDTO() {
         this.clickDate = new Timestamp(System.currentTimeMillis());
     }
 
