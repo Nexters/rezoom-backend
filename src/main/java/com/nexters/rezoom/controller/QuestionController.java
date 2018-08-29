@@ -1,19 +1,16 @@
 package com.nexters.rezoom.controller;
 
-import java.security.Principal;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import com.nexters.rezoom.domain.HashTagList;
 import com.nexters.rezoom.dto.QuestionDTO;
 import com.nexters.rezoom.dto.QuestionListRequestDTO;
 import com.nexters.rezoom.dto.QuestionListResponseDTO;
 import com.nexters.rezoom.service.QuestionService;
-
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/questions")

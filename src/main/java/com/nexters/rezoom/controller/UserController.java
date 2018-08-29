@@ -1,8 +1,8 @@
 package com.nexters.rezoom.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.nexters.rezoom.domain.ApplicationUser;
-import com.nexters.rezoom.dto.UserUpdateDTO;
-import com.nexters.rezoom.exception.WrongPasswordException;
+import com.nexters.rezoom.domain.view.UserView;
 import com.nexters.rezoom.repository.ApplicationUserRepository;
 import com.nexters.rezoom.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +31,7 @@ public class UserController {
 
     @ApiOperation(value="회원가입")
     @PostMapping("/sign-up")
+    @JsonView(UserView.SignUp.class)
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -53,8 +54,11 @@ public class UserController {
 
     @ApiOperation(value = "회원 정보 수정")
     @PutMapping("")
+    @JsonView(UserView.UpdateInfo.class)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUserInfo(@RequestBody UserUpdateDTO userUpdateDTO, Principal principal) {
-        userService.updateUserInfo(userUpdateDTO, principal.getName());
+    public void updateUserInfo(@RequestBody ApplicationUser user, Principal principal) {
+        userService.updateUserInfo(user, principal.getName());
     }
+
+    // TODO : 회원탈퇴 API 필요
 }

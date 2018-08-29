@@ -1,7 +1,6 @@
 package com.nexters.rezoom.service;
 
 import com.nexters.rezoom.domain.ApplicationUser;
-import com.nexters.rezoom.dto.UserUpdateDTO;
 import com.nexters.rezoom.exception.DuplicateEmailException;
 import com.nexters.rezoom.exception.WrongPasswordException;
 import com.nexters.rezoom.repository.ApplicationUserRepository;
@@ -34,18 +33,17 @@ public class UserService {
     /**
      * 회원 정보 수정
      * 비밀번호 검증 후 데이터 수정
-     * @param userUpdateDTO
      */
-    public void updateUserInfo(UserUpdateDTO userUpdateDTO, String username) {
+    public void updateUserInfo(ApplicationUser user, String username) {
         // 새로운 비밀번호 암호화
-        userUpdateDTO.setNewPassword(bCryptPasswordEncoder.encode(userUpdateDTO.getNewPassword()));
+        user.setNewPassword(bCryptPasswordEncoder.encode(user.getNewPassword()));
 
         // 기존 비밀번호 검증
         String password = applicationUserRepository.getPassword(username);
-        boolean isRightPassword = bCryptPasswordEncoder.matches(userUpdateDTO.getPassword(), password);
+        boolean isRightPassword = bCryptPasswordEncoder.matches(user.getPassword(), password);
 
         // 수정 (비밀번호 검증 실패시, 예외처리)
-        if (isRightPassword) applicationUserRepository.updateOne(userUpdateDTO, username);
+        if (isRightPassword) applicationUserRepository.updateOne(user, username);
         else throw new WrongPasswordException();
     }
 }

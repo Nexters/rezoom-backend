@@ -1,12 +1,10 @@
 package com.nexters.rezoom.repository;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
-import com.nexters.rezoom.domain.HashTagList;
 import com.nexters.rezoom.dto.QuestionDTO;
 import com.nexters.rezoom.dto.QuestionListResponseDTO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface QuestionRepository {
 

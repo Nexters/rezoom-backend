@@ -19,3 +19,4 @@ mybatis:
   type-aliases-package: com.nexters.rezoom.domain, com.nexters.rezoom.dto
   configuration:
     map-underscore-to-camel-case: true
+

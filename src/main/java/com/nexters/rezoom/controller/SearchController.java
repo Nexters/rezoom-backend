@@ -1,7 +1,7 @@
 package com.nexters.rezoom.controller;
 
 import com.nexters.rezoom.domain.Resume;
-import com.nexters.rezoom.dto.QuestionListBySearchDTO;
+import com.nexters.rezoom.dto.QuestionListSearchDTO;
 import com.nexters.rezoom.service.SearchService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,11 +32,11 @@ public class SearchController {
     @ApiOperation(value = "키워드 또는 해쉬태그... 로 문항을 검색한다.")
     @GetMapping("/questions")
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionListBySearchDTO> getQuestionByKeyword(
+    public List<QuestionListSearchDTO> getQuestionByKeyword(
             Principal principal,
             @ApiParam(value="keyword 또는 hashTag") @RequestParam("type") String searchType,
             @ApiParam(value="검색 keyword 또는 해쉬태그(예시: \"태그1,태그2,태그3\")") @RequestParam String keyword){
-        List<QuestionListBySearchDTO> result = null;
+        List<QuestionListSearchDTO> result = null;
 
         switch (searchType) {
             case "keyword":

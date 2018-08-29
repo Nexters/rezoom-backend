@@ -3,7 +3,7 @@ package com.nexters.rezoom.dto;
 import com.nexters.rezoom.domain.HashTag;
 import java.util.List;
 
-public class QuestionListBySearchDTO {
+public class QuestionListSearchDTO {
 
     private int questionId;
     private String title;

@@ -1,20 +1,18 @@
 package com.nexters.rezoom.service;
 
-import java.util.*;
-
-import com.nexters.rezoom.domain.RecentClickResume;
-import com.nexters.rezoom.repository.DashboardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.nexters.rezoom.domain.HashTag;
-import com.nexters.rezoom.domain.HashTagList;
+import com.nexters.rezoom.domain.RecentClickResume;
 import com.nexters.rezoom.dto.QuestionDTO;
 import com.nexters.rezoom.dto.QuestionListRequestDTO;
 import com.nexters.rezoom.dto.QuestionListResponseDTO;
+import com.nexters.rezoom.repository.DashboardRepository;
 import com.nexters.rezoom.repository.HashTagRepository;
 import com.nexters.rezoom.repository.QuestionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.*;
 
 
 @Service

@@ -37,7 +37,7 @@
     <update id="updateOne" parameterType="UserUpdateDTO">
         UPDATE application_user
         SET
-            password = #{updateDTO.newPassword}
+            password = #{user.newPassword}
         WHERE user_name = #{username}
     </update>
 </mapper>

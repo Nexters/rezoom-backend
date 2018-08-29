@@ -1,7 +1,6 @@
 package com.nexters.rezoom.controller;
 
 import com.nexters.rezoom.domain.HashTag;
-import com.nexters.rezoom.domain.HashTagList;
 import com.nexters.rezoom.service.HashTagService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

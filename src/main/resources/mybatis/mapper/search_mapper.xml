@@ -29,7 +29,7 @@
         WHERE user_name = #{username} AND company_name LIKE CONCAT('%', #{companyName}, '%')
     </select>
 
-    <resultMap id="questionSearchListResult" type="QuestionListBySearchDTO">
+    <resultMap id="questionSearchListResult" type="QuestionListSearchDTO">
         <id property="questionId" column="question_id"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
