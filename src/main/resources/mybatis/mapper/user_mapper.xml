@@ -34,7 +34,7 @@
         WHERE user_name = #{username};
 	</select>
 
-    <update id="updateOne" parameterType="UserUpdateDTO">
+    <update id="updateOne" parameterType="ApplicationUser">
         UPDATE application_user
         SET
             password = #{user.newPassword}

@@ -23,11 +23,11 @@
 	</update>
 
 	<!-- 하나의 이력서에 존재하는 모든 문항(제목,내용,해쉬태그 조회 -->
-	<resultMap id="questionListResult" type="QuestionListResponseDTO">
+	<resultMap id="questionListResult" type="Question">
 		<id property="questionId" column="question_id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
-		<collection property="hashTags" column="question_id" javaType="java.util.List" ofType="String" select="selectHashtagsByQuestionId"/>
+		<collection property="hashTags" column="question_id" javaType="java.util.List" ofType="HashTag" select="selectHashtagsByQuestionId"/>
 	</resultMap>
 	<select id="selectAllQuestionByResumeId" parameterType="map" resultMap="questionListResult">
 		SELECT DISTINCT question.question_id, question.title, question.content
@@ -35,15 +35,15 @@
 		LEFT JOIN question_has_hashtag ON question_has_hashtag.question_id = question.question_id
 		WHERE resume_id = #{resumeId} AND question.user_name = #{username}
 	</select>
-	<select id="selectHashtagsByQuestionId" resultType="String">
-		SELECT hashtag.hashtag_keyword
+	<select id="selectHashtagsByQuestionId" resultType="HashTag">
+		SELECT hashtag.hashtag_id, hashtag.hashtag_keyword
 		FROM hashtag
 		LEFT JOIN question_has_hashtag ON question_has_hashtag.hashtag_id = hashtag.hashtag_id
 		WHERE question_has_hashtag.question_id = #{question_id};
 	</select>
 
 	<!-- 단일 문항 상세보기 -->
-	<resultMap id="questionResult" type="QuestionDTO">
+	<resultMap id="questionResult" type="Question">
 		<id property="questionId" column="question_id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>

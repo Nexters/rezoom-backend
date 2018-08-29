@@ -1,8 +1,9 @@
 package com.nexters.rezoom.controller;
 
-import com.nexters.rezoom.dto.QuestionDTO;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.nexters.rezoom.domain.view.QuestionView;
+import com.nexters.rezoom.domain.Question;
 import com.nexters.rezoom.dto.QuestionListRequestDTO;
-import com.nexters.rezoom.dto.QuestionListResponseDTO;
 import com.nexters.rezoom.service.QuestionService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,17 @@ public class QuestionController {
 
     @ApiOperation(value = "특정 이력서 내에 존재하는 모든 문항을 조회한다.")
     @GetMapping(value="")
+    @JsonView(QuestionView.Simple.class)
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionListResponseDTO> getAllQuestion(@RequestParam int resumeId, Principal principal) {
+    public List<Question> getAllQuestion(@RequestParam int resumeId, Principal principal) {
         return questionService.getAllQuestion(resumeId, principal.getName());
     }
 
     @ApiOperation(value = "특정 이력서 내의 하나의 문항을 조회한다.")
     @GetMapping("/{questionId}")
     @ResponseStatus(HttpStatus.OK)
-    public QuestionDTO getQuestion(@RequestParam int resumeId, @PathVariable int questionId, Principal principal){
-        QuestionDTO question = questionService.getQuestion(principal.getName(), resumeId, questionId);
+    public Question getQuestion(@RequestParam int resumeId, @PathVariable int questionId, Principal principal){
+        Question question = questionService.getQuestion(principal.getName(), resumeId, questionId);
         return question;
     }
 

@@ -9,7 +9,7 @@
 
 	<!-- 사용자가 최근 조회한 이력서 가져오기 -->
 	<!-- 중복제거 후 시간 내림차순 최대 4개 가져오기를 해야하는데 일단 자바 코드로 해결함 -->
-	<select id="selectRecentResumeClick" parameterType="Map" resultType="RecentClickResumeDTO">
+	<select id="selectRecentResumeClick" parameterType="Map" resultType="Resume">
 		SELECT recent_click_resume.resume_id, company_name, job_type, click_date
 		FROM recent_click_resume
 		LEFT JOIN resume ON resume.resume_id = recent_click_resume.resume_id
@@ -30,7 +30,7 @@
 	</select>
 
 	<!-- 지원 마감이 임박한 이력서 리스트 조회 -->
-	<select id="selectResumeWithDeadline" parameterType="Map" resultType="ResumeDeadlineDTO">
+	<select id="selectResumeWithDeadline" parameterType="Map" resultType="Resume">
 		SELECT deadline, company_name, job_type
 		FROM resume
 		WHERE deadline >= curdate() AND finish_flag = 0 AND pass_flag = 2 AND user_name = #{username}

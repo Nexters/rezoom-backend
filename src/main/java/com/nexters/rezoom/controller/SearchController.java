@@ -1,7 +1,9 @@
 package com.nexters.rezoom.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.nexters.rezoom.domain.Resume;
-import com.nexters.rezoom.dto.QuestionListSearchDTO;
+import com.nexters.rezoom.domain.view.QuestionView;
+import com.nexters.rezoom.domain.Question;
 import com.nexters.rezoom.service.SearchService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,12 +33,13 @@ public class SearchController {
     // TODO : 분기처리로직 - 인터페이스로 의존성 분리.
     @ApiOperation(value = "키워드 또는 해쉬태그... 로 문항을 검색한다.")
     @GetMapping("/questions")
+    @JsonView(QuestionView.Search.class)
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionListSearchDTO> getQuestionByKeyword(
+    public List<Question> getQuestionByKeyword(
             Principal principal,
             @ApiParam(value="keyword 또는 hashTag") @RequestParam("type") String searchType,
             @ApiParam(value="검색 keyword 또는 해쉬태그(예시: \"태그1,태그2,태그3\")") @RequestParam String keyword){
-        List<QuestionListSearchDTO> result = null;
+        List<Question> result;
 
         switch (searchType) {
             case "keyword":
@@ -47,7 +50,7 @@ public class SearchController {
                 result = searchService.getQuestionsByHashTags(hashTagList, principal.getName());
                 return result;
             default:
-                return result;
+                return null;
         }
     }
 

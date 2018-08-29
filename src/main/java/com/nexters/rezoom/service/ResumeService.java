@@ -1,8 +1,6 @@
 package com.nexters.rezoom.service;
 
-import com.nexters.rezoom.domain.RecentClickResume;
 import com.nexters.rezoom.domain.Resume;
-import com.nexters.rezoom.repository.DashboardRepository;
 import com.nexters.rezoom.repository.ResumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

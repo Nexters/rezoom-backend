@@ -1,9 +1,8 @@
 package com.nexters.rezoom.repository;
 
-import com.nexters.rezoom.domain.RecentClickResume;
+import com.nexters.rezoom.vo.RecentClickResume;
+import com.nexters.rezoom.domain.Resume;
 import com.nexters.rezoom.domain.ResumeStatisticsSummary;
-import com.nexters.rezoom.dto.RecentClickResumeDTO;
-import com.nexters.rezoom.dto.ResumeDeadlineDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,11 +15,11 @@ public interface DashboardRepository {
     void insertResumeClick(RecentClickResume recentClickResume);
 
     // 최근 조회한 이력서 리스트 조회
-    List<RecentClickResumeDTO> selectRecentResumeClick(@Param("username") String username);
+    List<Resume> selectRecentResumeClick(@Param("username") String username);
 
     // 이력서 통계 정보 조회
     ResumeStatisticsSummary selectResumeStatistics(@Param("username") String username);
 
     // 이력서 마감 날짜 조회
-    List<ResumeDeadlineDTO> selectResumeWithDeadline(@Param("username") String username);
+    List<Resume> selectResumeWithDeadline(@Param("username") String username);
 }

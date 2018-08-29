@@ -1,10 +1,12 @@
 package com.nexters.rezoom.dto;
 
+import com.nexters.rezoom.domain.Question;
+
 import java.util.List;
 
 public class QuestionListRequestDTO {
 	private int resumeId;
-	private List<QuestionDTO> questions;
+	private List<Question> questions;
 
 	public int getResumeId() {
 		return resumeId;
@@ -14,11 +16,11 @@ public class QuestionListRequestDTO {
 		this.resumeId = resumeId;
 	}
 
-	public List<QuestionDTO> getQuestions() {
+	public List<Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<QuestionDTO> questions) {
+	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
 }

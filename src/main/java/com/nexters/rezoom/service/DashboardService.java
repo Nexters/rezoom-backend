@@ -1,14 +1,16 @@
 package com.nexters.rezoom.service;
 
+import com.nexters.rezoom.domain.Resume;
 import com.nexters.rezoom.domain.ResumeStatisticsSummary;
-import com.nexters.rezoom.dto.RecentClickResumeDTO;
-import com.nexters.rezoom.dto.ResumeDeadlineDTO;
 import com.nexters.rezoom.dto.ResumeStatisticsDTO;
 import com.nexters.rezoom.repository.DashboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by JaeeonJin on 2018-08-19.
@@ -25,16 +27,16 @@ public class DashboardService {
      * 조회 내역은 무조건 4개만 가져옴 <br>
      * 조회 내역 중 중복된 내역은 삭제함
      */
-    public List<RecentClickResumeDTO> getRecentResumeClick(String username) {
-        List<RecentClickResumeDTO> recentClickResumeDTOList = dashboardRepository.selectRecentResumeClick(username);
+    public List<Resume> getRecentResumeClick(String username) {
+        List<Resume> recentClickResumeDTOList = dashboardRepository.selectRecentResumeClick(username);
         final int maxSize = 4;
         int count = 0;
 
-        Map<Integer, RecentClickResumeDTO> temp = new LinkedHashMap<>();
-        for (RecentClickResumeDTO recentClickResumeDTO : recentClickResumeDTOList) {
-            int resumeId = recentClickResumeDTO.getResumeId();
+        Map<Integer, Resume> temp = new LinkedHashMap<>();
+        for (Resume resume : recentClickResumeDTOList) {
+            int resumeId = resume.getResumeId();
             if (!temp.containsKey(resumeId) && count < maxSize) {
-                temp.put(resumeId, recentClickResumeDTO);
+                temp.put(resumeId, resume);
                 count++;
             }
         }
@@ -57,7 +59,7 @@ public class DashboardService {
      * @param username
      * @return
      */
-    public List<ResumeDeadlineDTO> getDeadlineInfo(String username) {
+    public List<Resume> getDeadlineInfo(String username) {
         return dashboardRepository.selectResumeWithDeadline(username);
     }
 }

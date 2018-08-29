@@ -1,7 +1,8 @@
 package com.nexters.rezoom.controller;
 
-import com.nexters.rezoom.dto.RecentClickResumeDTO;
-import com.nexters.rezoom.dto.ResumeDeadlineDTO;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.nexters.rezoom.domain.Resume;
+import com.nexters.rezoom.domain.view.ResumeView;
 import com.nexters.rezoom.dto.ResumeStatisticsDTO;
 import com.nexters.rezoom.service.DashboardService;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +29,7 @@ public class DashboardController {
     @ApiOperation(value = "최근 조회한 이력서 리스트 중 상위 4개를 가져온다.")
     @GetMapping("/recent")
     @ResponseStatus(HttpStatus.OK)
-    public List<RecentClickResumeDTO> getResumeDTOList(Principal principal) {
+    public List<Resume> getResumeDTOList(Principal principal) {
         return dashboardService.getRecentResumeClick(principal.getName());
     }
 
@@ -41,8 +42,9 @@ public class DashboardController {
 
     @ApiOperation(value="마감이 임박한 자기소개서를 가져온다.")
     @GetMapping("/deadline")
+    @JsonView(ResumeView.Deadline.class)
     @ResponseStatus(HttpStatus.OK)
-    public List<ResumeDeadlineDTO> getDeadlineResumes(Principal principal) {
+    public List<Resume> getDeadlineResumes(Principal principal) {
         return dashboardService.getDeadlineInfo(principal.getName());
     }
 }

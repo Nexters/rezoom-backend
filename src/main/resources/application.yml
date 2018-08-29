@@ -16,7 +16,7 @@ server:
 # mybatis
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/*_mapper.xml
-  type-aliases-package: com.nexters.rezoom.domain, com.nexters.rezoom.dto
+  type-aliases-package: com.nexters.rezoom.domain, com.nexters.rezoom.dto, com.nexters.rezoom.vo
   configuration:
     map-underscore-to-camel-case: true
 

@@ -1,4 +1,4 @@
-package com.nexters.rezoom.domain;
+package com.nexters.rezoom.vo;
 
 import java.sql.Timestamp;
 

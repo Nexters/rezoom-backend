@@ -1,10 +1,16 @@
 package com.nexters.rezoom.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.nexters.rezoom.domain.view.QuestionView;
+
 /**
  * Created by JaeeonJin on 2018-08-02.
  */
 public class HashTag {
+    @JsonView(QuestionView.Simple.class)
     private int hashtagId;
+
+    @JsonView(QuestionView.Simple.class)
     private String hashtagKeyword;
 
     public HashTag(String hashtagKeyword) {
