@@ -1,6 +1,6 @@
 package com.nexters.rezoom.dto;
 
-import com.nexters.rezoom.temp.hashtag.domain.HashTag;
+import com.nexters.rezoom.hashtag.domain.HashTag;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

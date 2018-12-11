@@ -1,8 +1,8 @@
 package com.nexters.rezoom.hashtag;
 
-import com.nexters.rezoom.temp.hashtag.domain.HashTag;
-import com.nexters.rezoom.temp.hashtag.domain.HashTagRepository;
-import com.nexters.rezoom.temp.member.domain.Member;
+import com.nexters.rezoom.hashtag.domain.HashTag;
+import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.member.domain.Member;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

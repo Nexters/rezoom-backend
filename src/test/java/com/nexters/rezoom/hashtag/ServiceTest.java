@@ -1,10 +1,10 @@
 package com.nexters.rezoom.hashtag;
 
 import com.nexters.rezoom.dto.HashTagDto;
-import com.nexters.rezoom.dto.QuestionDto_temp;
-import com.nexters.rezoom.temp.hashtag.application.HashtagService;
-import com.nexters.rezoom.temp.hashtag.domain.HashTag;
-import com.nexters.rezoom.temp.member.domain.Member;
+import com.nexters.rezoom.dto.QuestionDto;
+import com.nexters.rezoom.hashtag.application.HashtagService;
+import com.nexters.rezoom.hashtag.domain.HashTag;
+import com.nexters.rezoom.member.domain.Member;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,7 +64,7 @@ public class ServiceTest {
         HashTag findHashTag = service.getMyHashtags(member).get(0).getHashTag();
 
         // when
-        List<QuestionDto_temp.ViewRes> res = service.getQuestionsRelatedHashtag(member, findHashTag);
+        List<QuestionDto.ViewRes> res = service.getQuestionsRelatedHashtag(member, findHashTag);
 
         // then
         res.forEach(viewRes -> {
