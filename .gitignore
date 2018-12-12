@@ -33,3 +33,6 @@ application-prod.properties
 mvnw
 mvnw.cmd
 .mvn
+
+// 연습용 테스트
+/src/test/java/practice/
