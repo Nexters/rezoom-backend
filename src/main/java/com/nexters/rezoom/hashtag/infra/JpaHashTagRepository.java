@@ -4,12 +4,14 @@ import com.nexters.rezoom.hashtag.domain.HashTag;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Transactional
 @Service
 public class JpaHashTagRepository implements HashTagRepository {
 

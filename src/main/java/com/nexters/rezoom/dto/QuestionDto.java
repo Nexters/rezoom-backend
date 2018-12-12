@@ -1,10 +1,12 @@
 package com.nexters.rezoom.dto;
 
+import com.nexters.rezoom.question.domain.Question;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class QuestionDto {
     @Getter
@@ -60,6 +62,13 @@ public class QuestionDto {
             this.title = title;
             this.contents = contents;
             this.hashtags = hashtags;
+        }
+
+        public ViewRes(Question question) {
+            this.id = question.getId();
+            this.title = question.getTitle();
+            this.contents = question.getContents();
+            this.hashtags = question.getHashTags().stream().map(HashTagDto.ViewRes::new).collect(Collectors.toSet());
         }
     }
 }

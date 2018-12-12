@@ -55,13 +55,13 @@ public class ServiceTest {
 
         // then
         assertEquals(2, res.size());
-        res.forEach(viewRes -> assertTrue(viewRes.getHashTag().getValue().contains("testTag")));
+        res.forEach(viewRes -> assertTrue(viewRes.getValue().contains("testTag")));
     }
 
     @Test
     public void 해시태그가_등록된_문항조회() {
         // given
-        HashTag findHashTag = service.getMyHashtags(member).get(0).getHashTag();
+        HashTag findHashTag = new HashTag(member, "testTag1");
 
         // when
         List<QuestionDto.ViewRes> res = service.getQuestionsRelatedHashtag(member, findHashTag);

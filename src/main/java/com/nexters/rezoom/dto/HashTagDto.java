@@ -31,10 +31,17 @@ public class HashTagDto {
 
     @Getter
     public static class ViewRes {
-        private HashTag hashTag;
+        private long id;
+        private String value;
+
+        public ViewRes(long id, String value) {
+            this.id = id;
+            this.value = value;
+        }
 
         public ViewRes(HashTag hashTag) {
-            this.hashTag = hashTag;
+            this.id = hashTag.getId();
+            this.value = hashTag.getValue();
         }
     }
 
