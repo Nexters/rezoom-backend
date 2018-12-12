@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @Transactional
 @SpringBootTest
@@ -31,6 +32,7 @@ public class ServiceTest {
 
         // then
         assertEquals(res.getId(), questionId);
+        res.getHashtags().forEach(viewRes -> assertTrue(viewRes.getValue().contains("testTag")));
     }
 
     @Test(expected = RuntimeException.class)
