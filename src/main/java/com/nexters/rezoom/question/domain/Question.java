@@ -28,11 +28,11 @@ public class Question {
     @Column(name = "contents")
     private String contents;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coverletter_id") // Question(N)과 Coverletter(1)는 Coverletter_ID(FK)를 이용해 연관관계를 맺는다.
     private Coverletter coverletter;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "question_hashtag",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))

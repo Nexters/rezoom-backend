@@ -31,7 +31,7 @@ public class HashTag {
     @Column(name = "value")
     private String value;
 
-    @ManyToMany(mappedBy = "hashTags")
+    @ManyToMany(mappedBy = "hashTags", cascade = CascadeType.PERSIST)
     private List<Question> questions;
 
     public HashTag(Member member, String value) {

@@ -3,7 +3,7 @@ package com.nexters.rezoom.coverletter.infra;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.member.domain.Member;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -11,12 +11,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Component
+@Transactional
+@Repository
 public class JpaCoverletterRepository implements CoverletterRepository {
+
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     @Override
     public void save(Coverletter coverletter) {
         entityManager.persist(coverletter);
@@ -46,7 +47,6 @@ public class JpaCoverletterRepository implements CoverletterRepository {
         return query.getResultList();
     }
 
-    @Transactional
     @Override
     public void delete(Coverletter coverletter) {
         entityManager.remove(coverletter);

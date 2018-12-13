@@ -1,6 +1,9 @@
 package com.nexters.rezoom.coverletter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
+import com.nexters.rezoom.coverletter.domain.Coverletter;
+import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.member.domain.Member;
 import org.junit.Test;
@@ -9,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +26,9 @@ public class ServiceTest {
 
     @Autowired
     private CoverletterService service;
+
+    @Autowired
+    private CoverletterRepository repository;
 
     private Member member;
 
@@ -95,8 +105,24 @@ public class ServiceTest {
         assertTrue(res.getCoverletters().isEmpty());
     }
 
-    // TODO
-    public void 자기소개서_저장() {
+    @Test
+    public void 자기소개서_저장() throws IOException {
+        // given
+        // TODO : 상대경로로 파일 참조가 안되는 문제 해결하기. 현재 폴더의 파일 참조가 왜 안되지?..
+        File file = new File("./CoverletterNew.json");
+        CoverletterDto.SaveReq req = new ObjectMapper().readValue(file, CoverletterDto.SaveReq.class);
+
+        // when
+        service.save(member, req);
+
+        // then
+        // TODO : 수정필요 (현재: 방금 추가한 자기소개서를 가져오기 위해 마지막번째 자기소개서를 가져오고 있음)
+        List<Coverletter> findCoverletters = repository.findAll(member, 0, 1000);
+        Coverletter findCoverletter = findCoverletters.get(findCoverletters.size() - 1);
+
+        assertEquals(req.getCompanyName(), findCoverletter.getCompanyName());
+        // TODO : 해시태그가 올바르게 저장됐는지에 대한 검증 로직 필요
+        // TODO : 문항이 올바르게 저장됐는지에 대한 검증 로직 필요
     }
 
     // TODO

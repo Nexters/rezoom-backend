@@ -34,7 +34,7 @@ public class Coverletter {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "coverletter")
+    @OneToMany(mappedBy = "coverletter", cascade = CascadeType.PERSIST)
     private List<Question> questions = new ArrayList<>();
 
     @CreationTimestamp
