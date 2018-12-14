@@ -16,16 +16,16 @@ import java.util.List;
 public class JpaCoverletterRepository implements CoverletterRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public void save(Coverletter coverletter) {
-        entityManager.persist(coverletter);
+        em.persist(coverletter);
     }
 
     @Override
     public Coverletter findById(Member member, long id) {
-        TypedQuery<Coverletter> query = entityManager.createQuery("SELECT c FROM Coverletter c WHERE c.id =:id AND c.member =:member", Coverletter.class);
+        TypedQuery<Coverletter> query = em.createQuery("SELECT c FROM Coverletter c WHERE c.id =:id AND c.member =:member", Coverletter.class);
         query.setParameter("id", id);
         query.setParameter("member", member);
 
@@ -35,7 +35,7 @@ public class JpaCoverletterRepository implements CoverletterRepository {
 
     @Override
     public List<Coverletter> findAll(Member member, int begin, int end) {
-        TypedQuery<Coverletter> query = entityManager.createQuery("SELECT c FROM Coverletter c WHERE c.member =:member", Coverletter.class);
+        TypedQuery<Coverletter> query = em.createQuery("SELECT c FROM Coverletter c WHERE c.member =:member", Coverletter.class);
 
         // paging : beginRow <= rowNum <= endRow (이상, 포함관계)
         // TODO : 페이징 데이터 validation 필요
@@ -49,7 +49,7 @@ public class JpaCoverletterRepository implements CoverletterRepository {
 
     @Override
     public void delete(Coverletter coverletter) {
-        entityManager.remove(coverletter);
+        em.remove(coverletter);
     }
 
 

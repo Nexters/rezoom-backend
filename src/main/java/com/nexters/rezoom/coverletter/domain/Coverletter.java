@@ -34,7 +34,7 @@ public class Coverletter {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "coverletter", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "coverletter", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     @CreationTimestamp
@@ -87,4 +87,5 @@ public class Coverletter {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

@@ -5,12 +5,10 @@ import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.hashtag.domain.HashTag;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.question.domain.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,13 +29,10 @@ public class HashtagService {
     public List<QuestionDto.ViewRes> getQuestionsRelatedHashtag(Member member, HashTag hashTag) {
         HashTag findHashtag = repository.findByKey(member, hashTag.getValue());
 
-        // TODO : Stream 전환
-        List<QuestionDto.ViewRes> response = new ArrayList<>();
-        for (Question q : findHashtag.getQuestions()) {
+        return findHashtag.getQuestions().stream().map(q -> {
             Set<HashTagDto.ViewRes> sets = q.getHashTags().stream().map(HashTagDto.ViewRes::new).collect(Collectors.toSet());
-            response.add(new QuestionDto.ViewRes(q.getId(), q.getTitle(), q.getContents(), sets));
-        }
-        return response;
+            return new QuestionDto.ViewRes(q.getId(), q.getTitle(), q.getContents(), sets);
+        }).collect(Collectors.toList());
     }
 
     public void modifyHashTag(Member member, HashTagDto.UpdateReq req) {

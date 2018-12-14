@@ -42,4 +42,9 @@ public class JpaHashTagRepository implements HashTagRepository {
         em.remove(hashTag);
     }
 
+    @Override
+    public void save(HashTag hashTag) {
+        em.persist(hashTag);
+    }
+
 }

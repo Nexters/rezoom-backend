@@ -24,6 +24,9 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ServiceTest {
 
+    // TODO : 상대경로로 파일 참조가 안되는 문제 해결하기. 현재 폴더의 파일 참조가 왜 안되지?..
+    // TODO : 자기소개서 서비스 중 save, update, delete 여러 가지 혼합된 것들을 한 번에 해결할 수 있는 방법 고안..
+
     @Autowired
     private CoverletterService service;
 
@@ -108,8 +111,7 @@ public class ServiceTest {
     @Test
     public void 자기소개서_저장() throws IOException {
         // given
-        // TODO : 상대경로로 파일 참조가 안되는 문제 해결하기. 현재 폴더의 파일 참조가 왜 안되지?..
-        File file = new File("./CoverletterNew.json");
+        File file = new File("D:\\workspace\\nexters\\rezoom-backend\\src\\test\\java\\com\\nexters\\rezoom\\coverletter\\CoverletterNew.json");
         CoverletterDto.SaveReq req = new ObjectMapper().readValue(file, CoverletterDto.SaveReq.class);
 
         // when
@@ -121,13 +123,35 @@ public class ServiceTest {
         Coverletter findCoverletter = findCoverletters.get(findCoverletters.size() - 1);
 
         assertEquals(req.getCompanyName(), findCoverletter.getCompanyName());
-        // TODO : 해시태그가 올바르게 저장됐는지에 대한 검증 로직 필요
-        // TODO : 문항이 올바르게 저장됐는지에 대한 검증 로직 필요
+        findCoverletter.getQuestions().forEach(question -> {
+            assertNotEquals(question.getId(), 0);
+            assertTrue(question.getTitle().contains("test"));
+            assertTrue(question.getContents().contains("test"));
+
+            question.getHashTags().forEach(hashTag -> assertNotEquals(hashTag.getId(), 0));
+        });
     }
 
-    // TODO
-    public void 자기소개서_내_문항_수정() {
+    @Test
+    public void 자기소개서_문항_해시태그_수정() throws IOException {
+        // given
+        File file = new File("D:\\workspace\\nexters\\rezoom-backend\\src\\test\\java\\com\\nexters\\rezoom\\coverletter\\CoverletterUpdate.json");
+        CoverletterDto.UpdateReq req = new ObjectMapper().readValue(file, CoverletterDto.UpdateReq.class);
 
+        // when
+        service.update(member, req);
+
+        // then
+        Coverletter findCoverletter = repository.findById(member, req.getId());
+
+        assertEquals(findCoverletter.getCompanyName(), req.getCompanyName());
+        findCoverletter.getQuestions().forEach(question -> {
+            assertNotEquals(question.getId(), 0);
+            assertTrue(question.getTitle().contains("(updated)"));
+            assertTrue(question.getContents().contains("(updated)"));
+
+            question.getHashTags().forEach(hashTag -> assertNotEquals(hashTag.getId(), 0));
+        });
     }
 
     // TODO

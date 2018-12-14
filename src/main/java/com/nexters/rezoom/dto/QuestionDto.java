@@ -36,6 +36,12 @@ public class QuestionDto {
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
 
+        // id를 받지 않으면 (0이면) NewQuestion
+        public UpdateQuestionReq(String title, String contents) {
+            this.title = title;
+            this.contents = contents;
+        }
+
         public UpdateQuestionReq(long id, String title, String contents) {
             this.id = id;
             this.title = title;
@@ -47,6 +53,10 @@ public class QuestionDto {
             this.title = title;
             this.contents = contents;
             this.hashtags = hashtags;
+        }
+
+        public boolean isNew() {
+            return this.id == 0;
         }
     }
 

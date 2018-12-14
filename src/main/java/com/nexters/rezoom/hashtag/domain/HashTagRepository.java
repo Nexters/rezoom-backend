@@ -10,4 +10,6 @@ public interface HashTagRepository {
     List<HashTag> findAll(Member member);
 
     void delete(HashTag hashTag);
+
+    void save(HashTag hashTag);
 }
