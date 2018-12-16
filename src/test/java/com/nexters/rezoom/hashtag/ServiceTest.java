@@ -4,6 +4,7 @@ import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.hashtag.application.HashtagService;
 import com.nexters.rezoom.hashtag.domain.HashTag;
+import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.member.domain.Member;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,9 @@ public class ServiceTest {
     @Autowired
     private HashtagService service;
 
+    @Autowired
+    private HashTagRepository repository;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -54,8 +58,10 @@ public class ServiceTest {
         List<HashTagDto.ViewRes> res = service.getMyHashtags(member);
 
         // then
-        assertEquals(2, res.size());
-        res.forEach(viewRes -> assertTrue(viewRes.getValue().contains("testTag")));
+        res.forEach(viewRes -> {
+            HashTag hashTag = repository.findByKey(member, viewRes.getValue());
+            assertTrue(hashTag.getQuestions().size() > 0);
+        });
     }
 
     @Test

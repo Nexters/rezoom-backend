@@ -20,9 +20,13 @@ public class HashtagService {
     @Autowired
     private HashTagRepository repository;
 
-    // 사용자가 등록한 해쉬태그 리스트를 조회한다.
+    // 사용자가 등록한 해쉬태그 중 문항과 연관관계가 있는 해쉬태그 리스트를 조회한다.
     public List<HashTagDto.ViewRes> getMyHashtags(Member member) {
-        return repository.findAll(member).stream().map(HashTagDto.ViewRes::new).collect(Collectors.toList());
+        return repository.findAll(member).stream()
+                .filter(hashTag -> hashTag.getQuestions() != null)
+                .filter(hashTag -> !hashTag.getQuestions().isEmpty())
+                .map(HashTagDto.ViewRes::new)
+                .collect(Collectors.toList());
     }
 
     // 특정 해쉬태그가 등록된 문항 리스트를 조회한다.
