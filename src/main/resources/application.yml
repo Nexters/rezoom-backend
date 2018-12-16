@@ -12,10 +12,3 @@ spring:
 server:
   tomcat.uri-encoding: UTF-8
   port: 8080
-
-# mybatis
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/**/*_mapper.xml
-  type-aliases-package: com.nexters.rezoom.domain, com.nexters.rezoom.dto
-  configuration:
-    map-underscore-to-camel-case: true
