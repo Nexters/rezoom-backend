@@ -20,7 +20,6 @@ public class JpaHashTagRepository implements HashTagRepository {
 
     @Override
     public HashTag findByKey(Member member, String value) {
-        // TODO : org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: HashTag.questions, could not initialize proxy - no Session
         TypedQuery<HashTag> query = em.createQuery("SELECT h FROM HashTag h WHERE h.member =:member AND h.value =:value", HashTag.class);
         query.setParameter("member", member);
         query.setParameter("value", value);

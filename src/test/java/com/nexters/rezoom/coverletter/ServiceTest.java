@@ -25,7 +25,6 @@ import static org.junit.Assert.*;
 public class ServiceTest {
 
     // TODO : 상대경로로 파일 참조가 안되는 문제 해결하기. 현재 폴더의 파일 참조가 왜 안되지?..
-    // TODO : 자기소개서 서비스 중 save, update, delete 여러 가지 혼합된 것들을 한 번에 해결할 수 있는 방법 고안..
 
     @Autowired
     private CoverletterService service;
@@ -154,15 +153,8 @@ public class ServiceTest {
         });
     }
 
-    // TODO
-    public void 자기소개서_내_문항_삭제() {
-
-    }
-
-    // TODO
-    public void 자기소개서_내_문항_삭제_및_수정() {
-
-    }
+    // 문항 삭제는 문항 Serrvice에서 지원하는 걸로 결정. dto에 넣어버리면 너무 복잡하다
+    // public void 자기소개서_내_문항_삭제() {}
 
     @Test(expected = RuntimeException.class)
     public void 자기소개서_삭제() {
