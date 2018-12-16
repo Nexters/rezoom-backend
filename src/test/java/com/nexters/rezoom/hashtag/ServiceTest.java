@@ -70,7 +70,7 @@ public class ServiceTest {
         HashTag findHashTag = new HashTag(member, "testTag1");
 
         // when
-        List<QuestionDto.ViewRes> res = service.getQuestionsRelatedHashtag(member, findHashTag);
+        List<QuestionDto.ViewRes> res = service.getQuestionsRelatedHashtag(member, findHashTag.getValue());
 
         // then
         res.forEach(viewRes -> {

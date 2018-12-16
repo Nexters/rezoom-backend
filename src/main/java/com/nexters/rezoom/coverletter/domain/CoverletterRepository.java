@@ -9,7 +9,7 @@ public interface CoverletterRepository {
 
     Coverletter findById(Member member, long id);
 
-    List<Coverletter> findAll(Member member, int begin, int end);
+    List<Coverletter> findAll(Member member, int beginRow, int numberPerPage);
 
     void delete(Coverletter coverletter);
 }

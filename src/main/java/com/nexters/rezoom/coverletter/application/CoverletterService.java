@@ -51,7 +51,7 @@ public class CoverletterService {
 
     public void update(Member member, CoverletterDto.UpdateReq req) {
         // update coverletter
-        Coverletter coverletter = coverletterRepository.findById(member, req.getId());
+        Coverletter coverletter = getCoverletter(member, req.getId());
         coverletter.setCompanyName(req.getCompanyName());
 
         // update questions
@@ -68,11 +68,7 @@ public class CoverletterService {
     }
 
     public CoverletterDto.ViewRes getView(Member member, long id) {
-        Coverletter findCoverletter = coverletterRepository.findById(member, id);
-        if (findCoverletter == null) {
-            throw new RuntimeException("존재하지 않는 자기소개서입니다.");
-        }
-
+        Coverletter findCoverletter = getCoverletter(member, id);
         return new CoverletterDto.ViewRes(findCoverletter);
     }
 
@@ -82,12 +78,16 @@ public class CoverletterService {
     }
 
     public void delete(Member member, long id) {
+        Coverletter findCoverletter = getCoverletter(member, id);
+        coverletterRepository.delete(findCoverletter);
+    }
+
+    private Coverletter getCoverletter(Member member, long id) {
         Coverletter findCoverletter = coverletterRepository.findById(member, id);
         if (findCoverletter == null) {
-            throw new RuntimeException("");
+            throw new RuntimeException("존재하지 않는 자기소개서입니다.");
         }
-
-        coverletterRepository.delete(findCoverletter);
+        return findCoverletter;
     }
 
     private Question getUpdatedQuestion(QuestionDto.UpdateQuestionReq questionReq, Member member) {

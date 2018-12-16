@@ -34,16 +34,12 @@ public class JpaCoverletterRepository implements CoverletterRepository {
     }
 
     @Override
-    public List<Coverletter> findAll(Member member, int begin, int end) {
+    public List<Coverletter> findAll(Member member, int beginRow, int numberPerPage) {
         TypedQuery<Coverletter> query = em.createQuery("SELECT c FROM Coverletter c WHERE c.member =:member", Coverletter.class);
 
-        // paging : beginRow <= rowNum <= endRow (이상, 포함관계)
-        // TODO : 페이징 데이터 validation 필요
-        // begin = begin == 0 ? 1 : begin (begin은 항상 1부터 시작)
-        // end = end > max ? (내가정한페이징MAX) : end
-        query.setFirstResult(begin);
-        query.setMaxResults(end);
         query.setParameter("member", member);
+        query.setFirstResult(beginRow);
+        query.setMaxResults(numberPerPage);
         return query.getResultList();
     }
 

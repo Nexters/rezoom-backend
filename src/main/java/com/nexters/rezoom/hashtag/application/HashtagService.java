@@ -30,8 +30,8 @@ public class HashtagService {
     }
 
     // 특정 해쉬태그가 등록된 문항 리스트를 조회한다.
-    public List<QuestionDto.ViewRes> getQuestionsRelatedHashtag(Member member, HashTag hashTag) {
-        HashTag findHashtag = repository.findByKey(member, hashTag.getValue());
+    public List<QuestionDto.ViewRes> getQuestionsRelatedHashtag(Member member, String value) {
+        HashTag findHashtag = getHashTag(member, value);
 
         return findHashtag.getQuestions().stream().map(q -> {
             Set<HashTagDto.ViewRes> sets = q.getHashTags().stream().map(HashTagDto.ViewRes::new).collect(Collectors.toSet());
@@ -40,13 +40,20 @@ public class HashtagService {
     }
 
     public void modifyHashTag(Member member, HashTagDto.UpdateReq req) {
-        HashTag hashTag = repository.findByKey(member, req.getBeforeValue());
-        hashTag.updateValue(req.getUpdatedValue());
+        HashTag findHashTag = getHashTag(member, req.getBeforeValue());
+        findHashTag.updateValue(req.getUpdatedValue());
     }
 
     public void removeHashTag(Member member, String value) {
-        HashTag findHashTag = repository.findByKey(member, value);
+        HashTag findHashTag = getHashTag(member, value);
         repository.delete(findHashTag);
     }
 
+    private HashTag getHashTag(Member member, String value) {
+        HashTag findHashtag = repository.findByKey(member, value);
+        if (findHashtag == null) {
+            throw new RuntimeException("해쉬태그가 존재하지 않습니다.");
+        }
+        return findHashtag;
+    }
 }
