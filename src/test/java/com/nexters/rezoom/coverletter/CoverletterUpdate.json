@@ -1,0 +1,25 @@
+{
+  "id": 15,
+  "companyName": "adminCompany(updated)",
+  "questions": [
+    {
+      "id": 17,
+      "title": "testTitle1(updated)",
+      "contents": "testContents1(updated)",
+      "hashtags": [
+        "둥이",
+        "언이"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "testTitle2(updated)",
+      "contents": "testContents2(updated)",
+      "hashtags": [
+        "하늘",
+        "땅",
+        "바다"
+      ]
+    }
+  ]
+}

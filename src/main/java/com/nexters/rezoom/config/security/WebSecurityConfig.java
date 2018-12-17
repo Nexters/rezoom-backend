@@ -1,9 +1,6 @@
 package com.nexters.rezoom.config.security;
 
-import static com.nexters.rezoom.config.security.SecurityConstants.SIGN_UP_URL;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -11,10 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.context.annotation.Bean;
 
 /**
  * Created by JaeeonJin on 2018-08-02.
@@ -41,15 +34,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // authenticate
         http.authorizeRequests()
-//                .antMatchers("/**").permitAll();
-            .antMatchers("/").permitAll()
-			.antMatchers("/static/**").permitAll()
-			.antMatchers("/favicon.ico").permitAll()
-			.antMatchers("/resources/**").permitAll()
-			.antMatchers("/webjars/**").permitAll()
-			.antMatchers("/error/**").permitAll()
-            .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-            .anyRequest().authenticated();
+                .antMatchers("/**").permitAll();
+//            .antMatchers("/").permitAll()
+//			.antMatchers("/static/**").permitAll()
+//			.antMatchers("/favicon.ico").permitAll()
+//			.antMatchers("/resources/**").permitAll()
+//			.antMatchers("/webjars/**").permitAll()
+//			.antMatchers("/error/**").permitAll()
+//            .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+//            .anyRequest().authenticated();
 
         // sets filters
         http
@@ -66,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // permit swagger url
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers(
                         "/v2/api-docs",
