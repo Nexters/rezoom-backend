@@ -5,6 +5,7 @@ import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,29 +15,27 @@ public class CoverletterController {
     @Autowired
     private CoverletterService service;
 
-    private Member member = new Member("admin@admin.admin", "", "");
-
     @PostMapping(value = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody CoverletterDto.SaveReq req) {
+    public void save(@AuthenticationPrincipal Member member, @RequestBody CoverletterDto.SaveReq req) {
         service.save(member, req);
     }
 
     @PutMapping(value = "")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody CoverletterDto.UpdateReq req) {
+    public void update(@AuthenticationPrincipal Member member, @RequestBody CoverletterDto.UpdateReq req) {
         service.update(member, req);
     }
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ViewRes getView(@PathVariable long id) {
+    public CoverletterDto.ViewRes getView(@AuthenticationPrincipal Member member, @PathVariable long id) {
         return service.getView(member, id);
     }
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ListRes getList(@RequestParam(required = false, defaultValue = "1") int pageNo) {
+    public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member, @RequestParam(required = false, defaultValue = "1") int pageNo) {
         // TODO : 페이지 수 계산 클래스화 (default, max 설정)
         int numberPerPage = 10;
         int beginRow = numberPerPage * (pageNo - 1);
@@ -46,8 +45,7 @@ public class CoverletterController {
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id) {
+    public void delete(@AuthenticationPrincipal Member member, @PathVariable long id) {
         service.delete(member, id);
     }
-
 }

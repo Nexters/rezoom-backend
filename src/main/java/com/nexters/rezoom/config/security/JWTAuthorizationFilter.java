@@ -2,6 +2,8 @@ package com.nexters.rezoom.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.nexters.rezoom.member.domain.Member;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.nexters.rezoom.config.security.SecurityConstants.HEADER_STRING;
-import static com.nexters.rezoom.config.security.SecurityConstants.SECRET;
-import static com.nexters.rezoom.config.security.SecurityConstants.TOKEN_PREFIX;
+import static com.nexters.rezoom.config.security.SecurityConstants.*;
 
 /**
  * Created by JaeeonJin on 2018-07-31.
@@ -37,7 +37,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
@@ -46,16 +45,21 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            DecodedJWT jwtVerifier = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+                    .build()
+                    .verify(token.replace(TOKEN_PREFIX, ""));
+
+            // TODO : member 의존성 문제 해결
+            String memberId = jwtVerifier.getClaim("id").asString();
+            String memberName = jwtVerifier.getClaim("name").asString();
+            Member member = new Member(memberId, memberName, "");
+
+            if (!memberId.isEmpty()) {
+                return new UsernamePasswordAuthenticationToken(member, null, new ArrayList<>());
             }
-            return null;
         }
+
         return null;
     }
 }
