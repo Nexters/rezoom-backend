@@ -8,8 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.PersistenceException;
-
 @Transactional
 @Service
 public class MemberService {
@@ -26,14 +24,11 @@ public class MemberService {
     }
 
     public void signUp(MemberDto.SignUpReq req) {
-        Member member = new Member(req.getId(), req.getName(), encoder.encode(req.getPassword()));
-        try {
-            repository.save(member);
-        } catch (PersistenceException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("이미 존재하는 id입니다.");
-        }
+        Member findMember = repository.findById(req.getId());
+        if (findMember != null)
+            throw new RuntimeException("이미 존재하는 아이디입니다.");
+
+        repository.save(new Member(req.getId(), req.getName(), encoder.encode(req.getPassword())));
     }
 
     public boolean signIn(MemberDto.SignInReq req) {

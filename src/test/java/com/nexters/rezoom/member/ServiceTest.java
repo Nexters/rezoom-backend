@@ -34,11 +34,19 @@ public class ServiceTest {
         assertEquals(findMemberInfo.getName(), req.getName());
     }
 
-    // 보류
-//    @Test(expected = RuntimeException.class)
-//    public void 회원가입_실패_중복ID() {
-//
-//    }
+    @Test(expected = RuntimeException.class)
+    public void 회원가입_실패_중복ID() {
+        // given
+        String id = "asdasdasdas";
+        MemberDto.SignUpReq req = new MemberDto.SignUpReq(id, "testPw", "testNm");
+        service.signUp(req);
+
+        // when
+        service.signUp(req);
+
+        // then
+        // expected RuntimeException
+    }
 
     @Test
     public void 로그인_성공() {
