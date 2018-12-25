@@ -30,7 +30,7 @@ public class Coverletter {
     @Column(name = "company_name")
     private String companyName;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 

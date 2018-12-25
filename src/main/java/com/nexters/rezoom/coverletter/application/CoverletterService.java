@@ -1,5 +1,6 @@
 package com.nexters.rezoom.coverletter.application;
 
+import com.nexters.rezoom.config.common.Paging;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
@@ -31,15 +32,15 @@ public class CoverletterService {
     @Autowired
     private HashTagRepository hashTagRepository;
 
-    public void save(Member member, CoverletterDto.SaveReq req) {
+    public long save(Member member, CoverletterDto.SaveReq req) {
         // set coverletter
         Coverletter coverletter = new Coverletter(member, req.getCompanyName());
 
         // set question
-        coverletter.setQuestions(req.getQuestions().stream()
+        coverletter.setQuestions(req.getQuestions()
+                .stream()
                 .map(questionReq -> {
                     Question question = new Question(questionReq.getTitle(), questionReq.getContents());
-
                     // set hashtags
                     question.setHashTags(getUpdatedHashtags(questionReq.getHashtags(), member));
                     return question;
@@ -47,6 +48,7 @@ public class CoverletterService {
                 .collect(Collectors.toList()));
 
         coverletterRepository.save(coverletter);
+        return coverletter.getId();
     }
 
     public void update(Member member, CoverletterDto.UpdateReq req) {
@@ -72,8 +74,8 @@ public class CoverletterService {
         return new CoverletterDto.ViewRes(findCoverletter);
     }
 
-    public CoverletterDto.ListRes getList(Member member, int beginRow, int endRow) {
-        List<Coverletter> findCoverletters = coverletterRepository.findAll(member, beginRow, endRow);
+    public CoverletterDto.ListRes getList(Member member, Paging paging) {
+        List<Coverletter> findCoverletters = coverletterRepository.findAll(member, paging.getBeginRow(), paging.getNumberPerPage());
         return new CoverletterDto.ListRes(findCoverletters);
     }
 

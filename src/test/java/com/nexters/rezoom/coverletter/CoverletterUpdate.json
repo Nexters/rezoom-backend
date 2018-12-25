@@ -1,24 +1,21 @@
 {
-  "id": 15,
-  "companyName": "adminCompany(updated)",
+  "companyName": "testCompany",
   "questions": [
     {
-      "id": 17,
-      "title": "testTitle1(updated)",
-      "contents": "testContents1(updated)",
+      "title": "testTitle(updated)",
+      "contents": "testContents(updated)",
       "hashtags": [
-        "둥이",
-        "언이"
+        "해시태그1",
+        "해시태그4"
       ]
     },
     {
-      "id": 18,
       "title": "testTitle2(updated)",
       "contents": "testContents2(updated)",
       "hashtags": [
-        "하늘",
-        "땅",
-        "바다"
+        "해시태그2",
+        "해시태그3",
+        "해시태그4"
       ]
     }
   ]
