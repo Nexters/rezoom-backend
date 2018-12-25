@@ -1,5 +1,6 @@
 package com.nexters.rezoom.coverletter.presentation;
 
+import com.nexters.rezoom.config.common.Paging;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.member.domain.Member;
@@ -35,12 +36,9 @@ public class CoverletterController {
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member, @RequestParam(required = false, defaultValue = "1") int pageNo) {
-        // TODO : 페이지 수 계산 클래스화 (default, max 설정)
-        int numberPerPage = 10;
-        int beginRow = numberPerPage * (pageNo - 1);
-
-        return service.getList(member, beginRow, numberPerPage);
+    public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member,
+                                          @RequestParam(required = false, defaultValue = "1") int pageNo) {
+        return service.getList(member, new Paging(pageNo));
     }
 
     @DeleteMapping(value = "{id}")

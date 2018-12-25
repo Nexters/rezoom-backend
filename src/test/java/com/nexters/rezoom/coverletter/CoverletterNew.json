@@ -5,18 +5,16 @@
       "title": "testTitle",
       "contents": "testContents",
       "hashtags": [
-        "둥이",
-        "헨이",
-        "언이"
+        "해시태그1",
+        "해시태그2"
       ]
     },
     {
       "title": "testTitle2",
       "contents": "testContents2",
       "hashtags": [
-        "언이",
-        "헨이2",
-        "어니2"
+        "해시태그2",
+        "해시태그3"
       ]
     }
   ]

@@ -1,11 +1,15 @@
 package com.nexters.rezoom.coverletter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexters.rezoom.config.common.Paging;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
+import com.nexters.rezoom.dto.MemberDto;
+import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -24,42 +28,46 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ServiceTest {
 
-    // TODO : 상대경로로 파일 참조가 안되는 문제 해결하기. 현재 폴더의 파일 참조가 왜 안되지?..
-
     @Autowired
     private CoverletterService service;
 
     @Autowired
     private CoverletterRepository repository;
 
+    @Autowired
+    private MemberService memberService;
     private Member member;
 
-    public ServiceTest() {
-        member = new Member("admin@admin.admin", "", "");
+    @Before
+    public void createMember() {
+        member = new Member(UUID.randomUUID().toString(), "test", "test");
+        memberService.signUp(new MemberDto.SignUpReq(member.getId(), member.getPassword(), member.getName()));
     }
 
     @Test
     public void 자기소개서_단건조회() {
         // given
-        long coverletterId = 15L;
+        Coverletter coverletter = new Coverletter(member, "testCompany");
+        repository.save(coverletter);
+
+        long coverletterId = coverletter.getId();
 
         // when
         CoverletterDto.ViewRes res = service.getView(member, coverletterId);
 
         // then
         assertEquals(res.getId(), coverletterId);
-        assertEquals(res.getCompanyName(), "adminCompany");
-        assertEquals(res.getQuestions().size(), 2);
-        res.getQuestions().forEach(viewRes -> viewRes.getHashtags().forEach(hashTagRes -> assertTrue(hashTagRes.getValue().contains("testTag"))));
+        assertEquals(res.getCompanyName(), coverletter.getCompanyName());
+        assertEquals(res.getQuestions().size(), 0);
     }
 
     @Test(expected = RuntimeException.class)
-    public void 자기소개서_단건조회할때_없으면_RuntimeException() {
+    public void 자기소개서_단건조회_없으면_RuntimeException() {
         // given
-        long coverletterId = 1L;
+        long coverletterId = 121313L;
 
         // when
-        CoverletterDto.ViewRes res = service.getView(member, coverletterId);
+        service.getView(member, coverletterId);
 
         // then
         // expected RuntimeException
@@ -68,39 +76,27 @@ public class ServiceTest {
     @Test
     public void 자기소개서_리스트_조회() {
         // given
-        int beginRow = 1;
-        int endRow = 5;
+        Coverletter coverletter1 = new Coverletter(member, "testCompany");
+        Coverletter coverletter2 = new Coverletter(member, "testCompany");
+        repository.save(coverletter1);
+        repository.save(coverletter2);
+
+        int pageNo = 1;
 
         // when
-        // 현재 member가 가진 자기소개서는 10개
-        CoverletterDto.ListRes res = service.getList(member, beginRow, endRow);
+        CoverletterDto.ListRes res = service.getList(member, new Paging(pageNo));
 
         // then
-        assertEquals(res.getCoverletters().size(), endRow - beginRow + 1);
+        assertEquals(res.getCoverletters().size(), 2);
     }
 
     @Test
     public void 자기소개서_리스트_조회_빈값이면_NULL이아니라_EMPTY() {
         // given
-        int beginRow = 110;
-        int endRow = 10000;
+        int pageNo = 1;
 
         // when
-        CoverletterDto.ListRes res = service.getList(member, beginRow, endRow);
-
-        // then
-        assertNotNull(res);
-        assertTrue(res.getCoverletters().isEmpty());
-    }
-
-    @Test
-    public void 자기소개서_리스트_조회_페이징범위_반대일때_NULL이아니라_EMPTY() {
-        // given
-        int beginRow = 100;
-        int endRow = 10;
-
-        // when
-        CoverletterDto.ListRes res = service.getList(member, beginRow, endRow);
+        CoverletterDto.ListRes res = service.getList(member, new Paging(pageNo));
 
         // then
         assertNotNull(res);
@@ -110,16 +106,14 @@ public class ServiceTest {
     @Test
     public void 자기소개서_저장() throws IOException {
         // given
-        File file = new File("D:\\workspace\\nexters\\rezoom-backend\\src\\test\\java\\com\\nexters\\rezoom\\coverletter\\CoverletterNew.json");
+        File file = new File("src/test/java/com/nexters/rezoom/coverletter/CoverletterNew.json");
         CoverletterDto.SaveReq req = new ObjectMapper().readValue(file, CoverletterDto.SaveReq.class);
 
         // when
-        service.save(member, req);
+        long savedId = service.save(member, req);
 
         // then
-        // TODO : 수정필요 (현재: 방금 추가한 자기소개서를 가져오기 위해 마지막번째 자기소개서를 가져오고 있음)
-        List<Coverletter> findCoverletters = repository.findAll(member, 0, 1000);
-        Coverletter findCoverletter = findCoverletters.get(findCoverletters.size() - 1);
+        Coverletter findCoverletter = repository.findById(member, savedId);
 
         assertEquals(req.getCompanyName(), findCoverletter.getCompanyName());
         findCoverletter.getQuestions().forEach(question -> {
@@ -134,8 +128,15 @@ public class ServiceTest {
     @Test
     public void 자기소개서_문항_해시태그_수정() throws IOException {
         // given
-        File file = new File("D:\\workspace\\nexters\\rezoom-backend\\src\\test\\java\\com\\nexters\\rezoom\\coverletter\\CoverletterUpdate.json");
-        CoverletterDto.UpdateReq req = new ObjectMapper().readValue(file, CoverletterDto.UpdateReq.class);
+        File file = new File("src/test/java/com/nexters/rezoom/coverletter/CoverletterNew.json");
+        CoverletterDto.SaveReq createReq = new ObjectMapper().readValue(file, CoverletterDto.SaveReq.class);
+        long savedId = service.save(member, createReq);
+
+        File updateJsonFile = new File("src/test/java/com/nexters/rezoom/coverletter/CoverletterUpdate.json");
+        CoverletterDto.UpdateReq req = new ObjectMapper().readValue(updateJsonFile, CoverletterDto.UpdateReq.class);
+
+        // 현재 update request의 id를 미리 설정할 수 없으므로, 방금 생성한 coverletter의 id로 설정
+        req = new CoverletterDto.UpdateReq(savedId, req.getCompanyName(), req.getQuestions());
 
         // when
         service.update(member, req);
@@ -153,26 +154,24 @@ public class ServiceTest {
         });
     }
 
-    // 문항 삭제는 문항 Serrvice에서 지원하는 걸로 결정. dto에 넣어버리면 너무 복잡하다
-    // public void 자기소개서_내_문항_삭제() {}
-
     @Test(expected = RuntimeException.class)
     public void 자기소개서_삭제() {
         // given
-        long coverletterId = 15L;
+        Coverletter coverletter = new Coverletter(member, "testCompany");
+        repository.save(coverletter);
 
         // when
-        service.delete(member, coverletterId);
+        service.delete(member, coverletter.getId());
 
         // then
-        CoverletterDto.ViewRes res = service.getView(member, coverletterId);
+        CoverletterDto.ViewRes res = service.getView(member, coverletter.getId());
         // expected runtimeException
     }
 
     @Test(expected = RuntimeException.class)
     public void 자기소개서_없는거_삭제할때_RuntimeException() {
         // given
-        long coverletterId = 150L;
+        long coverletterId = 223241L;
 
         // when
         service.delete(member, coverletterId);

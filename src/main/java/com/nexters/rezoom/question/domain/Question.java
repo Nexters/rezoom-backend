@@ -41,6 +41,7 @@ public class Question {
     public Question(String title, String contents) {
         this.title = title;
         this.contents = contents;
+        this.hashTags = new HashSet<>();
     }
 
     public Question(long id, String title, String contents) {
@@ -67,6 +68,16 @@ public class Question {
 
     public void setHashTags(Set<HashTag> hashTags) {
         this.hashTags = hashTags;
+
+        // 해쉬태그에도 연관관계를 추가한다.
+        hashTags.forEach(hashTag -> {
+            if (!hashTag.getQuestions().contains(this))
+                hashTag.addQuestion(this);
+        });
+    }
+
+    public void addHashtag(HashTag hashtag) {
+        this.hashTags.add(hashtag);
     }
 
     @Override

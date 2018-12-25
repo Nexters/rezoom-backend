@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,10 +38,19 @@ public class HashTag {
     public HashTag(Member member, String value) {
         this.member = member;
         this.value = value;
+        this.questions = new ArrayList<>();
     }
 
     public void updateValue(String value) {
         this.value = value;
+    }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+
+        // 문항에도 연관관계를 추가한다.
+        if (!question.getHashTags().contains(this))
+            question.addHashtag(this);
     }
 
     @Override
