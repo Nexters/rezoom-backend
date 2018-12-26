@@ -46,11 +46,15 @@ public class HashTag {
     }
 
     public void addQuestion(Question question) {
-        questions.add(question);
+        this.questions.add(question);
 
         // 문항에도 연관관계를 추가한다.
         if (!question.getHashTags().contains(this))
             question.addHashtag(this);
+    }
+
+    public void setQuestions(List<Question> questions) {
+        questions.forEach(this::addQuestion);
     }
 
     @Override
