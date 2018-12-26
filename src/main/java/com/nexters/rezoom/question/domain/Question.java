@@ -78,6 +78,9 @@ public class Question {
 
     public void addHashtag(HashTag hashtag) {
         this.hashTags.add(hashtag);
+
+        if (!hashtag.getQuestions().contains(this))
+            hashtag.addQuestion(this);
     }
 
     @Override
