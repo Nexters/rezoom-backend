@@ -29,7 +29,7 @@ public class Question {
     private String contents;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "coverletter_id") // Question(N)과 Coverletter(1)는 Coverletter_ID(FK)를 이용해 연관관계를 맺는다.
+    @JoinColumn(name = "coverletter_id")
     private Coverletter coverletter;
 
     @ManyToMany(cascade = CascadeType.MERGE)
@@ -55,7 +55,8 @@ public class Question {
     }
 
     public void setCoverletter(Coverletter coverletter) {
-        // 이미 coverletter가 존재한다면, 해당 coverletter에서 현재 question을 제거한다. (문항을 다른 자기소개서로 옮겼으므로)
+        // 이미 coverletter가 존재한다면, 해당 coverletter에서 현재 question을 제거한다.
+        // (문항을 다른 자기소개서로 옮겼으므로)
         if (this.coverletter != null) {
             this.coverletter.getQuestions().remove(this);
         }
@@ -66,21 +67,15 @@ public class Question {
             this.coverletter.addQuestion(this);
     }
 
-    public void setHashTags(Set<HashTag> hashTags) {
-        this.hashTags = hashTags;
-
-        // 해쉬태그에도 연관관계를 추가한다.
-        hashTags.forEach(hashTag -> {
-            if (!hashTag.getQuestions().contains(this))
-                hashTag.addQuestion(this);
-        });
-    }
-
     public void addHashtag(HashTag hashtag) {
         this.hashTags.add(hashtag);
 
         if (!hashtag.getQuestions().contains(this))
             hashtag.addQuestion(this);
+    }
+
+    public void setHashTags(Set<HashTag> hashTags) {
+        hashTags.forEach(this::addHashtag);
     }
 
     @Override
