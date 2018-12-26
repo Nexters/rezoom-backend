@@ -9,7 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @Transactional
 @SpringBootTest
@@ -21,14 +24,21 @@ public class RepositoryTest {
 
     @Test
     public void 멤버_정보_조회_성공() {
-        Member findMember = repository.findById("admin@admin.admin");
-        assertFalse(findMember.getId().isEmpty());
+        // given
+        Member member = new Member(UUID.randomUUID().toString(), "test", "test");
+        repository.save(member);
+
+        // when
+        Member findMember = repository.findById(member.getId());
+
+        // then
+        assertEquals(member, findMember);
     }
 
     @Test
     public void 멤버_정보_조회_실패_없는아이디면_NULL() {
         // given
-        String id = "admin@admin.admin123";
+        String id = UUID.randomUUID().toString();
 
         // when
         Member findMember = repository.findById(id);
