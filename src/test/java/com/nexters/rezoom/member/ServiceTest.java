@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -23,7 +25,7 @@ public class ServiceTest {
     @Test
     public void 회원가입_성공() {
         // given
-        MemberDto.SignUpReq req = new MemberDto.SignUpReq("testId", "testPw", "testNm");
+        MemberDto.SignUpReq req = new MemberDto.SignUpReq(UUID.randomUUID().toString(), "testPw", "testNm");
 
         // then
         service.signUp(req);
@@ -37,7 +39,7 @@ public class ServiceTest {
     @Test(expected = RuntimeException.class)
     public void 회원가입_실패_중복ID() {
         // given
-        String id = "asdasdasdas";
+        String id = UUID.randomUUID().toString();
         MemberDto.SignUpReq req = new MemberDto.SignUpReq(id, "testPw", "testNm");
         service.signUp(req);
 
@@ -51,10 +53,10 @@ public class ServiceTest {
     @Test
     public void 로그인_성공() {
         // given
-        MemberDto.SignUpReq signUpReq = new MemberDto.SignUpReq("testId", "testPw", "testNm");
+        MemberDto.SignUpReq signUpReq = new MemberDto.SignUpReq(UUID.randomUUID().toString(), "testPw", "testNm");
         service.signUp(signUpReq);
 
-        MemberDto.SignInReq signInReq = new MemberDto.SignInReq("testId", "testPw");
+        MemberDto.SignInReq signInReq = new MemberDto.SignInReq(signUpReq.getId(), signUpReq.getPassword());
 
         // when
         boolean isSuccess = service.signIn(signInReq);
@@ -66,29 +68,25 @@ public class ServiceTest {
     @Test(expected = RuntimeException.class)
     public void 로그인_실패_없는아이디() {
         // given
-        MemberDto.SignUpReq signUpReq = new MemberDto.SignUpReq("testId", "testPw", "testNm");
-        service.signUp(signUpReq);
-
-        MemberDto.SignInReq signInReq = new MemberDto.SignInReq("testId2", "testPw");
+        MemberDto.SignInReq signInReq = new MemberDto.SignInReq("절1대1없1을1법1한1아1이1디", "testPw");
 
         // when
-        boolean isSuccess = service.signIn(signInReq);
+        service.signIn(signInReq);
 
         // when
         // expected RuntimeException
-
     }
 
     @Test(expected = RuntimeException.class)
     public void 로그인_실패_비밀번호틀림() {
         // given
-        MemberDto.SignUpReq signUpReq = new MemberDto.SignUpReq("testId", "testPw", "testNm");
+        MemberDto.SignUpReq signUpReq = new MemberDto.SignUpReq(UUID.randomUUID().toString(), "testPw", "testNm");
         service.signUp(signUpReq);
 
-        MemberDto.SignInReq signInReq = new MemberDto.SignInReq("testId", "testPw2");
+        MemberDto.SignInReq signInReq = new MemberDto.SignInReq(signUpReq.getId(), "testPw2");
 
         // when
-        boolean isSuccess = service.signIn(signInReq);
+        service.signIn(signInReq);
 
         // when
         // expected RuntimeException

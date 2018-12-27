@@ -30,7 +30,7 @@ public class Coverletter {
     @Column(name = "company_name")
     private String companyName;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -54,25 +54,18 @@ public class Coverletter {
         this.companyName = companyName;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-        this.questions.forEach(this::addQuestion);
-
-        // 연관관계 설정
-        questions.forEach(question -> {
-            if (question.getCoverletter() == null || !question.getCoverletter().equals(this)) {
-                question.setCoverletter(this);
-            }
-        });
-    }
-
     public void addQuestion(Question question) {
         if (!questions.contains(question)) {
             questions.add(question);
         }
 
-        if (question.getCoverletter() == null)
+        if (question.getCoverletter() == null || !question.getCoverletter().equals(this)) {
             question.setCoverletter(this);
+        }
+    }
+
+    public void setQuestions(List<Question> questions) {
+        questions.forEach(this::addQuestion);
     }
 
     @Override
