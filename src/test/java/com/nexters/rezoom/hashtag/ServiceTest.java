@@ -34,15 +34,6 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ServiceTest {
 
-    /**
-     * TODO : 개선 필요 (데이터를 검증하는 메소드를 만들고 @BeforeClass로 동작시켜 검증하거나, 그럴 필요가 없게 만들거나)
-     * 테스트 데이터가 삽입된 상태에서만 테스트 정상 동작
-     * member_id = admin@admin.admin
-     * coverletter_id = 15 (testCompany)
-     * question_id = 17, 18 (testTitle, testContents)
-     * hashtag_id = 30, 31 (testTag, testTag)
-     */
-
     @Autowired
     private HashtagService service;
 
