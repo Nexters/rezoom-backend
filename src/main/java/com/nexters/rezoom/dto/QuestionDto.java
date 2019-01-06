@@ -15,17 +15,6 @@ public class QuestionDto {
         private String title;
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
-
-        public SaveQuestionReq(String title, String contents) {
-            this.title = title;
-            this.contents = contents;
-        }
-
-        public SaveQuestionReq(String title, String contents, Set<HashTagDto.SaveReq> hashtags) {
-            this.title = title;
-            this.contents = contents;
-            this.hashtags = hashtags;
-        }
     }
 
     @Getter
@@ -35,25 +24,6 @@ public class QuestionDto {
         private String title;
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
-
-        // id를 받지 않으면 (0이면) NewQuestion
-        public UpdateQuestionReq(String title, String contents) {
-            this.title = title;
-            this.contents = contents;
-        }
-
-        public UpdateQuestionReq(long id, String title, String contents) {
-            this.id = id;
-            this.title = title;
-            this.contents = contents;
-        }
-
-        public UpdateQuestionReq(long id, String title, String contents, Set<HashTagDto.SaveReq> hashtags) {
-            this.id = id;
-            this.title = title;
-            this.contents = contents;
-            this.hashtags = hashtags;
-        }
 
         public boolean isNew() {
             return this.id == 0;
@@ -78,7 +48,7 @@ public class QuestionDto {
             this.id = question.getId();
             this.title = question.getTitle();
             this.contents = question.getContents();
-            this.hashtags = question.getHashTags().stream().map(HashTagDto.ViewRes::new).collect(Collectors.toSet());
+            this.hashtags = question.getHashtags().stream().map(HashTagDto.ViewRes::new).collect(Collectors.toSet());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.nexters.rezoom.dto;
 
-import com.nexters.rezoom.hashtag.domain.HashTag;
+import com.nexters.rezoom.hashtag.domain.Hashtag;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +22,6 @@ public class HashTagDto {
     public static class UpdateReq {
         private String beforeValue;
         private String updatedValue;
-
-        public UpdateReq(String beforeValue, String updatedValue) {
-            this.beforeValue = beforeValue;
-            this.updatedValue = updatedValue;
-        }
     }
 
     @Getter
@@ -39,7 +34,7 @@ public class HashTagDto {
             this.value = value;
         }
 
-        public ViewRes(HashTag hashTag) {
+        public ViewRes(Hashtag hashTag) {
             this.id = hashTag.getId();
             this.value = hashTag.getValue();
         }

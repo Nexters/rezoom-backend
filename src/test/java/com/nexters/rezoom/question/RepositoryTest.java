@@ -29,7 +29,7 @@ public class RepositoryTest {
         member = new Member("admin@admin.admin", "", "");
     }
 
-    @Test
+    // @Test
     public void 문항_1개_조회() {
         // given
         long questionId = 17L; // member가 소유하고 있는 문항 번호

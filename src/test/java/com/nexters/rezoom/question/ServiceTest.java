@@ -21,7 +21,7 @@ public class ServiceTest {
     @Autowired
     private QuestionService service;
 
-    @Test
+    // @Test
     public void 문항_1개_조회() {
         // given
         long questionId = 17L;

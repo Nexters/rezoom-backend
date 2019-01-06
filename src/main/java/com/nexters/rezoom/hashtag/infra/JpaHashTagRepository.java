@@ -1,7 +1,7 @@
 package com.nexters.rezoom.hashtag.infra;
 
-import com.nexters.rezoom.hashtag.domain.HashTag;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,30 +19,30 @@ public class JpaHashTagRepository implements HashTagRepository {
     private EntityManager em;
 
     @Override
-    public HashTag findByKey(Member member, String value) {
-        TypedQuery<HashTag> query = em.createQuery("SELECT h FROM HashTag h WHERE h.member =:member AND h.value =:value", HashTag.class);
+    public Hashtag findByKey(Member member, String value) {
+        TypedQuery<Hashtag> query = em.createQuery("SELECT h FROM Hashtag h WHERE h.member =:member AND h.value =:value", Hashtag.class);
         query.setParameter("member", member);
         query.setParameter("value", value);
 
-        List<HashTag> result = query.getResultList();
+        List<Hashtag> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
-    public List<HashTag> findAll(Member member) {
-        TypedQuery<HashTag> query = em.createQuery("SELECT h FROM HashTag h WHERE h.member =:member", HashTag.class);
+    public List<Hashtag> findAll(Member member) {
+        TypedQuery<Hashtag> query = em.createQuery("SELECT h FROM Hashtag h WHERE h.member =:member", Hashtag.class);
         query.setParameter("member", member);
 
         return query.getResultList();
     }
 
     @Override
-    public void delete(HashTag hashTag) {
+    public void delete(Hashtag hashTag) {
         em.remove(hashTag);
     }
 
     @Override
-    public void save(HashTag hashTag) {
+    public void save(Hashtag hashTag) {
         em.persist(hashTag);
     }
 
