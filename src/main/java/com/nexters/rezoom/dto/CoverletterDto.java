@@ -16,11 +16,6 @@ public class CoverletterDto {
     public static class SaveReq {
         private String companyName;
         private List<QuestionDto.SaveQuestionReq> questions;
-
-        public SaveReq(String companyName, List<QuestionDto.SaveQuestionReq> questions) {
-            this.companyName = companyName;
-            this.questions = questions;
-        }
     }
 
     @Getter
@@ -29,12 +24,6 @@ public class CoverletterDto {
         private long id;
         private String companyName;
         private List<QuestionDto.UpdateQuestionReq> questions;
-
-        public UpdateReq(long id, String companyName, List<QuestionDto.UpdateQuestionReq> questions) {
-            this.id = id;
-            this.companyName = companyName;
-            this.questions = questions;
-        }
     }
 
     @Getter

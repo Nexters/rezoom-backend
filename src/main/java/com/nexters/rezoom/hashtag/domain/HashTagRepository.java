@@ -5,11 +5,11 @@ import com.nexters.rezoom.member.domain.Member;
 import java.util.List;
 
 public interface HashTagRepository {
-    HashTag findByKey(Member member, String value);
+    Hashtag findByKey(Member member, String value);
 
-    List<HashTag> findAll(Member member);
+    List<Hashtag> findAll(Member member);
 
-    void delete(HashTag hashTag);
+    void delete(Hashtag hashTag);
 
-    void save(HashTag hashTag);
+    void save(Hashtag hashTag);
 }

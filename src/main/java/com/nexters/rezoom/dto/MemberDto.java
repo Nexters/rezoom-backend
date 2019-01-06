@@ -13,6 +13,7 @@ public class MemberDto {
         private String password;
         private String name;
 
+        // for test
         public SignUpReq(String id, String password, String name) {
             this.id = id;
             this.password = password;

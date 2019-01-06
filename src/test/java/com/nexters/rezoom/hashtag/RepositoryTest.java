@@ -1,8 +1,8 @@
 package com.nexters.rezoom.hashtag;
 
 import com.nexters.rezoom.dto.MemberDto;
-import com.nexters.rezoom.hashtag.domain.HashTag;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
 import org.junit.Before;
@@ -41,14 +41,14 @@ public class RepositoryTest {
         // given
         String currentDate = new java.text.SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
         String value = currentDate + "test";
-        HashTag hashTag = new HashTag(member, value);
+        Hashtag hashTag = new Hashtag(member, value);
         repository.save(hashTag);
 
         // when
-        HashTag findHashTag = repository.findByKey(member, value);
+        Hashtag findHashtag = repository.findByKey(member, value);
 
         // then
-        assertEquals(findHashTag.getValue(), value);
+        assertEquals(findHashtag.getValue(), value);
     }
 
     @Test
@@ -56,20 +56,20 @@ public class RepositoryTest {
         // given
         String currentDate = new java.text.SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
         String value = currentDate + "test1";
-        HashTag hashTag1 = new HashTag(member, value);
-        repository.save(hashTag1);
+        Hashtag hashtag1 = new Hashtag(member, value);
+        repository.save(hashtag1);
 
         String value2 = currentDate + "test2";
-        HashTag hashTag2 = new HashTag(member, value2);
-        repository.save(hashTag2);
+        Hashtag hashtag2 = new Hashtag(member, value2);
+        repository.save(hashtag2);
 
         // when
-        List<HashTag> hashtags = repository.findAll(member);
+        List<Hashtag> hashtags = repository.findAll(member);
 
         // then
         assertEquals(2, hashtags.size());
-        assertEquals(hashTag1, hashtags.get(0));
-        assertEquals(hashTag2, hashtags.get(1));
+        assertEquals(hashtag1, hashtags.get(0));
+        assertEquals(hashtag2, hashtags.get(1));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class RepositoryTest {
         // given
 
         // when
-        List<HashTag> hashtags = repository.findAll(member);
+        List<Hashtag> hashtags = repository.findAll(member);
 
         // then
         assertTrue(hashtags.isEmpty());
@@ -89,16 +89,16 @@ public class RepositoryTest {
         // given
         String currentDate = new java.text.SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
         String value = currentDate + "test";
-        HashTag hashtag = new HashTag(member, value);
+        Hashtag hashtag = new Hashtag(member, value);
         repository.save(hashtag);
 
-        HashTag findHashtag = repository.findByKey(member, hashtag.getValue());
+        Hashtag findHashtag = repository.findByKey(member, hashtag.getValue());
 
         // when
         repository.delete(findHashtag);
 
         // then
-        HashTag findHashTag = repository.findByKey(member, findHashtag.getValue());
+        Hashtag findHashTag = repository.findByKey(member, findHashtag.getValue());
         assertNull(findHashTag);
     }
 

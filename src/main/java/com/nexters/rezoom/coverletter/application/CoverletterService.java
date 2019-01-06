@@ -6,8 +6,8 @@ import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.dto.QuestionDto;
-import com.nexters.rezoom.hashtag.domain.HashTag;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
 import com.nexters.rezoom.question.domain.QuestionRepository;
@@ -23,28 +23,27 @@ import java.util.stream.Collectors;
 @Service
 public class CoverletterService {
 
-    @Autowired
-    private CoverletterRepository coverletterRepository;
+    private final QuestionRepository questionRepository;
+    private final CoverletterRepository coverletterRepository;
+    private final HashTagRepository hashTagRepository;
 
     @Autowired
-    private QuestionRepository questionRepository;
-
-    @Autowired
-    private HashTagRepository hashTagRepository;
+    public CoverletterService(CoverletterRepository coverletterRepository, HashTagRepository hashTagRepository, QuestionRepository questionRepository) {
+        this.coverletterRepository = coverletterRepository;
+        this.hashTagRepository = hashTagRepository;
+        this.questionRepository = questionRepository;
+    }
 
     public long save(Member member, CoverletterDto.SaveReq req) {
         // set coverletter
         Coverletter coverletter = new Coverletter(member, req.getCompanyName());
 
-        // set question
+        // set question & hashtag
         coverletter.setQuestions(req.getQuestions()
                 .stream()
-                .map(questionReq -> {
-                    Question question = new Question(questionReq.getTitle(), questionReq.getContents());
-                    // set hashtags
-                    question.setHashTags(getUpdatedHashtags(questionReq.getHashtags(), member));
-                    return question;
-                })
+                .map(questionReq ->
+                        new Question(questionReq.getTitle(), questionReq.getContents())
+                                .setHashtags(getUpdatedHashtags(questionReq.getHashtags(), member)))
                 .collect(Collectors.toList()));
 
         coverletterRepository.save(coverletter);
@@ -52,21 +51,12 @@ public class CoverletterService {
     }
 
     public void update(Member member, CoverletterDto.UpdateReq req) {
-        // update coverletter
-        Coverletter coverletter = getCoverletter(member, req.getId());
-        coverletter.setCompanyName(req.getCompanyName());
-
-        // update questions
+        Coverletter coverletter = this.getCoverletter(member, req.getId());
         coverletter.setQuestions(req.getQuestions().stream()
-                .map(questionReq -> {
-                    Question question = getUpdatedQuestion(questionReq, member);
-
-                    // set hashtags
-                    question.setHashTags(getUpdatedHashtags(questionReq.getHashtags(), member));
-                    return question;
-                })
-                .collect(Collectors.toList())
-        );
+                .map(questionReq ->
+                        getUpdatedQuestion(questionReq, member)
+                                .setHashtags(getUpdatedHashtags(questionReq.getHashtags(), member)))
+                .collect(Collectors.toList()));
     }
 
     public CoverletterDto.ViewRes getView(Member member, long id) {
@@ -89,35 +79,40 @@ public class CoverletterService {
         if (findCoverletter == null) {
             throw new RuntimeException("존재하지 않는 자기소개서입니다.");
         }
+
         return findCoverletter;
     }
 
     private Question getUpdatedQuestion(QuestionDto.UpdateQuestionReq questionReq, Member member) {
         if (questionReq.isNew())
             return new Question(questionReq.getTitle(), questionReq.getContents());
-        else {
-            Question question = questionRepository.findByKey(questionReq.getId(), member);
-            question.updateQuestion(questionReq.getTitle(), questionReq.getContents());
-            return question;
-        }
+
+        Question question = questionRepository.findByKey(questionReq.getId(), member);
+        if (question == null)
+            return new Question(questionReq.getTitle(), questionReq.getContents());
+
+        question.updateData(questionReq.getTitle(), questionReq.getContents());
+        return question;
+
+
     }
 
     /**
      * 중복없이 hashtag를 question에 설정하기 위한 공통 메소드
-     * hashtag는 삭제/추가가 빈번히 이뤄지므로 애초에 dto에서 id값을 제외한 value만 받는다. (이 때 식별자는 value, member)
      * 중복이면 기존의 해시태그값을 사용하고, 중복이 아니면 새로 해시태그를 만든다.
      */
-    private Set<HashTag> getUpdatedHashtags(Set<HashTagDto.SaveReq> hashtags, Member member) {
-        return hashtags.stream()
+    private Set<Hashtag> getUpdatedHashtags(Set<HashTagDto.SaveReq> hashtagReq, Member member) {
+        return hashtagReq.stream()
                 .map(saveReq -> {
+                    // TODO : Key값이 애매하게 잡혀있어서, Merge를 사용할 수 없음 (개선하기)
                     // 이미 존재하는 해쉬태그인지 확인
-                    HashTag findHashtag = hashTagRepository.findByKey(member, saveReq.getValue());
+                    Hashtag findHashtag = hashTagRepository.findByKey(member, saveReq.getValue());
                     if (findHashtag != null) return findHashtag;
 
-                    // 존재하지 않으면 새로 만듬
-                    HashTag hashTag = new HashTag(member, saveReq.getValue());
-                    hashTagRepository.save(hashTag);
-                    return hashTag;
+                    // 존재하지 않으면 새로 만듬 (save할 필요가 없으나, 이렇게 안하면 해쉬태그가 중복되어 생성됌)
+                    Hashtag hashtag = new Hashtag(member, saveReq.getValue());
+                    hashTagRepository.save(hashtag);
+                    return hashtag;
                 }).collect(Collectors.toSet());
     }
 }
