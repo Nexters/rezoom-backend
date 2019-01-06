@@ -30,11 +30,15 @@ public class Coverletter {
     @Column(name = "company_name")
     private String companyName;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "coverletter", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "coverletter",
+            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
     private List<Question> questions = new ArrayList<>();
 
     @CreationTimestamp
@@ -45,27 +49,33 @@ public class Coverletter {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
+    public Coverletter(long id, Member member, String companyName) {
+        this.id = id;
+        this.member = member;
+        this.companyName = companyName;
+    }
+
     public Coverletter(Member member, String companyName) {
         this.member = member;
         this.companyName = companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setQuestions(List<Question> questions) {
+        clearQuestion(questions);
+        questions.forEach(this::addQuestion);
     }
 
-    public void addQuestion(Question question) {
-        if (!questions.contains(question)) {
-            questions.add(question);
-        }
+    // 이렇게 짯는데 어떻게 누적되서 안들어가지????????? 이따 디버깅해보자
 
-        if (question.getCoverletter() == null || !question.getCoverletter().equals(this)) {
+    private void addQuestion(Question question) {
+        if (!this.questions.contains(question)) {
+            questions.add(question);
             question.setCoverletter(this);
         }
     }
 
-    public void setQuestions(List<Question> questions) {
-        questions.forEach(this::addQuestion);
+    private void clearQuestion(List<Question> questions) {
+        this.questions.retainAll(questions);
     }
 
     @Override

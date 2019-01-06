@@ -15,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "hashtag")
-public class HashTag {
+public class Hashtag {
 
     // 해쉬태그의 경우 자유롭게 추가 수정하기 때문에, id에 의존적인것보다 value+member를 subkey로 설정하는게 낫다고 생각..
     // TODO : value + member_id 복합 UK 설정하기 (임베디드 타입)
@@ -32,10 +32,10 @@ public class HashTag {
     @Column(name = "value")
     private String value;
 
-    @ManyToMany(mappedBy = "hashTags", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "hashtags", fetch = FetchType.LAZY)
     private List<Question> questions;
 
-    public HashTag(Member member, String value) {
+    public Hashtag(Member member, String value) {
         this.member = member;
         this.value = value;
         this.questions = new ArrayList<>();
@@ -43,18 +43,6 @@ public class HashTag {
 
     public void updateValue(String value) {
         this.value = value;
-    }
-
-    public void addQuestion(Question question) {
-        this.questions.add(question);
-
-        // 문항에도 연관관계를 추가한다.
-        if (!question.getHashTags().contains(this))
-            question.addHashtag(this);
-    }
-
-    public void setQuestions(List<Question> questions) {
-        questions.forEach(this::addQuestion);
     }
 
     @Override
@@ -66,7 +54,7 @@ public class HashTag {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HashTag hashTag = (HashTag) o;
+        Hashtag hashTag = (Hashtag) o;
         return Objects.equals(member, hashTag.member) && Objects.equals(value, hashTag.value);
     }
 

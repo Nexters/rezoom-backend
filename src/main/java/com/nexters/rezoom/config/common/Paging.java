@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class Paging {
 
-    private static int MIN_PAGE_NUMBER = 1;
+    private static int MIN_PAGE_NO = 1;
     private static int MAX_NUMBER_PER_PAGE = 10;
 
     private int pageNo;
@@ -20,7 +20,7 @@ public class Paging {
 
     private void setPageNo(int pageNo) {
         if (pageNo <= 0) {
-            this.pageNo = MIN_PAGE_NUMBER;
+            this.pageNo = MIN_PAGE_NO;
             return;
         }
 
