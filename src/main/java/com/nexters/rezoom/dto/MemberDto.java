@@ -1,5 +1,6 @@
 package com.nexters.rezoom.dto;
 
+import com.nexters.rezoom.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,9 +40,9 @@ public class MemberDto {
         private String id;
         private String name;
 
-        public ViewRes(String id, String name) {
-            this.id = id;
-            this.name = name;
+        public ViewRes(Member member) {
+            this.id = member.getId();
+            this.name = member.getName();
         }
     }
 }

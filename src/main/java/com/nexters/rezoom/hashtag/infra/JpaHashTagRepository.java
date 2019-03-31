@@ -43,6 +43,11 @@ public class JpaHashTagRepository implements HashTagRepository {
 
     @Override
     public void save(Hashtag hashTag) {
+        if (hashTag.getId() != 0) {
+            em.merge(hashTag);
+            return;
+        }
+
         em.persist(hashTag);
     }
 

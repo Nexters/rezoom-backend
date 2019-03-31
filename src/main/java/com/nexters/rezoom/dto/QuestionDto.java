@@ -15,6 +15,12 @@ public class QuestionDto {
         private String title;
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
+
+        public Question toEntity() {
+            Question question = new Question(title, contents);
+            question.setHashtags(hashtags.stream().map(HashTagDto.SaveReq::toEntity).collect(Collectors.toSet()));
+            return question;
+        }
     }
 
     @Getter
@@ -27,6 +33,12 @@ public class QuestionDto {
 
         public boolean isNew() {
             return this.id == 0;
+        }
+
+        public Question toEntity() {
+            Question question = new Question(id, title, contents);
+            question.setHashtags(hashtags.stream().map(HashTagDto.SaveReq::toEntity).collect(Collectors.toSet()));
+            return question;
         }
     }
 

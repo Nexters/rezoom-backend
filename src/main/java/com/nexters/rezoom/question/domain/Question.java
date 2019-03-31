@@ -28,7 +28,7 @@ public class Question {
     @Column(name = "contents", columnDefinition = "TEXT")
     private String contents;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coverletter_id", nullable = false)
     private Coverletter coverletter;
 
@@ -55,22 +55,20 @@ public class Question {
     }
 
     public void updateData(String title, String contents) {
+        this.setTitle(title);
+        this.setContents(contents);
+    }
+
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setContents(String contents) {
         this.contents = contents;
     }
 
-    public Question setHashtags(Set<Hashtag> hashtags) {
-        this.clearHashtags(hashtags);
-        hashtags.forEach(this::addHashtag);
-        return this;
-    }
-
-    private void clearHashtags(Set<Hashtag> hashtags) {
-        this.hashtags.retainAll(hashtags);
-    }
-
-    public void addHashtag(Hashtag hashtag) {
-        this.hashtags.add(hashtag);
+    public void setHashtags(Set<Hashtag> hashtags) {
+        this.hashtags = hashtags;
     }
 
     @Override
@@ -95,10 +93,12 @@ public class Question {
     }
 
     public void setCoverletter(Coverletter coverletter) {
-        if (this.coverletter != null) {
-            this.coverletter = null;
-        }
+        if (this.coverletter != null)
+            this.coverletter.getQuestions().remove(this);
 
         this.coverletter = coverletter;
+
+        if (!this.coverletter.getQuestions().contains(this))
+            this.coverletter.getQuestions().add(this);
     }
 }

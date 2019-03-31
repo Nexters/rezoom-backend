@@ -3,7 +3,6 @@ package com.nexters.rezoom.member.application;
 import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,15 +11,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberService {
 
-    @Autowired
-    private MemberRepository repository;
+    private final MemberRepository repository;
+    private final PasswordEncoder encoder;
 
-    @Autowired
-    private PasswordEncoder encoder;
+    public MemberService(MemberRepository repository, PasswordEncoder encoder) {
+        this.repository = repository;
+        this.encoder = encoder;
+    }
 
+    /**
+     * Get member Information; id, name
+     *
+     * @param id : member id
+     * @return : member info
+     */
     public MemberDto.ViewRes getMemberInfo(String id) {
         Member findMember = getMember(id);
-        return new MemberDto.ViewRes(findMember.getId(), findMember.getName());
+        return new MemberDto.ViewRes(findMember);
     }
 
     public void signUp(MemberDto.SignUpReq req) {
@@ -35,17 +42,17 @@ public class MemberService {
         Member member = getMember(req.getId());
 
         boolean isSuccess = encoder.matches(req.getPassword(), member.getPassword());
-        if (isSuccess) return true;
-        else {
+        if (!isSuccess)
             throw new RuntimeException("패스워드가 틀렸습니다.");
-        }
+
+        return true;
     }
 
     private Member getMember(String id) {
         Member findMember = repository.findById(id);
-        if (findMember == null) {
+        if (findMember == null)
             throw new RuntimeException("존재하지 않는 계정입니다. id : " + id);
-        }
+
         return findMember;
     }
 }

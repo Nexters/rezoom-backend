@@ -26,13 +26,13 @@
 /.nb-gradle/
 
 ##### Secure Data #####
-src/main/resources/application-local.yml
-src/main/resources/application-dev.yml
-src/main/resources/application-dev.properties
-application-prod.properties
 mvnw
 mvnw.cmd
 .mvn
 
-// 연습용 테스트
+### Test for practice ###
 /src/test/java/practice/
+
+### config ###
+src/main/resources/application-local.yml
+src/main/resources/application-dev.yml

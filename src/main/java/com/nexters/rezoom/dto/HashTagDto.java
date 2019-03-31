@@ -15,6 +15,11 @@ public class HashTagDto {
         public SaveReq(String value) {
             this.value = value;
         }
+
+
+        public Hashtag toEntity() {
+            return new Hashtag(value);
+        }
     }
 
     @Getter

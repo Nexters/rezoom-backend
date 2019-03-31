@@ -17,9 +17,6 @@ import java.util.Objects;
 @Table(name = "hashtag")
 public class Hashtag {
 
-    // 해쉬태그의 경우 자유롭게 추가 수정하기 때문에, id에 의존적인것보다 value+member를 subkey로 설정하는게 낫다고 생각..
-    // TODO : value + member_id 복합 UK 설정하기 (임베디드 타입)
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hashtag_id")
@@ -32,7 +29,7 @@ public class Hashtag {
     @Column(name = "value")
     private String value;
 
-    @ManyToMany(mappedBy = "hashtags", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "hashtags", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Question> questions;
 
     public Hashtag(Member member, String value) {
@@ -41,8 +38,21 @@ public class Hashtag {
         this.questions = new ArrayList<>();
     }
 
-    public void updateValue(String value) {
+    public Hashtag(String value) {
         this.value = value;
+    }
+
+    // TODO:  상태를 바꾸지말고, 불변객체를 리턴하자
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
@@ -62,5 +72,6 @@ public class Hashtag {
     public int hashCode() {
         return Objects.hash(member, value);
     }
+
 
 }
