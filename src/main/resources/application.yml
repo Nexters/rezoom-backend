@@ -7,6 +7,8 @@ spring:
   http:
     encoding:
       charset: UTF-8
+  jpa:
+    show-sql: true
 
 # tomcat
 server:

@@ -52,7 +52,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void 나의_해쉬태그_전체_조회() {
+    public void 해쉬태그_전체_조회() {
         // given
         String currentDate = new java.text.SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
         String value = currentDate + "test1";
@@ -73,7 +73,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void 나의_해쉬태그_전체_조회_없으면_EMPTY() {
+    public void 해쉬태그_전체_조회_없으면_EMPTY() {
         // given
 
         // when

@@ -20,7 +20,7 @@ public class JpaMemberRepository implements MemberRepository {
     }
 
     @Override
-    public void save(Member member) { // throws PersistenceException {
+    public void save(Member member) {
         try {
             em.persist(member);
         } catch (PersistenceException e) {
