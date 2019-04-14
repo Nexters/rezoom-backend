@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,7 +15,12 @@ public class QuestionDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveQuestionReq {
+        @NotNull
+        @NotEmpty
         private String title;
+
+        @NotNull
+        @NotEmpty
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
 
@@ -26,8 +34,15 @@ public class QuestionDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateQuestionReq {
+        @Positive
         private long id;
+
+        @NotNull
+        @NotEmpty
         private String title;
+
+        @NotNull
+        @NotEmpty
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
 

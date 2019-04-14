@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.rezoom.config.common.Paging;
+import com.nexters.rezoom.config.dto.Paging;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;

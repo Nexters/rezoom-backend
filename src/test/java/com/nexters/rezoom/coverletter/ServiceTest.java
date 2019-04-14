@@ -1,7 +1,7 @@
 package com.nexters.rezoom.coverletter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nexters.rezoom.config.common.Paging;
+import com.nexters.rezoom.config.dto.Paging;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;

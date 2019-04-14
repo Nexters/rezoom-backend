@@ -1,4 +1,4 @@
-package com.nexters.rezoom.config.common;
+package com.nexters.rezoom.config.dto;
 
 import lombok.Getter;
 
