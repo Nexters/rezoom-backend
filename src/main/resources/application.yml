@@ -3,7 +3,7 @@ spring:
   application:
     name: rezoom
   profiles:
-    active: local
+    active: @activatedProperties@
   http:
     encoding:
       charset: UTF-8
