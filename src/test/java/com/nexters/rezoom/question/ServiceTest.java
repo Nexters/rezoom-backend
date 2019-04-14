@@ -5,6 +5,7 @@ import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
+import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
@@ -15,15 +16,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-//@Transactional
+@Transactional
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ServiceTest {
@@ -44,8 +47,8 @@ public class ServiceTest {
 
     @Before
     public void createMember() {
-        member = new Member("testId", "test", "test");
-        // memberService.signUp(new MemberDto.SignUpReq(member.getId(), member.getPassword(), member.getName()));
+        member = new Member(UUID.randomUUID().toString(), "test", "test");
+        memberService.signUp(new MemberDto.SignUpReq(member.getId(), member.getPassword(), member.getName()));
     }
 
     @Before
