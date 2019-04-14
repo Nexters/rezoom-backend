@@ -9,7 +9,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
@@ -19,11 +24,22 @@ public class CoverletterDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
+
+        @NotNull
+        @NotEmpty
         private String companyName;
-        private int applicationHalf;
-        private int applicationType;
-        private int applicationYear;
-        private String deadline;
+
+        @Range(min = 0, max = 3)
+        private int applicationHalf = 3;
+
+        @Range(min = 0, max = 3)
+        private int applicationType = 3;
+
+        @Min(2017)
+        private int applicationYear = LocalDateTime.now().getYear();
+
+        private String deadline = null;
+
         private List<QuestionDto.SaveQuestionReq> questions;
 
         public Coverletter toEntity() {
@@ -39,11 +55,22 @@ public class CoverletterDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateReq {
+        @Positive
         private long id;
+
+        @NotNull
+        @NotEmpty
         private String companyName;
+
+        @Range(min = 0, max = 3)
         private int applicationHalf;
+
+        @Range(min = 0, max = 3)
         private int applicationType;
+
+        @Min(2017)
         private int applicationYear;
+
         private String deadline;
 
         @JsonProperty(value = "isPass")
@@ -75,6 +102,8 @@ public class CoverletterDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateToggleReq {
+        @NotNull
+        @NotEmpty
         private String type;
         private boolean enable;
     }
