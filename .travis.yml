@@ -6,6 +6,12 @@ branches:
   only:
   - master
 
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CRATE DATABASE [rezoom]'
+
 cache:
   directories:
   - '$HOME/.m2'
