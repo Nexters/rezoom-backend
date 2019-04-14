@@ -129,7 +129,7 @@ public class ServiceTest {
         updateReq.setId(coverletterId);
 
         // when
-        service.update(member, updateReq);
+        service.update(member, coverletterId, updateReq);
 
         // then
         Coverletter findCoverletter = repository.findById(member, coverletterId);

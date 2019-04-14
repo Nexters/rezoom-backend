@@ -22,15 +22,15 @@ public class CoverletterController {
         service.save(member, req);
     }
 
-    @PutMapping(value = "")
+    @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@AuthenticationPrincipal Member member, @RequestBody CoverletterDto.UpdateReq req) {
-        service.update(member, req);
+    public void update(@AuthenticationPrincipal Member member, @PathVariable long id, @RequestBody CoverletterDto.UpdateReq req) {
+        service.update(member, id, req);
     }
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ViewRes getView(@AuthenticationPrincipal Member member, @PathVariable long id) {
+    public CoverletterDto.ViewRes getView(@AuthenticationPrincipal Member member, @PathVariable long id, @RequestParam boolean flag) {
         return service.getView(member, id);
     }
 

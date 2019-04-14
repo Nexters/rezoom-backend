@@ -27,6 +27,8 @@ public class TestObjectUtils {
                 .applicationHalf(ApplicationHalf.ETC)
                 .applicationType(ApplicationType.ETC)
                 .applicationYear(Year.of(2018))
+                .isApplication(false)
+                .isPass(false)
                 .deadline(new Deadline(LocalDateTime.now()))
                 .build();
     }

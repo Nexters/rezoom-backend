@@ -50,6 +50,12 @@ public class Coverletter {
     @Convert(converter = YearAttributeConverter.class)
     private Year applicationYear = Year.of(LocalDateTime.now().getYear());
 
+    @Column(name = "is_pass")
+    private boolean isPass;
+
+    @Column(name = "is_application")
+    private boolean isApplication;
+
     @Builder.Default
     @OneToMany(
             mappedBy = "coverletter",
@@ -73,6 +79,15 @@ public class Coverletter {
         for (Question q : questions) {
             this.addQuestion(q);
         }
+    }
+
+    public void setIsApplication(boolean flag) {
+        this.isApplication = flag;
+    }
+
+    public void setIsPass(boolean flag) {
+        if (this.isApplication)
+            this.isPass = flag;
     }
 
     private void addQuestion(Question question) {
