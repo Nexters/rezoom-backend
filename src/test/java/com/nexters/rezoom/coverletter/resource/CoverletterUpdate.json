@@ -1,5 +1,11 @@
 {
   "companyName": "testCompany",
+  "applicationHalf": 0,
+  "applicationType": 0,
+  "applicationYear": 2019,
+  "deadline": "2019-04-30 18:00",
+  "isPass": false,
+  "isApplication": true,
   "questions": [
     {
       "title": "testTitle(updated)",

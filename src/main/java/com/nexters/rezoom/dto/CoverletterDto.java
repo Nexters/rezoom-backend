@@ -1,8 +1,10 @@
 package com.nexters.rezoom.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
+import com.nexters.rezoom.coverletter.domain.Deadline;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +44,14 @@ public class CoverletterDto {
         private int applicationHalf;
         private int applicationType;
         private int applicationYear;
+        private String deadline;
+
+        @JsonProperty(value = "isPass")
+        private boolean isPass;
+
+        @JsonProperty(value = "isApplication")
+        private boolean isApplication;
+
         private List<QuestionDto.UpdateQuestionReq> questions;
 
         public Coverletter toEntity() {
@@ -51,12 +61,22 @@ public class CoverletterDto {
                     .applicationHalf(ApplicationHalf.getValue(applicationHalf))
                     .applicationType(ApplicationType.getValue(applicationType))
                     .applicationYear(Year.of(applicationYear))
+                    .isApplication(isApplication)
+                    .isPass(isPass)
+                    .deadline(new Deadline(deadline))
                     .build();
         }
 
         public void setId(long id) {
             this.id = id;
         }
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UpdateToggleReq {
+        private String type;
+        private boolean enable;
     }
 
     @Getter

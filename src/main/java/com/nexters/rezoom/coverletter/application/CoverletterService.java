@@ -49,7 +49,7 @@ public class CoverletterService {
         return coverletter.getId();
     }
 
-    public void update(Member member, CoverletterDto.UpdateReq req) {
+    public void update(Member member, long coverletterId, CoverletterDto.UpdateReq req) {
         Coverletter coverletter = req.toEntity();
         coverletter.setMember(member);
 

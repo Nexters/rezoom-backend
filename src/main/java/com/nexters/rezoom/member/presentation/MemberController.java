@@ -20,7 +20,7 @@ public class MemberController {
     @GetMapping(value = "/me")
     @ResponseStatus(HttpStatus.OK)
     public MemberDto.ViewRes getCurrentUserInfo(@AuthenticationPrincipal Member member) {
-        return new MemberDto.ViewRes(member.getId(), member.getName());
+        return new MemberDto.ViewRes(member);
     }
 
     @PostMapping(value = "/signup")
