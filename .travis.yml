@@ -10,7 +10,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CRATE DATABASE [rezoom]'
+  - mysql -e 'CREATE DATABASE [rezoom]'
 
 cache:
   directories:
