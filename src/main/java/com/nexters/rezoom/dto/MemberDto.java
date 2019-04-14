@@ -1,16 +1,28 @@
 package com.nexters.rezoom.dto;
 
+import com.nexters.rezoom.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class MemberDto {
     // 회원가입
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SignUpReq {
+        @Email
         private String id;
+
+        @NotNull
+        @NotEmpty
         private String password;
+
+        @NotNull
+        @NotEmpty
         private String name;
 
         // for test
@@ -25,7 +37,11 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SignInReq {
+        @Email
         private String id;
+
+        @NotNull
+        @NotEmpty
         private String password;
 
         public SignInReq(String id, String password) {
@@ -39,9 +55,9 @@ public class MemberDto {
         private String id;
         private String name;
 
-        public ViewRes(String id, String name) {
-            this.id = id;
-            this.name = name;
+        public ViewRes(Member member) {
+            this.id = member.getId();
+            this.name = member.getName();
         }
     }
 }

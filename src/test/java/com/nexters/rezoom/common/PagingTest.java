@@ -1,6 +1,6 @@
 package com.nexters.rezoom.common;
 
-import com.nexters.rezoom.config.common.Paging;
+import com.nexters.rezoom.config.dto.Paging;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

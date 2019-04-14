@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,21 +15,45 @@ public class QuestionDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveQuestionReq {
+        @NotNull
+        @NotEmpty
         private String title;
+
+        @NotNull
+        @NotEmpty
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
+
+        public Question toEntity() {
+            Question question = new Question(title, contents);
+            question.setHashtags(hashtags.stream().map(HashTagDto.SaveReq::toEntity).collect(Collectors.toSet()));
+            return question;
+        }
     }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateQuestionReq {
+        @Positive
         private long id;
+
+        @NotNull
+        @NotEmpty
         private String title;
+
+        @NotNull
+        @NotEmpty
         private String contents;
         private Set<HashTagDto.SaveReq> hashtags;
 
         public boolean isNew() {
             return this.id == 0;
+        }
+
+        public Question toEntity() {
+            Question question = new Question(id, title, contents);
+            question.setHashtags(hashtags.stream().map(HashTagDto.SaveReq::toEntity).collect(Collectors.toSet()));
+            return question;
         }
     }
 

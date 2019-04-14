@@ -19,13 +19,12 @@ public class JpaCoverletterRepository implements CoverletterRepository {
     private EntityManager em;
 
     @Override
-    public void save(Coverletter coverletter) {
-        if (coverletter.getId() != 0) {
-            em.merge(coverletter);
-            return;
-        }
+    public Coverletter save(Coverletter coverletter) {
+        if (coverletter.getId() != 0)
+            return em.merge(coverletter);
 
         em.persist(coverletter);
+        return coverletter;
     }
 
     @Override
@@ -35,7 +34,7 @@ public class JpaCoverletterRepository implements CoverletterRepository {
         query.setParameter("member", member);
 
         List<Coverletter> result = query.getResultList();
-        return result.isEmpty() ? null : result.get(0);
+        return result.isEmpty() ? null : result.get(0); // 애초에 널타입을 반환하는게 좋지 않음..
     }
 
     @Override

@@ -1,20 +1,26 @@
 {
   "companyName": "testCompany",
+  "applicationHalf": 0,
+  "applicationType": 0,
+  "applicationYear": 2019,
+  "deadline": "2019-04-30 18:00",
+  "isPass": false,
+  "isApplication": true,
   "questions": [
     {
       "title": "testTitle(updated)",
       "contents": "testContents(updated)",
       "hashtags": [
         "해시태그1",
-        "해시태그4"
+        "해시태그2(updated)"
       ]
     },
     {
       "title": "testTitle2(updated)",
       "contents": "testContents2(updated)",
       "hashtags": [
-        "해시태그3",
-        "해시태그4"
+        "해시태그2",
+        "해시태그3(updated)"
       ]
     }
   ]

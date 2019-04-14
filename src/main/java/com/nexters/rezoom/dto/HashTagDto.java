@@ -5,23 +5,20 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class HashTagDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
+        @NotNull
+        @NotEmpty
         private String value;
-
-        public SaveReq(String value) {
-            this.value = value;
+        public Hashtag toEntity() {
+            return new Hashtag(value);
         }
-    }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class UpdateReq {
-        private String beforeValue;
-        private String updatedValue;
     }
 
     @Getter
