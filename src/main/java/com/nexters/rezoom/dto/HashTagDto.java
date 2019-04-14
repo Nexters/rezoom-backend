@@ -13,6 +13,11 @@ public class HashTagDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
+
+        public SaveReq(String value) {
+            this.value = value;
+        }
+
         @NotNull
         @NotEmpty
         private String value;
