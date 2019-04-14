@@ -10,6 +10,8 @@ services:
   - mysql
 
 before_install:
+  - sudo cp $TRAVIS_BUILD_DIR/_travis/mysql.cnf /etc/mysql/conf.d/
+  - sudo service mysql restart
   - mysql -e 'CREATE DATABASE rezoom;'
 
 cache:
