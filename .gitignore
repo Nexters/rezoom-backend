@@ -34,5 +34,4 @@ mvnw.cmd
 /src/test/java/practice/
 
 ### config ###
-src/main/resources/application-local.yml
 src/main/resources/application-dev.yml

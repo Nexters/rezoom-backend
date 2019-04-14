@@ -17,4 +17,4 @@ cache:
   - '$HOME/.m2'
 
 script:
-  - mvn clean install
+- mvn clean install -P ci
