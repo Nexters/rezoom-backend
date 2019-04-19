@@ -1,5 +1,8 @@
 package com.nexters.rezoom.member.application;
 
+import com.nexters.rezoom.config.exception.EntityNotFoundException;
+import com.nexters.rezoom.config.exception.ErrorCode;
+import com.nexters.rezoom.config.exception.InvalidValueException;
 import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
@@ -33,7 +36,7 @@ public class MemberService {
     public void signUp(MemberDto.SignUpReq req) {
         Member findMember = repository.findById(req.getId());
         if (findMember != null)
-            throw new RuntimeException("이미 존재하는 아이디입니다.");
+            throw new InvalidValueException(ErrorCode.EMAIL_DUPLICATION);
 
         repository.save(new Member(req.getId(), req.getName(), encoder.encode(req.getPassword())));
     }
@@ -43,7 +46,7 @@ public class MemberService {
 
         boolean isSuccess = encoder.matches(req.getPassword(), member.getPassword());
         if (!isSuccess)
-            throw new RuntimeException("패스워드가 틀렸습니다.");
+            throw new InvalidValueException(ErrorCode.WRONG_PASSWORD);
 
         return true;
     }
@@ -51,7 +54,7 @@ public class MemberService {
     private Member getMember(String id) {
         Member findMember = repository.findById(id);
         if (findMember == null)
-            throw new RuntimeException("존재하지 않는 계정입니다. id : " + id);
+            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND);
 
         return findMember;
     }
