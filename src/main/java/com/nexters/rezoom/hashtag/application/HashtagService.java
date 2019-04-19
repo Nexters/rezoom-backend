@@ -1,5 +1,7 @@
 package com.nexters.rezoom.hashtag.application;
 
+import com.nexters.rezoom.config.exception.EntityNotFoundException;
+import com.nexters.rezoom.config.exception.ErrorCode;
 import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
@@ -24,7 +26,6 @@ public class HashtagService {
 
     /**
      * 사용자가 등록한 해쉬태그 중 1개 이상 문항에 등록된 해쉬태그만 조회한다.
-     *
      * @return 해쉬태크 리스트 (문항에 적어도 1개 이상 등록된)
      */
     public List<HashTagDto.ViewRes> getMyHashtags(Member member) {
@@ -38,7 +39,7 @@ public class HashtagService {
     public Hashtag getHashTag(Member member, String value) {
         Hashtag findHashtag = repository.findByKey(member, value);
         if (findHashtag == null) {
-            throw new RuntimeException("해쉬태그가 존재하지 않습니다.");
+            throw new EntityNotFoundException(ErrorCode.HASHTAG_NOT_FOUND);
         }
         return findHashtag;
     }

@@ -1,6 +1,8 @@
 package com.nexters.rezoom.coverletter.application;
 
 import com.nexters.rezoom.config.dto.Paging;
+import com.nexters.rezoom.config.exception.EntityNotFoundException;
+import com.nexters.rezoom.config.exception.ErrorCode;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
@@ -86,7 +88,7 @@ public class CoverletterService {
     private Coverletter getCoverletter(Member member, long id) {
         Coverletter findCoverletter = coverletterRepository.findById(member, id);
         if (findCoverletter == null) {
-            throw new RuntimeException("존재하지 않는 자기소개서입니다.");
+            throw new EntityNotFoundException(ErrorCode.COVERLETTER_NOT_FOUND);
         }
 
         return findCoverletter;
