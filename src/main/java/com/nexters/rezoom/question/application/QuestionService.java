@@ -1,5 +1,7 @@
 package com.nexters.rezoom.question.application;
 
+import com.nexters.rezoom.config.exception.EntityNotFoundException;
+import com.nexters.rezoom.config.exception.ErrorCode;
 import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.hashtag.application.HashtagService;
@@ -32,7 +34,7 @@ public class QuestionService {
     public QuestionDto.ViewRes getView(long questionId, Member member) {
         Question question = repository.findByKey(questionId, member);
         if (question == null) {
-            throw new RuntimeException("존재하지 않는 문항입니다.");
+            throw new EntityNotFoundException(ErrorCode.QUESTION_NOT_FOUND);
         }
 
         return new QuestionDto.ViewRes(question);
