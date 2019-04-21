@@ -16,6 +16,8 @@ public class Deadline {
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
+    private final static String DATETIME_FORMAT = "yyyy-MM-dd'T'MM:mm";
+
     public Deadline() {
         this.deadline = null;
     }
@@ -30,7 +32,8 @@ public class Deadline {
             return;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        // TODO : 예외처리가 필요하다.
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
         this.deadline = LocalDateTime.parse(deadlineStr, formatter);
     }
 

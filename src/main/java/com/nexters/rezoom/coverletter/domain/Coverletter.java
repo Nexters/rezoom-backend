@@ -27,6 +27,7 @@ public class Coverletter {
     @Column(name = "coverletter_id")
     private long id;
 
+    @Setter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
@@ -50,6 +51,9 @@ public class Coverletter {
     @Convert(converter = YearAttributeConverter.class)
     private Year applicationYear = Year.of(LocalDateTime.now().getYear());
 
+    @Column(name = "job_type")
+    private String jobType = "";
+
     @Column(name = "is_pass")
     private boolean isPass;
 
@@ -59,7 +63,7 @@ public class Coverletter {
     @Builder.Default
     @OneToMany(
             mappedBy = "coverletter",
-            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE,},
             orphanRemoval = true
     )
     private List<Question> questions = new ArrayList<>();
@@ -81,25 +85,12 @@ public class Coverletter {
         }
     }
 
-    public void setIsApplication(boolean flag) {
-        this.isApplication = flag;
-    }
-
-    public void setIsPass(boolean flag) {
-        if (this.isApplication)
-            this.isPass = flag;
-    }
-
     private void addQuestion(Question question) {
         if (question == null)
             return;
 
         this.questions.add(question);
         question.setCoverletter(this); // 양방향 연관관계 설정
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
     }
 
     @Override

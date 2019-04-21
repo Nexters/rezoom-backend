@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CoverletterDto {
+
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
@@ -40,6 +41,14 @@ public class CoverletterDto {
 
         private String deadline = null;
 
+        @JsonProperty(value = "pass")
+        private boolean isPass;
+
+        @JsonProperty(value = "application")
+        private boolean isApplication;
+
+        private String jobType;
+
         private List<QuestionDto.SaveQuestionReq> questions;
 
         public Coverletter toEntity() {
@@ -48,6 +57,10 @@ public class CoverletterDto {
                     .applicationHalf(ApplicationHalf.getValue(applicationHalf))
                     .applicationType(ApplicationType.getValue(applicationType))
                     .applicationYear(Year.of(applicationYear))
+                    .isPass(isPass)
+                    .isApplication(isApplication)
+                    .deadline(new Deadline(deadline))
+                    .jobType(jobType)
                     .build();
         }
     }
@@ -73,11 +86,13 @@ public class CoverletterDto {
 
         private String deadline;
 
-        @JsonProperty(value = "isPass")
+        @JsonProperty(value = "pass")
         private boolean isPass;
 
-        @JsonProperty(value = "isApplication")
+        @JsonProperty(value = "application")
         private boolean isApplication;
+
+        private String jobType;
 
         private List<QuestionDto.UpdateQuestionReq> questions;
 
@@ -91,21 +106,13 @@ public class CoverletterDto {
                     .isApplication(isApplication)
                     .isPass(isPass)
                     .deadline(new Deadline(deadline))
+                    .jobType(jobType)
                     .build();
         }
 
         public void setId(long id) {
             this.id = id;
         }
-    }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class UpdateToggleReq {
-        @NotNull
-        @NotEmpty
-        private String type;
-        private boolean enable;
     }
 
     @Getter
@@ -128,6 +135,9 @@ public class CoverletterDto {
         private int applicationType;
         private int applicationHalf;
         private String deadline;
+        private boolean isApplication;
+        private boolean isPass;
+        private String jobType;
         private LocalDateTime createDate;
         private LocalDateTime updateDate;
         private List<QuestionDto.ViewRes> questions;
@@ -139,6 +149,9 @@ public class CoverletterDto {
             this.applicationType = coverletter.getApplicationType() == null ? 0 : coverletter.getApplicationType().getTypeNo();
             this.applicationHalf = coverletter.getApplicationHalf() == null ? 0 : coverletter.getApplicationHalf().getTypeNo();
             this.deadline = coverletter.getDeadline() == null ? null : coverletter.getDeadline().toString();
+            this.isApplication = coverletter.isApplication();
+            this.isPass = coverletter.isPass();
+            this.jobType = coverletter.getJobType();
             this.createDate = coverletter.getCreateDate();
             this.updateDate = coverletter.getUpdateDate();
             this.questions = coverletter.getQuestions().stream().map(QuestionDto.ViewRes::new).collect(Collectors.toList());

@@ -56,4 +56,5 @@ public class TestObjectUtils {
         coverletter.setQuestions(Arrays.asList(question1, question2));
         return coverletter;
     }
+
 }

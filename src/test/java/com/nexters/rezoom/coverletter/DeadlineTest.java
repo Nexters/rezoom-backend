@@ -28,9 +28,4 @@ public class DeadlineTest {
         assertTrue(isExpired);
     }
 
-    @Test
-    public void 문자열로_인스턴스_생성() {
-
-    }
-
 }
