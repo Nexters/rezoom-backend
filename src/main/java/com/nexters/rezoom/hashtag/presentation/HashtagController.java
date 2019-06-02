@@ -24,7 +24,7 @@ public class HashtagController {
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    public List<HashTagDto.ViewRes> getMyHashtags(@AuthenticationPrincipal Member member) {
+    public List<String> getMyHashtags(@AuthenticationPrincipal Member member) {
         return service.getMyHashtags(member);
     }
 

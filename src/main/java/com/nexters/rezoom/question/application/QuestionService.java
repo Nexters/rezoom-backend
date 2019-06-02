@@ -45,13 +45,10 @@ public class QuestionService {
      */
     public List<QuestionDto.ViewRes> getQuestionsByHashtags(Member member, String value) {
         Hashtag findHashtag = hashTagService.getHashTag(member, value);
+
         return findHashtag.getQuestions().stream()
-                .map(q -> {
-                    Set<HashTagDto.ViewRes> sets = q.getHashtags().stream()
-                            .map(HashTagDto.ViewRes::new)
-                            .collect(Collectors.toSet());
-                    return new QuestionDto.ViewRes(q.getId(), q.getTitle(), q.getContents(), sets);
-                }).collect(Collectors.toList());
+                .map(QuestionDto.ViewRes::new)
+                .collect(Collectors.toList());
     }
 
 }

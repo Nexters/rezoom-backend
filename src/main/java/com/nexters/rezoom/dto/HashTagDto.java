@@ -28,16 +28,16 @@ public class HashTagDto {
 
     @Getter
     public static class ViewRes {
-        private long id;
+        // private long id;
         private String value;
 
-        public ViewRes(long id, String value) {
-            this.id = id;
+        public ViewRes(/*long id,*/ String value) {
+            // this.id = id;
             this.value = value;
         }
 
         public ViewRes(Hashtag hashTag) {
-            this.id = hashTag.getId();
+            // this.id = hashTag.getId();
             this.value = hashTag.getValue();
         }
     }

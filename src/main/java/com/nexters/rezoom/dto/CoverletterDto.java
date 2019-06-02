@@ -5,10 +5,7 @@ import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.Deadline;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Min;
@@ -17,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +47,8 @@ public class CoverletterDto {
 
         private String jobType;
 
-        private List<QuestionDto.SaveQuestionReq> questions;
+        @Builder.Default
+        private List<QuestionDto.SaveQuestionReq> questions = new ArrayList<>();
 
         public Coverletter toEntity() {
             return Coverletter.builder()

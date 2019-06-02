@@ -16,7 +16,7 @@ public class Deadline {
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
-    private final static String DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
+    private final static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm";
 
     public Deadline() {
         this.deadline = null;
