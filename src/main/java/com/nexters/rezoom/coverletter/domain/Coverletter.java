@@ -32,6 +32,7 @@ public class Coverletter {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Setter
     @Column(name = "company_name")
     private String companyName;
 
@@ -63,7 +64,7 @@ public class Coverletter {
     @Builder.Default
     @OneToMany(
             mappedBy = "coverletter",
-            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE,},
+            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
             orphanRemoval = true
     )
     private List<Question> questions = new ArrayList<>();

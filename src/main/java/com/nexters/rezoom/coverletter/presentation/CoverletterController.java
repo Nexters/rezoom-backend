@@ -1,6 +1,5 @@
 package com.nexters.rezoom.coverletter.presentation;
 
-import com.nexters.rezoom.config.dto.Paging;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.member.domain.Member;
@@ -36,7 +35,7 @@ public class CoverletterController {
     @ResponseStatus(HttpStatus.OK)
     public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member,
                                           @RequestParam(required = false, defaultValue = "1") int pageNo) {
-        return service.getList(member, new Paging(pageNo));
+        return service.getList(member, 1);
     }
 
     @GetMapping(value = "{id}")

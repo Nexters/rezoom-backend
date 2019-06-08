@@ -2,7 +2,6 @@ package com.nexters.rezoom.hashtag.application;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
-import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
