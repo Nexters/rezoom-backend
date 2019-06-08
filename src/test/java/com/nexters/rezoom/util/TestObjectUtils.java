@@ -1,13 +1,17 @@
 package com.nexters.rezoom.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.Deadline;
+import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.*;
@@ -18,28 +22,6 @@ import java.util.*;
  * Description : Coverletter 객체와 Questino 객체 간 양방향 편의 메소드 테스트
  **/
 public class TestObjectUtils {
-
-    public static Coverletter createCoverletter(Member member) {
-        return Coverletter.builder()
-                .companyName("testCompany")
-                .questions(new ArrayList<>())
-                .member(member)
-                .applicationHalf(ApplicationHalf.ETC)
-                .applicationType(ApplicationType.ETC)
-                .applicationYear(Year.of(2018))
-                .isApplication(false)
-                .isPass(false)
-                .deadline(new Deadline(LocalDateTime.now()))
-                .build();
-    }
-
-    public static Question createQuestion() {
-        return new Question("testTitle", "testContents");
-    }
-
-    public static Hashtag createHashtag(Member member) {
-        return new Hashtag(member, UUID.randomUUID().toString() + "test");
-    }
 
     public static Coverletter createCoverletterHasQuestionAndHashtag(Member member) {
         Coverletter coverletter = createCoverletter(member);
@@ -57,4 +39,42 @@ public class TestObjectUtils {
         return coverletter;
     }
 
+    public static CoverletterDto.SaveReq createCoverletterSaveReqDto() {
+        return loadDtoFromJsonFile("CoverletterNew.json", CoverletterDto.SaveReq.class);
+    }
+
+    public static CoverletterDto.UpdateReq createCoverletterUpdateReqDto() {
+        return loadDtoFromJsonFile("CoverletterUpdate.json", CoverletterDto.UpdateReq.class);
+    }
+
+    private static Coverletter createCoverletter(Member member) {
+        return Coverletter.builder()
+                .companyName("testCompany")
+                .questions(new ArrayList<>())
+                .member(member)
+                .applicationHalf(ApplicationHalf.ETC)
+                .applicationType(ApplicationType.ETC)
+                .applicationYear(Year.of(2018))
+                .isApplication(false)
+                .isPass(false)
+                .deadline(new Deadline(LocalDateTime.now()))
+                .build();
+    }
+
+    private static Question createQuestion() {
+        return new Question("testTitle", "testContents");
+    }
+
+    private static Hashtag createHashtag(Member member) {
+        return new Hashtag(member, UUID.randomUUID().toString() + "test");
+    }
+
+    private static <T> T loadDtoFromJsonFile(String fileName, Class<T> classType) {
+        try {
+            File file = new File("src/test/java/com/nexters/rezoom/util/resource/" + fileName);
+            return new ObjectMapper().readValue(file, classType);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

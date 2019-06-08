@@ -6,21 +6,22 @@
   "deadline": "2019-04-30 18:00",
   "pass": false,
   "application": true,
+  "jobType": "backend engineer",
   "questions": [
     {
-      "title": "testTitle(updated)",
-      "contents": "testContents(updated)",
+      "title": "title1(new)",
+      "contents": "contents1(new)",
       "hashtags": [
-        "해시태그1",
-        "해시태그2(updated)"
+        "tag1(new)",
+        "tag2(new)"
       ]
     },
     {
-      "title": "testTitle2(updated)",
-      "contents": "testContents2(updated)",
+      "title": "title2(new)",
+      "contents": "contents2(new)",
       "hashtags": [
-        "해시태그2",
-        "해시태그3(updated)"
+        "tag2(new)",
+        "tag3(new)"
       ]
     }
   ]
