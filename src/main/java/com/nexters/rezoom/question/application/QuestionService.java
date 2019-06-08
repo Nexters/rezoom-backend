@@ -2,7 +2,6 @@ package com.nexters.rezoom.question.application;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
-import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.hashtag.application.HashtagService;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Transactional

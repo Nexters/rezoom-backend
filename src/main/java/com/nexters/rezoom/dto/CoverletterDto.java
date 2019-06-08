@@ -48,7 +48,7 @@ public class CoverletterDto {
         private String jobType;
 
         @Builder.Default
-        private List<QuestionDto.SaveQuestionReq> questions = new ArrayList<>();
+        private List<QuestionDto.SaveReq> questions = new ArrayList<>();
 
         public Coverletter toEntity() {
             return Coverletter.builder()
@@ -68,6 +68,7 @@ public class CoverletterDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateReq {
         @Positive
+        @NonNull
         private long id;
 
         @NotNull
@@ -93,7 +94,7 @@ public class CoverletterDto {
 
         private String jobType;
 
-        private List<QuestionDto.UpdateQuestionReq> questions;
+        private List<QuestionDto.UpdateReq> questions;
 
         public Coverletter toEntity() {
             return Coverletter.builder()

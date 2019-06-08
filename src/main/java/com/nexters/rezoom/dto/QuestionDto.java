@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class QuestionDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class SaveQuestionReq {
+    public static class SaveReq {
         @NotNull
         @NotEmpty
         private String title;
@@ -27,18 +27,18 @@ public class QuestionDto {
         @Builder.Default
         private String contents;
 
-        private Set<HashTagDto.SaveReq> hashtags = new HashSet<>();
+        private Set<HashtagDto.SaveReq> hashtags = new HashSet<>();
 
         public Question toEntity() {
             Question question = new Question(title, contents);
-            question.setHashtags(hashtags.stream().map(HashTagDto.SaveReq::toEntity).collect(Collectors.toSet()));
+            question.setHashtags(hashtags.stream().map(HashtagDto.SaveReq::toEntity).collect(Collectors.toSet()));
             return question;
         }
     }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class UpdateQuestionReq {
+    public static class UpdateReq {
         @Positive
         private long id;
 
@@ -51,7 +51,7 @@ public class QuestionDto {
         private String contents;
 
         @Builder.Default
-        private Set<HashTagDto.SaveReq> hashtags = new HashSet<>();
+        private Set<HashtagDto.SaveReq> hashtags = new HashSet<>();
 
         public boolean isNew() {
             return this.id == 0;
@@ -59,7 +59,7 @@ public class QuestionDto {
 
         public Question toEntity() {
             Question question = new Question(id, title, contents);
-            question.setHashtags(hashtags.stream().map(HashTagDto.SaveReq::toEntity).collect(Collectors.toSet()));
+            question.setHashtags(hashtags.stream().map(HashtagDto.SaveReq::toEntity).collect(Collectors.toSet()));
             return question;
         }
     }
@@ -69,7 +69,7 @@ public class QuestionDto {
         private long id;
         private String title;
         private String contents;
-//        private Set<HashTagDto.ViewRes> hashtags;
+        //        private Set<HashtagDto.ViewRes> hashtags;
         private Set<String> hashtags;
 
         public ViewRes(long id, String title, String contents, Set<String> hashtags) {

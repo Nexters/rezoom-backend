@@ -1,6 +1,5 @@
 package com.nexters.rezoom.hashtag.presentation;
 
-import com.nexters.rezoom.dto.HashTagDto;
 import com.nexters.rezoom.hashtag.application.HashtagService;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.http.HttpStatus;

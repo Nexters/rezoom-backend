@@ -29,7 +29,7 @@ public class Hashtag {
     @Column(name = "value")
     private String value;
 
-    @ManyToMany(mappedBy = "hashtags", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "hashtags", fetch = FetchType.EAGER)
     private List<Question> questions;
 
     public Hashtag(Member member, String value) {
