@@ -128,10 +128,11 @@ public class CoverletterServiceTest {
     @DisplayName("문항이 있는 자기소개서를 조회하면, 문항도 같이 조회되어야 한다.")
     public void coverletterSelectTest1() {
         // given
-        long coverletterId = 1;
+        CoverletterDto.SaveReq req = TestObjectUtils.createCoverletterSaveReqDto();
+        long savedCoverletterId = service.save(member, req);
 
         // when
-        CoverletterDto.ViewRes coverletter = service.getView(member, coverletterId);
+        CoverletterDto.ViewRes coverletter = service.getView(member, savedCoverletterId);
 
         // then
         List<QuestionDto.ViewRes> questions = coverletter.getQuestions();
@@ -143,10 +144,11 @@ public class CoverletterServiceTest {
     @DisplayName("태그가 포함된 문항이 있는 자기소개서를 조회하면, 태그도 같이 조회되어야 한다")
     public void coverletterSelectTest2() {
         // given
-        long coverletterId = 1;
+        CoverletterDto.SaveReq req = TestObjectUtils.createCoverletterSaveReqDto();
+        long savedCoverletterId = service.save(member, req);
 
         // when
-        CoverletterDto.ViewRes coverletter = service.getView(member, coverletterId);
+        CoverletterDto.ViewRes coverletter = service.getView(member, savedCoverletterId);
 
         // then
         List<QuestionDto.ViewRes> questions = coverletter.getQuestions();

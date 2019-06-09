@@ -33,11 +33,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 public class CoverletterRepositoryTest {
 
-    private static Member member;
     @Autowired
     private CoverletterRepository repository;
+
     @Autowired
     private QuestionRepository questionRepository;
+
+    private static Member member;
 
     @BeforeAll
     public static void createMember() {
@@ -128,14 +130,14 @@ public class CoverletterRepositoryTest {
     @DisplayName("id가 있는 자기소개서를 저장하면 수정되어야 한다")
     public void coverletterUpdateTest1() {
         // given
-        long existCoverletterId = 1;
-        Coverletter coverletter = repository.findById(member, existCoverletterId);
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
         coverletter.setCompanyName("updatedTestCompany");
 
         // then
-        Coverletter findCoverletter = repository.findById(member, existCoverletterId);
+        Coverletter findCoverletter = repository.findById(member, coverletter.getId());
         assertEquals(coverletter.getId(), findCoverletter.getId());
         assertEquals(coverletter.getCompanyName(), findCoverletter.getCompanyName());
     }
@@ -144,8 +146,8 @@ public class CoverletterRepositoryTest {
     @DisplayName("자기소개서 수정시 문항을 삭제하면, DB에서도 제거해야 한다")
     public void coverletterUpdateTest2() {
         // given
-        long existCoverletterId = 1;
-        Coverletter coverletter = repository.findById(member, existCoverletterId);
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         List<Question> questions = coverletter.getQuestions();
         Question question = questions.get(0);
@@ -163,14 +165,14 @@ public class CoverletterRepositoryTest {
     @DisplayName("삭제된 자기소개서를 조회하면 NULL을 반환한다")
     public void coverletterDeleteTest1() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-        Coverletter findCoverletter = repository.findById(member, coverletterId);
-        repository.delete(findCoverletter);
+        repository.delete(coverletter);
 
         // then
-        Coverletter deletedCoverletter = repository.findById(member, coverletterId);
+        Coverletter deletedCoverletter = repository.findById(member, coverletter.getId());
         assertNull(deletedCoverletter);
     }
 
@@ -178,10 +180,11 @@ public class CoverletterRepositoryTest {
     @DisplayName("문항이 포함된 자기소개서를 삭제하면 문항도 삭제되어야 한다")
     public void coverletterDeleteTest2() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-        Coverletter existCoverletter = repository.findById(member, coverletterId);
+        Coverletter existCoverletter = repository.findById(member, coverletter.getId());
         repository.delete(existCoverletter);
 
         // then
@@ -196,10 +199,11 @@ public class CoverletterRepositoryTest {
     @DisplayName("문항이 있는 자기소개서를 조회하면, 문항도 같이 조회되어야 한다.")
     public void coverletterSelectTest1() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-        Coverletter findCoverletter = repository.findById(member, coverletterId);
+        Coverletter findCoverletter = repository.findById(member, coverletter.getId());
 
         // then
         List<Question> findQuestions = findCoverletter.getQuestions();
@@ -211,10 +215,11 @@ public class CoverletterRepositoryTest {
     @DisplayName("태그가 포함된 문항이 있는 자기소개서를 조회하면, 태그도 같이 조회되어야 한다")
     public void coverletterSelectTest2() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-        Coverletter findCoverletter = repository.findById(member, coverletterId);
+        Coverletter findCoverletter = repository.findById(member, coverletter.getId());
 
         // then
         List<Question> findQuestions = findCoverletter.getQuestions();
