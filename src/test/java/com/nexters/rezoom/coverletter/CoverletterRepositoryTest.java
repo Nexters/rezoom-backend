@@ -256,12 +256,8 @@ public class CoverletterRepositoryTest {
         int numberPerPage = 5;
         List<Coverletter> coverletters = repository.findAll(member, 0, numberPerPage);
 
-
         // then
         assertEquals(coverletters.size(), numberPerPage);
-        for (int i = 0; i < coverletters.size(); i++) {
-            assertEquals(coverletters.get(i).getId(), i + 1);
-        }
     }
 
     @Test

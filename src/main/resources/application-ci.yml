@@ -5,6 +5,8 @@ spring:
     username: root
     #    password:
     driver-class-name: com.mysql.jdbc.Driver
+    initialization-mode: always
+
   jpa:
     show-sql: true
     generate-ddl: true
