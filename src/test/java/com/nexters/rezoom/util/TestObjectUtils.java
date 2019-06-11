@@ -55,6 +55,7 @@ public class TestObjectUtils {
                 .applicationHalf(ApplicationHalf.ETC)
                 .applicationType(ApplicationType.ETC)
                 .applicationYear(Year.of(2018))
+                .jobType("backend developer")
                 .isApplication(false)
                 .isPass(false)
                 .deadline(new Deadline(LocalDateTime.now()))

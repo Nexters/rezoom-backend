@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/rezoom?useSSL=false&characterEncoding=UTF-8
     username: root
-    #    password: aawodjs2
+#    password:
     driver-class-name: com.mysql.jdbc.Driver
     initialization-mode: always
   jpa:

@@ -34,7 +34,7 @@ public class Question {
 
     @ManyToMany(
             fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+            cascade = CascadeType.ALL
     )
     @JoinTable(
             name = "question_hashtag",

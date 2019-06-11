@@ -20,8 +20,10 @@ public class JpaCoverletterRepository implements CoverletterRepository {
 
     @Override
     public Coverletter save(Coverletter coverletter) {
-        if (coverletter.getId() != 0)
-            return em.merge(coverletter);
+        if (coverletter.getId() != 0) {
+            em.merge(coverletter);
+            return coverletter;
+        }
 
         em.persist(coverletter);
         return coverletter;

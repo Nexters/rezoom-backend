@@ -64,7 +64,7 @@ public class Coverletter {
     @Builder.Default
     @OneToMany(
             mappedBy = "coverletter",
-            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<Question> questions = new ArrayList<>();
