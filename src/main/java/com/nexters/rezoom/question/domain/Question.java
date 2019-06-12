@@ -28,7 +28,7 @@ public class Question {
     @Column(name = "contents", columnDefinition = "TEXT")
     private String contents;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "coverletter_id", nullable = false)
     private Coverletter coverletter;
 
@@ -52,19 +52,6 @@ public class Question {
     public Question(long id, String title, String contents) {
         this(title, contents);
         this.id = id;
-    }
-
-    public void updateData(String title, String contents) {
-        this.setTitle(title);
-        this.setContents(contents);
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
     }
 
     public void setHashtags(Set<Hashtag> hashtags) {

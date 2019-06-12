@@ -27,12 +27,13 @@ public class TestObjectUtils {
         Coverletter coverletter = createCoverletter(member);
 
         Question question1 = createQuestion();
-        Hashtag hashtag1 = createHashtag(member);
-        question1.setHashtags(new HashSet<>(Collections.singletonList(hashtag1)));
-
         Question question2 = createQuestion();
-        Hashtag hashtag2 = createHashtag(member);
+
+        Hashtag hashtag1 = createHashtag(member);
+        Hashtag hashtag2 = new Hashtag("testTag");
         Hashtag hashtag3 = createHashtag(member);
+
+        question1.setHashtags(new HashSet<>(Arrays.asList(hashtag1, hashtag2)));
         question2.setHashtags(new HashSet<>(Arrays.asList(hashtag1, hashtag2, hashtag3)));
 
         coverletter.setQuestions(Arrays.asList(question1, question2));
@@ -58,7 +59,7 @@ public class TestObjectUtils {
                 .jobType("backend developer")
                 .isApplication(false)
                 .isPass(false)
-                .deadline(new Deadline(LocalDateTime.now()))
+                .deadline(new Deadline("2019-05-12 18:00"))
                 .build();
     }
 

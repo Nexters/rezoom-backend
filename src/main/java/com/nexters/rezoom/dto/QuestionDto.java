@@ -18,13 +18,13 @@ public class QuestionDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
+
         @NotNull
         @NotEmpty
         private String title;
 
         @NotNull
         @NotEmpty
-        @Builder.Default
         private String contents;
 
         private Set<HashtagDto.SaveReq> hashtags = new HashSet<>();
@@ -69,7 +69,6 @@ public class QuestionDto {
         private long id;
         private String title;
         private String contents;
-        //        private Set<HashtagDto.ViewRes> hashtags;
         private Set<String> hashtags;
 
         public ViewRes(long id, String title, String contents, Set<String> hashtags) {

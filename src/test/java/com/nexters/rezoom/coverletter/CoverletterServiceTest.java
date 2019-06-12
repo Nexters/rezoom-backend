@@ -16,13 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Rollback()
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class CoverletterServiceTest {
@@ -104,7 +104,6 @@ public class CoverletterServiceTest {
     }
 
     @Test
-    @Rollback(false)
     @DisplayName("DB에 저장된 해쉬태그와 같은 Value를 가지는 Hashtag는 중복 저장되지 않는다")
     public void coverletterSaveTest4() {
         // given

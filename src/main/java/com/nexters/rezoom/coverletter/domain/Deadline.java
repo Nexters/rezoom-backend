@@ -1,9 +1,12 @@
 package com.nexters.rezoom.coverletter.domain;
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * Created by momentjin@gmail.com on 2019-03-22
@@ -13,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Embeddable
 public class Deadline {
 
+    @Getter
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
@@ -51,5 +55,14 @@ public class Deadline {
     public String toString() {
         if (deadline == null) return "no deadline";
         return this.deadline.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Deadline deadline1 = (Deadline) o;
+        return this.deadline.equals(deadline1.getDeadline());
     }
 }

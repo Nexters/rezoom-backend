@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Github : http://github.com/momentjin
  **/
 
-@Transactional
+@Rollback()
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class CoverletterRepositoryTest {
@@ -59,13 +59,13 @@ public class CoverletterRepositoryTest {
         // then
         Coverletter findCoverletter = repository.findById(member, coverletter.getId());
 
-        assertEquals(coverletter.getId(), findCoverletter.getId());
-        assertEquals(coverletter.getCompanyName(), findCoverletter.getCompanyName());
-        assertEquals(coverletter.getApplicationYear(), findCoverletter.getApplicationYear());
-        assertEquals(coverletter.getApplicationHalf(), findCoverletter.getApplicationHalf());
-        assertEquals(coverletter.getApplicationType(), findCoverletter.getApplicationType());
-        assertEquals(coverletter.getJobType(), findCoverletter.getJobType());
-        assertEquals(coverletter.getDeadline(), findCoverletter.getDeadline());
+        assertEquals(coverletter.getId(),               findCoverletter.getId());
+        assertEquals(coverletter.getCompanyName(),      findCoverletter.getCompanyName());
+        assertEquals(coverletter.getApplicationYear(),  findCoverletter.getApplicationYear());
+        assertEquals(coverletter.getApplicationHalf(),  findCoverletter.getApplicationHalf());
+        assertEquals(coverletter.getApplicationType(),  findCoverletter.getApplicationType());
+        assertEquals(coverletter.getJobType(),          findCoverletter.getJobType());
+        assertEquals(coverletter.getDeadline(),         findCoverletter.getDeadline());
     }
 
     @Test
@@ -126,6 +126,7 @@ public class CoverletterRepositoryTest {
         }
     }
 
+    @Transactional
     @Test
     @DisplayName("id가 있는 자기소개서를 저장하면 수정되어야 한다")
     public void coverletterUpdateTest1() {
@@ -161,6 +162,7 @@ public class CoverletterRepositoryTest {
         assertNull(findQuestion);
     }
 
+    @Transactional
     @Test
     @DisplayName("삭제된 자기소개서를 조회하면 NULL을 반환한다")
     public void coverletterDeleteTest1() {
@@ -176,6 +178,7 @@ public class CoverletterRepositoryTest {
         assertNull(deletedCoverletter);
     }
 
+    @Transactional
     @Test
     @DisplayName("문항이 포함된 자기소개서를 삭제하면 문항도 삭제되어야 한다")
     public void coverletterDeleteTest2() {

@@ -25,7 +25,7 @@ public class HashtagService {
 
     /**
      * 사용자가 등록한 해쉬태그 중 1개 이상 문항에 등록된 해쉬태그만 조회한다.
-     * @return 해쉬태그 리스트 (문항에 적어도 1개 이상 등록된)
+     * @return 문항에 적어도 1개 이상 등록된 해쉬태그 리스트
      */
     public List<String> getMyHashtags(Member member) {
             return repository.findAll(member).stream()

@@ -26,9 +26,6 @@ public class QuestionService {
         this.hashTagService = hashTagService;
     }
 
-    /**
-     * 문항 단건 조회
-     */
     public QuestionDto.ViewRes getView(long questionId, Member member) {
         Question question = repository.findByKey(questionId, member);
         if (question == null) {
@@ -38,9 +35,6 @@ public class QuestionService {
         return new QuestionDto.ViewRes(question);
     }
 
-    /**
-     * 특정 해쉬태그가 존재하는 문항을 조회한다.
-     */
     public List<QuestionDto.ViewRes> getQuestionsByHashtags(Member member, String value) {
         Hashtag findHashtag = hashTagService.getHashTag(member, value);
 
