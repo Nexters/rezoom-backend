@@ -1,6 +1,6 @@
 package com.nexters.rezoom.hashtag.infra;
 
-import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.hashtag.domain.HashtagRepository;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.stereotype.Service;
@@ -9,11 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
 @Service
-public class JpaHashTagRepository implements HashTagRepository {
+public class JpaHashtagRepository implements HashtagRepository {
 
     @PersistenceContext
     private EntityManager em;
@@ -34,11 +35,6 @@ public class JpaHashTagRepository implements HashTagRepository {
         query.setParameter("member", member);
 
         return query.getResultList();
-    }
-
-    @Override
-    public void delete(Hashtag hashTag) {
-        em.remove(hashTag);
     }
 
     @Override

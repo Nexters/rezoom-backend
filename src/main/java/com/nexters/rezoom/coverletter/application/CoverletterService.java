@@ -7,7 +7,7 @@ import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.dto.QuestionDto;
-import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.hashtag.domain.HashtagRepository;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
@@ -25,10 +25,10 @@ import java.util.Set;
 public class CoverletterService {
 
     private final CoverletterRepository coverletterRepository;
-    private final HashTagRepository hashTagRepository;
+    private final HashtagRepository hashTagRepository;
 
     @Autowired
-    public CoverletterService(CoverletterRepository coverletterRepository, HashTagRepository hashTagRepository) {
+    public CoverletterService(CoverletterRepository coverletterRepository, HashtagRepository hashTagRepository) {
         this.coverletterRepository = coverletterRepository;
         this.hashTagRepository = hashTagRepository;
     }

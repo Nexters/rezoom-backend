@@ -4,12 +4,10 @@ import com.nexters.rezoom.member.domain.Member;
 
 import java.util.List;
 
-public interface HashTagRepository {
+public interface HashtagRepository {
     Hashtag findByKey(Member member, String value);
 
     List<Hashtag> findAll(Member member);
-
-    void delete(Hashtag hashTag);
 
     void save(Hashtag hashTag);
 }

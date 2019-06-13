@@ -29,9 +29,9 @@ public class TestObjectUtils {
         Question question1 = createQuestion();
         Question question2 = createQuestion();
 
-        Hashtag hashtag1 = createHashtag(member);
-        Hashtag hashtag2 = new Hashtag("testTag");
-        Hashtag hashtag3 = createHashtag(member);
+        Hashtag hashtag1 = createHashtag(member, null);
+        Hashtag hashtag2 = createHashtag(member,"testTag");
+        Hashtag hashtag3 = createHashtag(member, null);
 
         question1.setHashtags(new HashSet<>(Arrays.asList(hashtag1, hashtag2)));
         question2.setHashtags(new HashSet<>(Arrays.asList(hashtag1, hashtag2, hashtag3)));
@@ -67,8 +67,8 @@ public class TestObjectUtils {
         return new Question("testTitle", "testContents");
     }
 
-    private static Hashtag createHashtag(Member member) {
-        return new Hashtag(member, UUID.randomUUID().toString() + "test");
+    private static Hashtag createHashtag(Member member, String value) {
+        return new Hashtag(member, value == null ? UUID.randomUUID().toString() + "test" : value);
     }
 
     private static <T> T loadDtoFromJsonFile(String fileName, Class<T> classType) {

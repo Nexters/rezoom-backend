@@ -2,7 +2,7 @@ package com.nexters.rezoom.hashtag.application;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
-import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.hashtag.domain.HashtagRepository;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public class HashtagService {
 
-    private final HashTagRepository repository;
+    private final HashtagRepository repository;
 
     @Autowired
-    public HashtagService(HashTagRepository repository) {
+    public HashtagService(HashtagRepository repository) {
         this.repository = repository;
     }
 
