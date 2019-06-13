@@ -75,7 +75,11 @@ public class HashtagServiceTest {
     @Test
     @DisplayName("해시태그 리스트 조회시 등록된 태그가 없으면 EMPTY를 반환한다")
     public void hashtagSelectTest2() {
+
+        // TODO : RollBack이 안되서 임시로 계정을 만들어서 빈 값 유도함 (근본적인 문제 해결 필요)
+
         // given
+        Member member = new Member("test2", "tester", "password");
 
         // when
         List<String> findHashtags = service.getMyHashtags(member);
@@ -86,7 +90,7 @@ public class HashtagServiceTest {
 
     @Test
     @DisplayName("없는 해시태그를 조회하면 EntityNotFound Exception")
-    public void hastagSelectTest3() {
+    public void hashtagSelectTest3() {
         // given
         String tagValue = UUID.randomUUID().toString();
 
