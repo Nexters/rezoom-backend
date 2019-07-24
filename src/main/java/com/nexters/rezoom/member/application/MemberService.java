@@ -22,12 +22,6 @@ public class MemberService {
         this.encoder = encoder;
     }
 
-    /**
-     * Get member Information; id, name
-     *
-     * @param id : member id
-     * @return : member info
-     */
     public MemberDto.ViewRes getMemberInfo(String id) {
         Member findMember = getMember(id);
         return new MemberDto.ViewRes(findMember);
@@ -41,14 +35,18 @@ public class MemberService {
         repository.save(new Member(req.getId(), req.getName(), encoder.encode(req.getPassword())));
     }
 
-    public boolean signIn(MemberDto.SignInReq req) {
-        Member member = getMember(req.getId());
+    public void updateMemberInfo(String id, MemberDto.UpdateReq req) {
+        // TODO : object mapping 필요
+        Member findMember = getMember(id);
 
-        boolean isSuccess = encoder.matches(req.getPassword(), member.getPassword());
-        if (!isSuccess)
-            throw new InvalidValueException(ErrorCode.WRONG_PASSWORD);
+        if (!req.getName().isEmpty())
+            findMember.setName(req.getName());
 
-        return true;
+        if (!req.getProfileImageUrl().isEmpty())
+            findMember.setProfileImageUrl(req.getProfileImageUrl());
+
+        if (!req.getMotto().isEmpty())
+            findMember.setMotto(req.getMotto());
     }
 
     private Member getMember(String id) {
