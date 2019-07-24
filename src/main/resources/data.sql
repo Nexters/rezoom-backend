@@ -1,1 +1,1 @@
-INSERT INTO member (id, name, password) VALUES ('test', 'tester', 'test');
+INSERT INTO member (member_id, name, password) VALUES ('test', 'tester', 'test');
