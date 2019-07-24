@@ -54,5 +54,4 @@ public class JpaCoverletterRepository implements CoverletterRepository {
         em.remove(coverletter);
     }
 
-
 }

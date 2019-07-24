@@ -78,7 +78,7 @@ public class QuestionRepositoryTest {
             fail(); // id가 0이면 저장이 안됐다는 말과 같다.
 
         // when
-        Question findQuestion = repository.findByKey(1L, member);
+        Question findQuestion = repository.findByKey(savedQuestionId, member);
 
         // then
         Question reqQuestion = coverletter.getQuestions().stream().filter(question -> question.getId() == savedQuestionId).findAny().get();

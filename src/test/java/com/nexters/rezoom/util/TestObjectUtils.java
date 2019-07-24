@@ -6,15 +6,18 @@ import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.Deadline;
 import com.nexters.rezoom.dto.CoverletterDto;
+import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.UUID;
 
 /**
  * Created by momentjin@gmail.com on 2019-03-28
@@ -44,8 +47,8 @@ public class TestObjectUtils {
         return loadDtoFromJsonFile("CoverletterNew.json", CoverletterDto.SaveReq.class);
     }
 
-    public static CoverletterDto.UpdateReq createCoverletterUpdateReqDto() {
-        return loadDtoFromJsonFile("CoverletterUpdate.json", CoverletterDto.UpdateReq.class);
+    public static MemberDto.SignUpReq createMemberSignReqDto() {
+        return loadDtoFromJsonFile("MemberSignup.json", MemberDto.SignUpReq.class);
     }
 
     private static Coverletter createCoverletter(Member member) {

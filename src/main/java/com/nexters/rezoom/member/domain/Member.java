@@ -3,6 +3,7 @@ package com.nexters.rezoom.member.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,11 +21,21 @@ public class Member {
     @Column(name = "member_id")
     private String id;
 
+    @Setter
     @Column(name = "name")
     private String name;
 
+    @Setter
     @Column(name = "password")
     private String password;
+
+    @Setter
+    @Column(name = "motto") // 좌우명
+    private String motto;
+
+    @Setter
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
     public Member(String id, String name, String password) {
         this.id = id;
