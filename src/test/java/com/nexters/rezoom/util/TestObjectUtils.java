@@ -6,6 +6,7 @@ import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.Deadline;
 import com.nexters.rezoom.dto.CoverletterDto;
+import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
@@ -43,8 +44,8 @@ public class TestObjectUtils {
         return loadDtoFromJsonFile("CoverletterNew.json", CoverletterDto.SaveReq.class);
     }
 
-    public static CoverletterDto.UpdateReq createCoverletterUpdateReqDto() {
-        return loadDtoFromJsonFile("CoverletterUpdate.json", CoverletterDto.UpdateReq.class);
+    public static MemberDto.SignUpReq createMemberSignReqDto() {
+        return loadDtoFromJsonFile("MemberSignup.json", MemberDto.SignUpReq.class);
     }
 
     private static Coverletter createCoverletter(Member member) {

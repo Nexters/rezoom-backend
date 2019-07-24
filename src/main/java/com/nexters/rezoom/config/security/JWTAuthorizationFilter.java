@@ -44,13 +44,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
-            // parse the token.
-
             DecodedJWT jwtVerifier = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""));
 
-            // TODO : member 의존성 문제 해결
             String memberId = jwtVerifier.getClaim("id").asString();
             String memberName = jwtVerifier.getClaim("name").asString();
             Member member = new Member(memberId, memberName, "");
