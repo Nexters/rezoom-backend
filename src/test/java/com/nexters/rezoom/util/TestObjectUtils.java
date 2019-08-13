@@ -1,10 +1,7 @@
 package com.nexters.rezoom.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
-import com.nexters.rezoom.coverletter.domain.ApplicationType;
-import com.nexters.rezoom.coverletter.domain.Coverletter;
-import com.nexters.rezoom.coverletter.domain.Deadline;
+import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
@@ -20,7 +17,6 @@ import java.util.*;
 /**
  * Created by momentjin@gmail.com on 2019-03-28
  * Github : http://github.com/momentjin
- * Description : Coverletter 객체와 Questino 객체 간 양방향 편의 메소드 테스트
  **/
 public class TestObjectUtils {
 
@@ -56,9 +52,13 @@ public class TestObjectUtils {
                 .applicationHalf(ApplicationHalf.ETC)
                 .applicationType(ApplicationType.ETC)
                 .applicationYear(Year.of(2018))
-                .isApplication(false)
-                .isPass(false)
+                .jobType("backend developer")
+                .isApplication(IsApplication.ETC)
+                .isPass(IsPass.ETC)
                 .deadline(new Deadline(LocalDateTime.now()))
+                .isApplication(IsApplication.ETC)
+                .isPass(IsPass.ETC)
+                .deadline(new Deadline("2019-05-12 18:00"))
                 .build();
     }
 

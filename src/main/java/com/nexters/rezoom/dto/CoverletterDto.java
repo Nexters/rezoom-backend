@@ -1,12 +1,7 @@
 package com.nexters.rezoom.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
-import com.nexters.rezoom.coverletter.domain.ApplicationType;
-import com.nexters.rezoom.coverletter.domain.Coverletter;
-import com.nexters.rezoom.coverletter.domain.Deadline;
+import com.nexters.rezoom.coverletter.domain.*;
 import lombok.*;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -18,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class CoverletterDto {
 
     @Getter
@@ -28,26 +24,15 @@ public class CoverletterDto {
         @NotEmpty
         private String companyName;
 
-        @Range(min = 0, max = 3)
-        private int applicationHalf = 3;
-
-        @Range(min = 0, max = 3)
-        private int applicationType = 3;
-
         @Min(2017)
         private int applicationYear = LocalDateTime.now().getYear();
 
-        private String deadline = null;
-
-        @JsonProperty(value = "pass")
-        private boolean isPass;
-
-        @JsonProperty(value = "application")
-        private boolean isApplication;
-
+        private int applicationHalf;
+        private int applicationType;
+        private int isPass;
+        private int isApplication;
+        private String deadline;
         private String jobType;
-
-        @Builder.Default
         private List<QuestionDto.SaveReq> questions = new ArrayList<>();
 
         public Coverletter toEntity() {
@@ -56,8 +41,8 @@ public class CoverletterDto {
                     .applicationHalf(ApplicationHalf.getValue(applicationHalf))
                     .applicationType(ApplicationType.getValue(applicationType))
                     .applicationYear(Year.of(applicationYear))
-                    .isPass(isPass)
-                    .isApplication(isApplication)
+                    .isPass(IsPass.getValue(isPass))
+                    .isApplication(IsApplication.getValue(isApplication))
                     .deadline(new Deadline(deadline))
                     .jobType(jobType)
                     .build();
@@ -67,33 +52,23 @@ public class CoverletterDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateReq {
+
         @Positive
-        @NonNull
         private long id;
 
         @NotNull
         @NotEmpty
         private String companyName;
 
-        @Range(min = 0, max = 3)
-        private int applicationHalf;
-
-        @Range(min = 0, max = 3)
-        private int applicationType;
-
         @Min(2017)
         private int applicationYear;
 
+        private int applicationHalf;
+        private int applicationType;
+        private int isPass;
+        private int isApplication;
         private String deadline;
-
-        @JsonProperty(value = "pass")
-        private boolean isPass;
-
-        @JsonProperty(value = "application")
-        private boolean isApplication;
-
         private String jobType;
-
         private List<QuestionDto.UpdateReq> questions;
 
         public Coverletter toEntity() {
@@ -103,8 +78,8 @@ public class CoverletterDto {
                     .applicationHalf(ApplicationHalf.getValue(applicationHalf))
                     .applicationType(ApplicationType.getValue(applicationType))
                     .applicationYear(Year.of(applicationYear))
-                    .isApplication(isApplication)
-                    .isPass(isPass)
+                    .isApplication(IsApplication.getValue(isApplication))
+                    .isPass(IsPass.getValue(isPass))
                     .deadline(new Deadline(deadline))
                     .jobType(jobType)
                     .build();
@@ -129,19 +104,21 @@ public class CoverletterDto {
     @ToString
     @Getter
     public static class ViewRes {
+
         private long id;
         private String companyName;
         private int applicationYear;
         private int applicationType;
         private int applicationHalf;
         private String deadline;
-        private boolean isApplication;
-        private boolean isPass;
+        private int isApplication;
+        private int isPass;
         private String jobType;
         private LocalDateTime createDate;
         private LocalDateTime updateDate;
         private List<QuestionDto.ViewRes> questions;
 
+        // TODO : NULL 처리 로직 제거하기
         public ViewRes(Coverletter coverletter) {
             this.id = coverletter.getId();
             this.companyName = coverletter.getCompanyName();
@@ -149,8 +126,8 @@ public class CoverletterDto {
             this.applicationType = coverletter.getApplicationType() == null ? 0 : coverletter.getApplicationType().getTypeNo();
             this.applicationHalf = coverletter.getApplicationHalf() == null ? 0 : coverletter.getApplicationHalf().getTypeNo();
             this.deadline = coverletter.getDeadline() == null ? null : coverletter.getDeadline().toString();
-            this.isApplication = coverletter.isApplication();
-            this.isPass = coverletter.isPass();
+            this.isApplication = coverletter.getIsApplication() == null ? 0 : coverletter.getIsApplication().getTypeNo();
+            this.isPass = coverletter.getIsPass() == null ? 0 : coverletter.getIsPass().getTypeNo();
             this.jobType = coverletter.getJobType();
             this.createDate = coverletter.getCreateDate();
             this.updateDate = coverletter.getUpdateDate();

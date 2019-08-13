@@ -48,18 +48,21 @@ public class Coverletter {
     private ApplicationHalf applicationHalf = ApplicationHalf.ETC;
 
     @Builder.Default
+    @Column(name = "is_application")
+    private IsApplication isApplication = IsApplication.ETC;
+
+    @Builder.Default
     @Column(name = "application_year")
     @Convert(converter = YearAttributeConverter.class)
     private Year applicationYear = Year.of(LocalDateTime.now().getYear());
 
+    @Builder.Default
     @Column(name = "job_type")
     private String jobType = "";
 
+    @Builder.Default
     @Column(name = "is_pass")
-    private boolean isPass;
-
-    @Column(name = "is_application")
-    private boolean isApplication;
+    private IsPass isPass = IsPass.ETC;
 
     @Builder.Default
     @OneToMany(
@@ -92,6 +95,21 @@ public class Coverletter {
 
         this.questions.add(question);
         question.setCoverletter(this); // 양방향 연관관계 설정
+    }
+
+    /**
+     * domain rule.
+     */
+    public void checkPassStatus() {
+        // 지원상태가 'WAIT'이면, 합격상태도 'WAIT'이어야 한다.
+        if (this.isApplication == IsApplication.WAIT) {
+            this.isPass = IsPass.WAIT;
+        }
+
+        // 지원상태가 'NO'이면, 합격상태는 'FAIL'이어야 한다.
+        else if (this.isApplication == IsApplication.NO) {
+            this.isPass = IsPass.FAIL;
+        }
     }
 
     @Override

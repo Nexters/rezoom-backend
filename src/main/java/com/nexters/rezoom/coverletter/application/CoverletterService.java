@@ -49,11 +49,13 @@ public class CoverletterService {
             question.setHashtags(getUpdatedHashtags(question.getHashtags(), member));
         }
 
+        coverletter.checkPassStatus();
+
         coverletterRepository.save(coverletter);
         return coverletter.getId();
     }
 
-    // TODO : save() 메소드와 구조가 매우 유사함 (개선하기)
+    // TODO : save() 메소드와 구조가 매우 유사함 (개선할 필요가 있는지 검토하기)
     public void update(Member member, long coverletterId, CoverletterDto.UpdateReq req) {
         Coverletter coverletter = req.toEntity();
         coverletter.setMember(member);
@@ -69,6 +71,8 @@ public class CoverletterService {
         for (Question question : coverletter.getQuestions()) {
             question.setHashtags(getUpdatedHashtags(question.getHashtags(), member));
         }
+
+        coverletter.checkPassStatus();
 
         coverletterRepository.save(coverletter);
     }

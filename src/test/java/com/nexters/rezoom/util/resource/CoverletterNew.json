@@ -4,8 +4,8 @@
   "applicationType": 0,
   "applicationYear": 2019,
   "deadline": "2019-04-30 18:00",
-  "pass": false,
-  "application": true,
+  "isPass": 0,
+  "isApplication": 0,
   "jobType": "backend engineer",
   "questions": [
     {
