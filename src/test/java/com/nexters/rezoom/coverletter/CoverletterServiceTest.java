@@ -2,6 +2,8 @@ package com.nexters.rezoom.coverletter;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
+import com.nexters.rezoom.coverletter.domain.IsApplication;
+import com.nexters.rezoom.coverletter.domain.IsPass;
 import com.nexters.rezoom.dto.CoverletterDto;
 import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.hashtag.application.HashtagService;
@@ -56,8 +58,8 @@ public class CoverletterServiceTest {
         assertEquals(viewRes.getApplicationHalf(), 0);
         assertEquals(viewRes.getApplicationYear(), 2019);
         assertEquals(viewRes.getDeadline(), "2019-04-30T18:00");
-        assertTrue(viewRes.isApplication());
-        assertFalse(viewRes.isPass());
+        assertEquals(viewRes.getIsApplication(), IsApplication.WAIT.getTypeNo());
+        assertEquals(viewRes.getIsPass(), IsPass.WAIT.getTypeNo());
         assertEquals(viewRes.getJobType(), "backend engineer");
     }
 
