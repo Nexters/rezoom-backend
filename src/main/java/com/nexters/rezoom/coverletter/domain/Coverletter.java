@@ -80,6 +80,24 @@ public class Coverletter {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
+    /**
+     * Domain rule.
+     * - 지원상태 'WAIT' -> 합격상태 'WAIT'
+     * - 지원상태 'NO'   -> 합격상태 'FAIL'
+     */
+
+    public void checkPassStatus() {
+        if (this.isApplication == IsApplication.WAIT) {
+            this.isPass = IsPass.WAIT;
+        } else if (this.isApplication == IsApplication.NO) {
+            this.isPass = IsPass.FAIL;
+        }
+    }
+
+    /**
+     * 연관관계 편의 메소드
+     */
+
     public void setQuestions(List<Question> questions) {
         if (this.questions == null)
             this.questions = new ArrayList<>();
@@ -95,21 +113,6 @@ public class Coverletter {
 
         this.questions.add(question);
         question.setCoverletter(this); // 양방향 연관관계 설정
-    }
-
-    /**
-     * domain rule.
-     */
-    public void checkPassStatus() {
-        // 지원상태가 'WAIT'이면, 합격상태도 'WAIT'이어야 한다.
-        if (this.isApplication == IsApplication.WAIT) {
-            this.isPass = IsPass.WAIT;
-        }
-
-        // 지원상태가 'NO'이면, 합격상태는 'FAIL'이어야 한다.
-        else if (this.isApplication == IsApplication.NO) {
-            this.isPass = IsPass.FAIL;
-        }
     }
 
     @Override
