@@ -35,7 +35,7 @@ public class CoverletterController {
     @ResponseStatus(HttpStatus.OK)
     public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member,
                                           @RequestParam(required = false, defaultValue = "1") int pageNo) {
-        return service.getList(member, 1);
+        return service.getList(member, pageNo);
     }
 
     @GetMapping(value = "{id}")
