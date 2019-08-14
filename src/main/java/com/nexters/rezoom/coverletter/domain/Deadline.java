@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 /**
  * Created by momentjin@gmail.com on 2019-03-22
@@ -30,25 +29,33 @@ public class Deadline {
         this.deadline = deadline;
     }
 
-    public Deadline(String deadlineStr) {
-        if (deadlineStr == null || deadlineStr.isEmpty()) {
+    public Deadline(String datetimeStr) {
+        if (datetimeStr == null || datetimeStr.isEmpty()) {
             this.deadline = null;
             return;
         }
 
-        // TODO : 예외처리가 필요하다.
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
-        this.deadline = LocalDateTime.parse(deadlineStr, formatter);
+        this.deadline = this.convertLocalDateTime(datetimeStr);
     }
 
     /**
-     * 현재 시간 기준, 마감일 초과 여부 검사
+     * Domain Rule
+     * - 현재 시간 기준, 마감일 초과 여부 검사
      * @return 마감일 경과했으면 true
      */
     public boolean isExpired() {
         if (deadline == null) return false;
-
         return deadline.isBefore(LocalDateTime.now());
+    }
+
+    private LocalDateTime convertLocalDateTime(String datetimeStr) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
+            return LocalDateTime.parse(datetimeStr, formatter);
+        } catch (Exception e) {
+            // do not anything
+            return null;
+        }
     }
 
     @Override
