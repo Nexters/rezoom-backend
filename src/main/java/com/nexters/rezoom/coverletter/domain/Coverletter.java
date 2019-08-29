@@ -89,8 +89,12 @@ public class Coverletter {
     public void checkPassStatus() {
         if (this.isApplication == IsApplication.WAIT) {
             this.isPass = IsPass.WAIT;
-        } else if (this.isApplication == IsApplication.NO) {
+            return;
+        }
+
+        if (this.isApplication == IsApplication.NO) {
             this.isPass = IsPass.FAIL;
+            return;
         }
     }
 
