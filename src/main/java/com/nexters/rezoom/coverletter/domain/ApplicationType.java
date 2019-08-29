@@ -32,6 +32,19 @@ public enum ApplicationType {
         return lookup.getOrDefault(typeNo, ApplicationType.ETC);
     }
 
+    public static ApplicationType getValueByName(String name) {
+        switch (name) {
+            case "인턴":
+                return ApplicationType.INTERN;
+            case "신입":
+                return ApplicationType.JUNIOR;
+            case "경력":
+                return ApplicationType.SENIOR;
+            default:
+                return ApplicationType.ETC;
+        }
+    }
+
     public int getTypeNo() {
         return typeNo;
     }

@@ -32,6 +32,17 @@ public enum ApplicationHalf {
         return lookup.getOrDefault(typeNo, ApplicationHalf.ETC);
     }
 
+    public static ApplicationHalf getValueByName(String name) {
+        switch (name) {
+            case "상반기":
+                return ApplicationHalf.FIRST_HALF;
+            case "하반기":
+                return ApplicationHalf.SECOND_HALF;
+            default:
+                return ApplicationHalf.ETC;
+        }
+    }
+
     public int getTypeNo() {
         return this.typeNo;
     }
