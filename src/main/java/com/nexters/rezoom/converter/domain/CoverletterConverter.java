@@ -29,14 +29,14 @@ public abstract class CoverletterConverter {
     }
 
     public Coverletter convert() {
-        Coverletter coverletter = this.getCoverletterByFileName();
+        Coverletter coverletter = this.createCoverletterByFileName();
         List<Question> questions = this.parseQuestions();
         coverletter.setQuestions(questions);
 
         return coverletter;
     }
 
-    abstract List<Question> parseQuestions();
+    protected abstract List<Question> parseQuestions();
 
     private void checkFile(File file) {
         isExist(file);
@@ -48,6 +48,11 @@ public abstract class CoverletterConverter {
             throw new RuntimeException("파일이 존재하지 않습니다");
     }
 
+    /**
+     * 현재 파일 확장자가 올바른 확장자인지 확인한다. (요구 확장자 정보는 구현 클래스에 상수로 존재)
+     *
+     * @param file
+     */
     private void checkFileExtension(File file) {
         Optional<String> fileExtension = Optional.of(file.getName())
                 .filter(f -> f.contains("."))
@@ -57,7 +62,12 @@ public abstract class CoverletterConverter {
             throw new RuntimeException("파일 확장자가 올바르지 않습니다.");
     }
 
-    private Coverletter getCoverletterByFileName() {
+    /**
+     * FileName을 통해 Coverletter 지원 정보를 얻고, 해당 정보를 설정한 Coverletter 객체를 생성한다.
+     *
+     * @return Coverletter
+     */
+    private Coverletter createCoverletterByFileName() {
         String[] coverletterInfos = this.getCoverletterInfo(file.getName().replace("."+fileExtension, ""));
         String companyName = coverletterInfos[0];
         int applicationYear = Integer.parseInt(coverletterInfos[1]);
@@ -72,6 +82,14 @@ public abstract class CoverletterConverter {
                 .build();
     }
 
+    /**
+     * fileName에서 기본적인 자기소개서 지원 정보를 추출한다.
+     * 지원정보는 '공백'으로 구분되어야 한다.
+     * 지원정보는 총 4개다.
+     *
+     * @param fileName "네이버 2019 상반기 신입"
+     * @return 지원 정보가 담긴 배열 (회사명, 지원연도, 지원분기, 지원종류)
+     */
     private String[] getCoverletterInfo(String fileName) {
         String[] coverletterInfos = fileName.split(" ");
         if (coverletterInfos.length != 4) {

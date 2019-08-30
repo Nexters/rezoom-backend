@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Created by momentjin@gmail.com on 2019-08-28
  * Github : http://github.com/momentjin
  */
-public class ConverterTest {
+public class TextFileConverterTest {
 
     @Test
     @DisplayName("txt파일을 coverletter 객체로 전환")
