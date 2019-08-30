@@ -32,6 +32,7 @@ public class ConvertService {
             coverletter.setMember(member);
 
             coverletterRepository.save(coverletter);
+            file.delete();
         }
     }
 
