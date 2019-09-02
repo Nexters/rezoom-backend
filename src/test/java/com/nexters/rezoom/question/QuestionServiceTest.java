@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Github : http://github.com/momentjin
  */
 
-@Rollback()
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class QuestionServiceTest {
@@ -59,6 +58,7 @@ public class QuestionServiceTest {
     // 저장된 자기소개서의 문항을 찾으려면 ID를 알아야 하는데, 현재로썬 알 수 있는 방법이 없음.. ㅠㅠ
     // @Test
     @DisplayName("문항을 조회하면 태그도 함께 조회되어야 한다")
+    @Transactional
     public void questionSelectTest2() {
         // given
         CoverletterDto.SaveReq coverletter = TestObjectUtils.createCoverletterSaveReqDto();
@@ -73,12 +73,14 @@ public class QuestionServiceTest {
         assertTrue(hashtags.size() >= 1);
     }
 
+    // @Transactional을 사용하면, context가 달라서 그런지 데이터가 없다고 나옴.
+    // @Transactional을 사용하지 않으면, 데이터가 자꾸 생성됌
     @Test
     @DisplayName("태그를 통해 문항을 조회할 수 있어야 한다")
     public void questionSelectTest3() {
         // given
         CoverletterDto.SaveReq coverletter = TestObjectUtils.createCoverletterSaveReqDto();
-        coverletterService.save(member, coverletter);
+        long savedCoverletterId = coverletterService.save(member, coverletter);
 
         String tagValue = "tag2(new)";
 
@@ -87,6 +89,9 @@ public class QuestionServiceTest {
 
         // then
         assertTrue(questions.size() >= 2);
+
+        // @transactional 문제로 삭제 로직 추가
+        coverletterService.delete(member, savedCoverletterId);
     }
 
 }

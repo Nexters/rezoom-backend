@@ -30,8 +30,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CoverletterServiceTest {
 
     private static Member member;
+
     @Autowired
     private CoverletterService service;
+
     @Autowired
     private HashtagService hashtagService;
 
@@ -42,6 +44,7 @@ public class CoverletterServiceTest {
 
     @Test
     @DisplayName("자기소개서 정보가 정상적으로 저장되어야 한다")
+    @Transactional
     public void coverletterSaveTest1() {
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
@@ -65,6 +68,7 @@ public class CoverletterServiceTest {
 
     @Test
     @DisplayName("자기소개서를 저장하면, 문항도 저장되어야 한다")
+    @Transactional
     public void coverletterSaveTest2() {
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
@@ -85,6 +89,7 @@ public class CoverletterServiceTest {
 
     @Test
     @DisplayName("자기소개서를 저장하면, 태그도 저장되어야 한다")
+    @Transactional
     public void coverletterSaveTest3() {
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
@@ -107,10 +112,11 @@ public class CoverletterServiceTest {
 
     @Test
     @DisplayName("DB에 저장된 해쉬태그와 같은 Value를 가지는 Hashtag는 중복 저장되지 않는다")
+    // @Transactional - 문제..
     public void coverletterSaveTest4() {
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
-        service.save(member, saveReq);
+        long savedCoverletterId = service.save(member, saveReq);
 
         List<String> hashtags = hashtagService.getMyHashtags(member);
         int beforeHashtagSize = hashtags.size();
@@ -124,10 +130,14 @@ public class CoverletterServiceTest {
 
         List<String> hashtags2 = hashtagService.getMyHashtags(member);
         assertEquals(beforeHashtagSize, hashtags2.size());
+
+        // 임시 코드
+        service.delete(member, savedCoverletterId);
     }
 
     @Test
     @DisplayName("문항이 있는 자기소개서를 조회하면, 문항도 같이 조회되어야 한다.")
+    @Transactional
     public void coverletterSelectTest1() {
         // given
         long coverletterId = 1;
@@ -143,6 +153,7 @@ public class CoverletterServiceTest {
 
     @Test
     @DisplayName("태그가 포함된 문항이 있는 자기소개서를 조회하면, 태그도 같이 조회되어야 한다")
+    @Transactional
     public void coverletterSelectTest2() {
         // given
         long coverletterId = 1;

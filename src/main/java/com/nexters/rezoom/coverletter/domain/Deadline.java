@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Created by momentjin@gmail.com on 2019-03-22
@@ -60,4 +61,24 @@ public class Deadline {
         if (deadline == null) return "no deadline";
         return this.deadline.toString();
     }
+<<<<<<< HEAD
+=======
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Deadline deadline1 = (Deadline) o;
+        return this.deadline.equals(deadline1.getDeadline());
+    }
+
+    public long getRemainingHours() {
+        return LocalDateTime.now().until(this.deadline, ChronoUnit.HOURS);
+    }
+
+    public long getRemainingDays() {
+        return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
+    }
+>>>>>>> 5b2d019... Add Notification api & scheduler
 }

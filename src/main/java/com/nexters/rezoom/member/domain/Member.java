@@ -1,15 +1,12 @@
 package com.nexters.rezoom.member.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.nexters.rezoom.notification.domain.NotificationSetting;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -37,10 +34,21 @@ public class Member {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "member",
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL
+    )
+    private Set<NotificationSetting> notificationSettings = new HashSet<>();
+
     public Member(String id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
+    }
+
+    public void addNotificationSetting(NotificationSetting notificationSetting) {
+        this.notificationSettings.add(notificationSetting);
     }
 
     @Override

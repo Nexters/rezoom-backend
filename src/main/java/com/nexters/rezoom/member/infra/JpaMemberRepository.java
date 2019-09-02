@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 public class JpaMemberRepository implements MemberRepository {
@@ -26,5 +28,12 @@ public class JpaMemberRepository implements MemberRepository {
         } catch (PersistenceException e) {
             e.getCause();
         }
+    }
+
+    @Override
+    public List<Member> findActiveMembers() {
+        // TODO : Active 조건이 필요한디?
+        TypedQuery<Member> query = em.createQuery("SELECT m FROM Member m", Member.class);
+        return query.getResultList();
     }
 }

@@ -52,4 +52,22 @@ public class JpaCoverletterRepository implements CoverletterRepository {
         em.remove(coverletter);
     }
 
+    @Override
+    public List<Coverletter> findByDeadline(Member member) {
+        TypedQuery<Coverletter> query = em.createQuery(
+                "SELECT c FROM Coverletter c WHERE c.member =:member AND deadline IS NOT NULL AND deadline >= CURRENT_TIMESTAMP"
+                , Coverletter.class);
+
+        query.setParameter("member", member);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Coverletter> findAllByDeadline() {
+        TypedQuery<Coverletter> query = em.createQuery(
+                "SELECT c FROM Coverletter c WHERE deadline IS NOT NULL AND deadline >= CURRENT_TIMESTAMP"
+                , Coverletter.class);
+
+        return query.getResultList();
+    }
 }

@@ -35,3 +35,4 @@ mvnw.cmd
 
 ### config ###
 src/main/resources/application-dev.yml
+src/main/resources/email-account.yml

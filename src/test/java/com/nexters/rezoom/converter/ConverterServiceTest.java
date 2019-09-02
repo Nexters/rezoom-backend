@@ -19,10 +19,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class ConverterServiceTest {
 
     private static Member member;
+
+    private final CoverletterService coverletterService;
+    private final ConvertService convertService;
+
     @Autowired
-    private CoverletterService coverletterService;
-    @Autowired
-    private ConvertService convertService;
+    public ConverterServiceTest(CoverletterService coverletterService, ConvertService convertService) {
+        this.coverletterService = coverletterService;
+        this.convertService = convertService;
+    }
 
     @BeforeAll
     public static void createMember() {

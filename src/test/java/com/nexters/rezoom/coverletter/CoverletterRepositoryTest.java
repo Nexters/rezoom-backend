@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,6 +47,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("자기소개서 정보가 정상적으로 저장되어야 한다.")
+    @Transactional
     public void coverletterSaveTest1() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -67,6 +69,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("자기소개서를 저장하면, 문항도 저장되어야 한다")
+    @Transactional
     public void coverletterSaveTest2() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -88,6 +91,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("자기소개서 내 문항에 태그가 포함되어 있으면 함께 저장해야 한다")
+    @Transactional
     public void coverletterSaveTest3() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -126,6 +130,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("id가 있는 자기소개서를 저장하면 수정되어야 한다")
+    @Transactional
     public void coverletterUpdateTest1() {
         // given
         long existCoverletterId = 1;
@@ -142,6 +147,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("자기소개서 수정시 문항을 삭제하면, DB에서도 제거해야 한다")
+    @Transactional
     public void coverletterUpdateTest2() {
         // given
         long existCoverletterId = 1;
@@ -194,6 +200,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("문항이 있는 자기소개서를 조회하면, 문항도 같이 조회되어야 한다.")
+    @Transactional
     public void coverletterSelectTest1() {
         // given
         long coverletterId = 1;
@@ -209,6 +216,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("태그가 포함된 문항이 있는 자기소개서를 조회하면, 태그도 같이 조회되어야 한다")
+    @Transactional
     public void coverletterSelectTest2() {
         // given
         long coverletterId = 1;
@@ -228,6 +236,7 @@ public class CoverletterRepositoryTest {
 
     @Test
     @DisplayName("자기소개서 리스트 조회 페이징 테스트")
+    @Transactional
     public void coverletterSelectTest3() {
         // given
         Coverletter coverletter0 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -277,11 +286,25 @@ public class CoverletterRepositoryTest {
     @DisplayName("자기소개서 리스트 조회시 없으면 EMPTY를 반환해야 한다")
     public void coverletterSelectTest5() {
         // given
+        Member anonymous = new Member(UUID.randomUUID().toString(), "", "");
 
         // when
-        List<Coverletter> coverletters = repository.findAll(member, 99999, 5);
+        List<Coverletter> coverletters = repository.findAll(anonymous, 1, 5);
 
         // then
         assertTrue(coverletters.isEmpty());
+    }
+
+    @Test
+    @DisplayName("마감일이 있고, 마감일이 현재포함 미래이고, 지원하지 않은 모든 자기소개서를 조회한다")
+    public void coverletterSelectTest6() {
+        // given
+        // TODO : coverletter 엔티티 저장 로직 추가하기
+
+        // when
+        List<Coverletter> coverletters = repository.findByDeadline(member);
+
+        // then
+        System.out.println(coverletters.size());
     }
 }

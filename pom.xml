@@ -104,6 +104,22 @@
             <version>5.3.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+
+        <!-- javax.mail은 java se환경에서 작동되지 않음. 따라서 junit 테스트시 아래와 같은 의존성을 필요로 함 -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
