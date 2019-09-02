@@ -290,4 +290,17 @@ public class CoverletterRepositoryTest {
         // then
         assertTrue(coverletters.isEmpty());
     }
+
+    @Test
+    @DisplayName("마감일이 있고, 마감일이 현재포함 미래이고, 지원하지 않은 모든 자기소개서를 조회한다")
+    public void coverletterSelectTest6() {
+        // given
+        Member member = new Member("s_wlswodjs@naver.com1", "", "");
+
+        // when
+        List<Coverletter> coverletters = repository.findByDeadline(member);
+
+        // then
+        System.out.println(coverletters.size());
+    }
 }

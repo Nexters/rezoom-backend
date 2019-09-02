@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Created by momentjin@gmail.com on 2019-03-22
@@ -71,5 +72,13 @@ public class Deadline {
 
         Deadline deadline1 = (Deadline) o;
         return this.deadline.equals(deadline1.getDeadline());
+    }
+
+    public long getRemainingHours() {
+        return LocalDateTime.now().until(this.deadline, ChronoUnit.HOURS);
+    }
+
+    public long getRemainingDays() {
+        return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
     }
 }

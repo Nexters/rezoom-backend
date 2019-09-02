@@ -9,4 +9,6 @@ public interface CoverletterRepository {
     Coverletter findById(Member member, long id);
     List<Coverletter> findAll(Member member, int beginRow, int numberPerPage);
     void delete(Coverletter coverletter);
+
+    List<Coverletter> findByDeadline(Member member);
 }
