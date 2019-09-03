@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
  * Created by momentjin@gmail.com on 2019-09-02
  * Github : http://github.com/momentjin
  */
+@Getter
 @Entity
 @Table(name = "notification")
 @Builder

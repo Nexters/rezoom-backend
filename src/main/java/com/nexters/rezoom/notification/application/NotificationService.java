@@ -2,6 +2,7 @@ package com.nexters.rezoom.notification.application;
 
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
+import com.nexters.rezoom.dto.NotificationDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.notification.domain.Notification;
 import com.nexters.rezoom.notification.domain.NotificationRepository;
@@ -26,7 +27,7 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public List<Notification> createNotificationDatas(Member member) {
+    public NotificationDto.ListRes createNotificationDatas(Member member) {
 
         // 자기소개서를 가져온다. (단, 마감일이 있고 지원하지 않은 자기소개서만)
         List<Coverletter> coverletters = coverletterRepository.findByDeadline(member);
@@ -44,12 +45,13 @@ public class NotificationService {
             notificationRepository.save(notification);
         }
 
-        return notificationRepository.selectAll(member);
+        List<Notification> notifications = notificationRepository.selectAll(member);
+        return new NotificationDto.ListRes(notifications);
     }
 
     @Transactional
-    public void toggleCheck(Member member, Notification notification) {
-        notification.setMember(member);
+    public void toggleCheck(Member member, long notificationId) {
+        Notification notification = notificationRepository.findById(member, notificationId);
         notification.toggleChecked();
     }
 

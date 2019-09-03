@@ -19,16 +19,26 @@ import java.util.List;
 public class JpaNotificationRepository implements NotificationRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @Override
     public void save(Notification notification) {
-        entityManager.persist(notification);
+        em.persist(notification);
+    }
+
+    @Override
+    public Notification findById(Member member, long id) {
+        TypedQuery<Notification> query = em.createQuery("SELECT n FROM Notification n WHERE n.id =:id AND n.member =:member", Notification.class);
+        query.setParameter("id", id);
+        query.setParameter("member", member);
+
+        List<Notification> result = query.getResultList();
+        return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
     public List<Notification> selectAll(Member member) {
-        TypedQuery<Notification> query = entityManager.createQuery("SELECT n FROM Notification n WHERE n.member =:member", Notification.class);
+        TypedQuery<Notification> query = em.createQuery("SELECT n FROM Notification n WHERE n.member =:member", Notification.class);
         query.setParameter("member", member);
 
         return query.getResultList();
