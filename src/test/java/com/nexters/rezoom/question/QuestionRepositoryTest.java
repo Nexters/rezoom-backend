@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -43,6 +44,7 @@ public class QuestionRepositoryTest {
 
     @Test
     @DisplayName("문항을 조회하면 자기소개서 정보도 함께 조회되어야 한다.")
+    @Transactional
     public void questionSelectTest1() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -65,6 +67,7 @@ public class QuestionRepositoryTest {
 
     @Test
     @DisplayName("문항을 조회하면 태그도 함께 조회되어야 한다.")
+    @Transactional
     public void questionSelectTest2() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);

@@ -51,9 +51,10 @@ public class NotificationServiceTest {
         coverletterRepository.save(coverletter2);
 
         // when
-        NotificationDto.ListRes notifications = notificationService.createNotificationDatas(member);
+        notificationService.createNotifications();
 
         // then
+        NotificationDto.ListRes notifications = notificationService.getNotifications(member);
         assertEquals(notifications.getNotifications().size(), 2);
     }
 
@@ -66,7 +67,8 @@ public class NotificationServiceTest {
         Coverletter coverletter1 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         coverletterRepository.save(coverletter1);
 
-        NotificationDto.ListRes notifications = notificationService.createNotificationDatas(member);
+        notificationService.createNotifications();
+        NotificationDto.ListRes notifications = notificationService.getNotifications(member);
         long notificationId = notifications.getNotifications().get(0).getId();
 
         // when

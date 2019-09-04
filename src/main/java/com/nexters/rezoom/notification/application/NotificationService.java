@@ -27,24 +27,7 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public NotificationDto.ListRes createNotificationDatas(Member member) {
-
-        // 자기소개서를 가져온다. (단, 마감일이 있고 지원하지 않은 자기소개서만)
-        List<Coverletter> coverletters = coverletterRepository.findByDeadline(member);
-
-        // 가져온 자소서 리스트를 순회하며 알림 데이터를 notification table에 저장한다.
-        for (Coverletter coverletter : coverletters) {
-
-            Notification notification = Notification.builder()
-                    .member(member)
-                    .coverletterId(coverletter.getId())
-                    .remainingDays(coverletter.getDeadline().getRemainingDays())
-                    .remainingHours(coverletter.getDeadline().getRemainingHours())
-                    .build();
-
-            notificationRepository.save(notification);
-        }
-
+    public NotificationDto.ListRes getNotifications(Member member) {
         List<Notification> notifications = notificationRepository.selectAll(member);
         return new NotificationDto.ListRes(notifications);
     }
@@ -53,6 +36,36 @@ public class NotificationService {
     public void toggleCheck(Member member, long notificationId) {
         Notification notification = notificationRepository.findById(member, notificationId);
         notification.toggleChecked();
+    }
+
+    public void createNotifications() {
+        // 모든 유저의 자기소개서를 가져온다. (단, 마감일이 있고 지원하지 않은 자기소개서만)
+        // TODO : 휴먼 회원 제외하기
+        List<Coverletter> coverletters = coverletterRepository.findAllByDeadline();
+
+        // 가져온 자소서 리스트를 순회하며 알림 데이터를 notification table에 저장한다.
+        for (Coverletter coverletter : coverletters) {
+            Notification notification = Notification.builder()
+                    .member(coverletter.getMember())
+                    .coverletterId(coverletter.getId())
+                    .remainingDays(coverletter.getDeadline().getRemainingDays())
+                    .remainingHours(coverletter.getDeadline().getRemainingHours())
+                    .build();
+
+            notificationRepository.save(notification);
+        }
+    }
+
+    void sendNotifications() {
+
+        /*
+         * List members = findAllMember();
+         * for member : members
+         *      Set<NotiType> notitypes = member.getNotiList();
+         *      for noti : noties
+         *          noti.run();
+         */
+
     }
 
 }

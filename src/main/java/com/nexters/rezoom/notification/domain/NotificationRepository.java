@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface NotificationRepository {
     void save(Notification notification);
-
     Notification findById(Member member, long id);
     List<Notification> selectAll(Member member);
 }

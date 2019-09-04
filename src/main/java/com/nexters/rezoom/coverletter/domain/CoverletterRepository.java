@@ -11,4 +11,7 @@ public interface CoverletterRepository {
     void delete(Coverletter coverletter);
 
     List<Coverletter> findByDeadline(Member member);
+
+    List<Coverletter> findAllByDeadline();
+
 }

@@ -53,13 +53,11 @@ public class HashtagRepositoryTest {
     @Test
     @DisplayName("태그 리스트 조회시 없으면 EMPTY를 반환한다")
     public void hashtagSelectTest2() {
-
-        // TODO : RollBack이 안되서 임시로 계정을 만들어서 빈 값 유도함 (근본적인 문제 해결 필요)
-
         // given
-        Member member2 = new Member("test2", "tester", "password");
+        Member anonymous = new Member(UUID.randomUUID().toString(), "tester", "password");
+
         // when
-        List<Hashtag> findHashtags = repository.findAll(member2);
+        List<Hashtag> findHashtags = repository.findAll(anonymous);
 
         // then
         assertTrue(findHashtags.isEmpty());

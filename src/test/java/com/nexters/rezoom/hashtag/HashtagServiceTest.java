@@ -15,13 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by momentjin@gmail.com on 2019-06-14
@@ -50,6 +51,7 @@ public class HashtagServiceTest {
 
     @Test
     @DisplayName("나의 해시태그 리스트엔 문항에 최소 1개 이상 등록된 태그만 포함되어야 한다.")
+    @Transactional
     public void hashtagSelectTest() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -75,14 +77,11 @@ public class HashtagServiceTest {
     @Test
     @DisplayName("해시태그 리스트 조회시 등록된 태그가 없으면 EMPTY를 반환한다")
     public void hashtagSelectTest2() {
-
-        // TODO : RollBack이 안되서 임시로 계정을 만들어서 빈 값 유도함 (근본적인 문제 해결 필요)
-
         // given
-        Member member = new Member("test2", "tester", "password");
+        Member anonymous = new Member(UUID.randomUUID().toString(), "tester", "password");
 
         // when
-        List<String> findHashtags = service.getMyHashtags(member);
+        List<String> findHashtags = service.getMyHashtags(anonymous);
 
         // then
         assertTrue(findHashtags.isEmpty());

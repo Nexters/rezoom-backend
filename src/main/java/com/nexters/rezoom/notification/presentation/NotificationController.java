@@ -1,5 +1,6 @@
 package com.nexters.rezoom.notification.presentation;
 
+import com.nexters.rezoom.dto.NotificationDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.notification.application.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class NotificationController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public void getNotifications(@AuthenticationPrincipal Member member) {
-        notificationService.createNotificationDatas(member);
+    public NotificationDto.ListRes getNotifications(@AuthenticationPrincipal Member member) {
+        return notificationService.getNotifications(member);
     }
 
     @PutMapping("/{id}")
@@ -29,4 +30,5 @@ public class NotificationController {
     public void toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") long notificationId) {
         notificationService.toggleCheck(member, notificationId);
     }
+
 }
