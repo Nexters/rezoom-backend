@@ -51,7 +51,7 @@ public class Notification {
 
     @Override
     public String toString() {
-        return id + "번 자기소개서의 마감일이 " + remainingDays + "일 " + remainingHours + "시간 남았습니다.";
+        return coverletterId + "번 자기소개서의 마감일이 " + remainingDays + "일(" + remainingHours + "시간) 남았습니다.";
     }
 
 }

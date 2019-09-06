@@ -17,24 +17,15 @@ public class NotificationScheduler {
         this.notificationService = notificationService;
     }
 
-    // cron =  초, 분, 시, 일, 월, 요일 (요일은 생략 가능)
-    // 우선 심플하게 매일 한 번, 오전 7시로 설정함
+    // 매일 07시, 자기소개서 마감 알림 데이터 미리 생성
     @Scheduled(cron = "0 0 7 * * *")
     public void createNotifications() {
         notificationService.createNotifications();
     }
 
-    // 매일 오전 8시
+    // 매일 08시, 알림 전송 (이메일 등)
     @Scheduled(cron = "0 0 8 * * *")
     public void sendNotifications() {
-
-        /*
-         * List members = findAllMember();
-         * for member : members
-         *      Set<NotiType> notitypes = member.getNotiList();
-         *      for noti : noties
-         *          noti.run();
-         */
-
+        notificationService.sendNotifications();
     }
 }

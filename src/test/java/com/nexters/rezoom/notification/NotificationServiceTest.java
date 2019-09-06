@@ -4,9 +4,12 @@ import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.dto.NotificationDto;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.rezoom.notification.application.NotificationService;
 import com.nexters.rezoom.notification.domain.Notification;
 import com.nexters.rezoom.notification.domain.NotificationRepository;
+import com.nexters.rezoom.notification.domain.NotificationSetting;
+import com.nexters.rezoom.notification.domain.NotificationType;
 import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,6 +41,8 @@ public class NotificationServiceTest {
     @Autowired
     private CoverletterRepository coverletterRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Test
     @DisplayName("마감일 알림 데이터 생성 테스트")
@@ -79,4 +84,29 @@ public class NotificationServiceTest {
         assertTrue(notification.isChecked());
     }
 
+    @Test
+    @DisplayName("메일 알림 테스트")
+    public void notificationTest3() {
+        // given
+        Member member = new Member("wlswodjs_@naver.com", "", "");
+
+        NotificationSetting setting1 = new NotificationSetting(member, NotificationType.EMAIL);
+        member.addNotificationSetting(setting1);
+
+        memberRepository.save(member);
+
+        Coverletter coverletter1 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        coverletterRepository.save(coverletter1);
+
+        Coverletter coverletter2 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        coverletterRepository.save(coverletter2);
+
+        notificationService.createNotifications();
+
+        // when
+        notificationService.sendNotifications();
+
+        // then
+        // 성공 결과는 수신자의 이메일을 확인하라..
+    }
 }
