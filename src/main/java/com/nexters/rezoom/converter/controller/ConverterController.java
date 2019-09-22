@@ -23,7 +23,7 @@ public class ConverterController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public void convertFromFileToCoverletter(@AuthenticationPrincipal Member member, @RequestParam("files") MultipartFile[] files) {
+    public void convertFromFileToCoverletter(@AuthenticationPrincipal Member member, @RequestPart(name = "file") MultipartFile[] files) {
         service.convertFromFileToCoverletter(member, files);
     }
 
