@@ -1,8 +1,8 @@
 package com.nexters.rezoom.member.presentation;
 
-import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.rezoom.member.dto.MemberDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

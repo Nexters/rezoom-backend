@@ -1,11 +1,11 @@
 {
   "companyName": "testCompany",
   "applicationHalf": 0,
-  "applicationType": 0,
+  "applicationType": 2,
   "applicationYear": 2019,
-  "deadline": "2019-04-30 18:00",
-  "isPass": 0,
-  "isApplication": 0,
+  "deadline": "2019-04-30T18:00",
+  "isPass": 1,
+  "isApplication": 2,
   "jobType": "backend engineer",
   "questions": [
     {

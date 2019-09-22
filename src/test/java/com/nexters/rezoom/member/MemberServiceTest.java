@@ -2,8 +2,8 @@ package com.nexters.rezoom.member;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.InvalidValueException;
-import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.member.application.MemberService;
+import com.nexters.rezoom.member.dto.MemberDto;
 import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -24,7 +24,7 @@ public class TextFileConverterTest {
     @DisplayName("txt파일을 coverletter 객체로 전환")
     public void test1() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/util/resource/" + "이베이 2018 하반기 신입.txt");
+        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "이베이 2018 하반기 신입.txt");
         CoverletterConverter converter = new TextFileConverter(textFile);
 
         // when
@@ -42,7 +42,7 @@ public class TextFileConverterTest {
     @DisplayName("확장자가 txt가 아닐 때, RuntimeException 발생")
     public void test2() {
         // given
-        File nonTextFile = new File("src/test/java/com/nexters/rezoom/util/resource/" + "temp.md");
+        File nonTextFile = new File("src/test/java/com/nexters/rezoom/resource/" + "temp.md");
 
         // when & then
         assertThrows(RuntimeException.class, () -> {
@@ -54,7 +54,7 @@ public class TextFileConverterTest {
     @DisplayName("파일이 존재하지 않을 때, RuntimeException 발생")
     public void test3() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/util/resource/" + "temp999.txt");
+        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "temp999.txt");
 
         // when & then
         assertThrows(RuntimeException.class, () -> {
@@ -67,7 +67,7 @@ public class TextFileConverterTest {
     // 잘못된 파일 넣어주면 됌
     public void test4() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/util/resource/" + "이베이 2018 하반기 신입.txt");
+        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "이베이 2018 하반기 신입.txt");
         CoverletterConverter converter = new TextFileConverter(textFile);
 
         // when & then

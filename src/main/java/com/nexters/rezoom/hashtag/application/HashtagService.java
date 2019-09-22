@@ -2,8 +2,8 @@ package com.nexters.rezoom.hashtag.application;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
-import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
+import com.nexters.rezoom.hashtag.domain.HashtagRepository;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,19 +16,19 @@ import java.util.stream.Collectors;
 @Service
 public class HashtagService {
 
-    private final HashTagRepository repository;
+    private final HashtagRepository repository;
 
     @Autowired
-    public HashtagService(HashTagRepository repository) {
+    public HashtagService(HashtagRepository repository) {
         this.repository = repository;
     }
 
     /**
      * 사용자가 등록한 해쉬태그 중 1개 이상 문항에 등록된 해쉬태그만 조회한다.
-     * @return 해쉬태크 리스트 (문항에 적어도 1개 이상 등록된)
+     * @return 해쉬태그 리스트 (문항에 적어도 1개 이상 등록된)
      */
     public List<String> getMyHashtags(Member member) {
-        return repository.findAll(member).stream()
+        return repository.findAllByMember(member).stream()
                 .filter(hashTag -> hashTag.getQuestions() != null) // not null
                 .filter(hashTag -> !hashTag.getQuestions().isEmpty()) // not empty
                 .map(Hashtag::getValue)
@@ -36,7 +36,7 @@ public class HashtagService {
     }
 
     public Hashtag getHashTag(Member member, String value) {
-        Hashtag findHashtag = repository.findByKey(member, value);
+        Hashtag findHashtag = repository.findByMemberAndValue(member, value);
         if (findHashtag == null) {
             throw new EntityNotFoundException(ErrorCode.HASHTAG_NOT_FOUND);
         }

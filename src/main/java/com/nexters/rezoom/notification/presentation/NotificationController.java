@@ -1,9 +1,8 @@
 package com.nexters.rezoom.notification.presentation;
 
-import com.nexters.rezoom.dto.NotificationDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.notification.application.NotificationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nexters.rezoom.notification.dto.NotificationDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/notifications")
 public class NotificationController {
 
-    @Autowired
-    private NotificationService notificationService;
+    private final NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)

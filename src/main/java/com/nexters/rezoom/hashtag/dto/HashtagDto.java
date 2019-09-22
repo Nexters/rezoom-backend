@@ -1,4 +1,4 @@
-package com.nexters.rezoom.dto;
+package com.nexters.rezoom.hashtag.dto;
 
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import lombok.AccessLevel;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 public class HashtagDto {
 
@@ -18,7 +17,6 @@ public class HashtagDto {
             this.value = value;
         }
 
-        @NotNull
         @NotEmpty
         private String value;
         public Hashtag toEntity() {
@@ -28,16 +26,13 @@ public class HashtagDto {
 
     @Getter
     public static class ViewRes {
-        // private long id;
         private String value;
 
-        public ViewRes(/*long id,*/ String value) {
-            // this.id = id;
+        public ViewRes(String value) {
             this.value = value;
         }
 
         public ViewRes(Hashtag hashTag) {
-            // this.id = hashTag.getId();
             this.value = hashTag.getValue();
         }
     }

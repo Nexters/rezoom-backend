@@ -1,15 +1,13 @@
 package com.nexters.rezoom.hashtag.domain;
 
 import com.nexters.rezoom.member.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface HashTagRepository {
-    Hashtag findByKey(Member member, String value);
+public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 
-    List<Hashtag> findAll(Member member);
+    Hashtag findByMemberAndValue(Member member, String value);
 
-    void delete(Hashtag hashTag);
-
-    void save(Hashtag hashTag);
+    List<Hashtag> findAllByMember(Member member);
 }

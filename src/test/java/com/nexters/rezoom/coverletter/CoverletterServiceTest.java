@@ -2,12 +2,13 @@ package com.nexters.rezoom.coverletter;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
+import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.IsApplication;
 import com.nexters.rezoom.coverletter.domain.IsPass;
-import com.nexters.rezoom.dto.CoverletterDto;
-import com.nexters.rezoom.dto.QuestionDto;
+import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.hashtag.application.HashtagService;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.rezoom.question.dto.QuestionDto;
 import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.List;
 import java.util.Set;
 
@@ -57,12 +60,11 @@ public class CoverletterServiceTest {
 
         assertEquals(viewRes.getId(), savedCoverletterId);
         assertEquals(viewRes.getCompanyName(), "testCompany");
-        assertEquals(viewRes.getApplicationHalf(), 0);
-        assertEquals(viewRes.getApplicationHalf(), 0);
-        assertEquals(viewRes.getApplicationYear(), 2019);
-        assertEquals(viewRes.getDeadline(), "2019-04-30T18:00");
-        assertEquals(viewRes.getIsApplication(), IsApplication.WAIT.getTypeNo());
-        assertEquals(viewRes.getIsPass(), IsPass.WAIT.getTypeNo());
+        assertEquals(viewRes.getApplicationHalf(), ApplicationHalf.FIRST_HALF);
+        assertEquals(viewRes.getApplicationYear(), Year.of(2019));
+        assertEquals(viewRes.getDeadline(), LocalDateTime.of(2019, 4, 30, 18, 0));
+        assertEquals(viewRes.getIsApplication(), IsApplication.YES);
+        assertEquals(viewRes.getIsPass(), IsPass.PASS);
         assertEquals(viewRes.getJobType(), "backend engineer");
     }
 
@@ -123,7 +125,7 @@ public class CoverletterServiceTest {
 
         // when
         // 처음 저장했던 데이터와 같은 데이터를 저장한다.
-        service.save(member, saveReq);
+        long savedCoverletterId2 = service.save(member, saveReq);
 
         // then
         assertTrue(beforeHashtagSize >= 1); // 테스트 데이터의 모든 문항은 최소 1개의 태그를 갖고 있다.
@@ -133,6 +135,7 @@ public class CoverletterServiceTest {
 
         // 임시 코드
         service.delete(member, savedCoverletterId);
+        service.delete(member, savedCoverletterId2);
     }
 
     @Test

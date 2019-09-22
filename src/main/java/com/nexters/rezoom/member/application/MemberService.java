@@ -3,14 +3,15 @@ package com.nexters.rezoom.member.application;
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
 import com.nexters.rezoom.config.exception.InvalidValueException;
-import com.nexters.rezoom.dto.MemberDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
+import com.nexters.rezoom.member.dto.MemberDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+import java.util.Optional;
+
 @Service
 public class MemberService {
 
@@ -28,13 +29,14 @@ public class MemberService {
     }
 
     public void signUp(MemberDto.SignUpReq req) {
-        Member findMember = repository.findById(req.getId());
-        if (findMember != null)
+        Optional<Member> findMember = repository.findById(req.getId());
+        if (findMember.isPresent())
             throw new InvalidValueException(ErrorCode.EMAIL_DUPLICATION);
 
         repository.save(new Member(req.getId(), req.getName(), encoder.encode(req.getPassword())));
     }
 
+    @Transactional
     public void updateMemberInfo(String id, MemberDto.UpdateReq req) {
         // TODO : object mapping 필요
         Member findMember = getMember(id);
@@ -42,18 +44,14 @@ public class MemberService {
         if (!req.getName().isEmpty())
             findMember.setName(req.getName());
 
-        if (!req.getProfileImageUrl().isEmpty())
-            findMember.setProfileImageUrl(req.getProfileImageUrl());
-
-        if (!req.getMotto().isEmpty())
-            findMember.setMotto(req.getMotto());
+        findMember.setMotto(req.getMotto());
     }
 
     private Member getMember(String id) {
-        Member findMember = repository.findById(id);
-        if (findMember == null)
+        Optional<Member> findMember = repository.findById(id);
+        if (!findMember.isPresent())
             throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND);
 
-        return findMember;
+        return findMember.get();
     }
 }

@@ -2,6 +2,8 @@ package com.nexters.rezoom.coverletter;
 
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
+import com.nexters.rezoom.coverletter.domain.Deadline;
+import com.nexters.rezoom.coverletter.dto.PageRequest;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
@@ -13,13 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +56,8 @@ public class CoverletterRepositoryTest {
         repository.save(coverletter);
 
         // then
-        Coverletter findCoverletter = repository.findById(member, coverletter.getId());
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter findCoverletter = findCoverletterOpt.get();
 
         assertEquals(coverletter.getId(), findCoverletter.getId());
         assertEquals(coverletter.getCompanyName(), findCoverletter.getCompanyName());
@@ -78,12 +79,13 @@ public class CoverletterRepositoryTest {
         repository.save(coverletter);
 
         // then
-        Coverletter findCoverletter = repository.findById(member, coverletter.getId());
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter findCoverletter = findCoverletterOpt.get();
+
         List<Question> findQuestions = findCoverletter.getQuestions();
         List<Question> questions = coverletter.getQuestions();
 
         assertEquals(questions.size(), findQuestions.size());
-
         for (int i = 0; i < findQuestions.size(); i++) {
             assertEquals(findQuestions.get(i), questions.get(i));
         }
@@ -101,7 +103,9 @@ public class CoverletterRepositoryTest {
         repository.save(coverletter);
 
         // then
-        Coverletter findCoverletter = repository.findById(member, coverletter.getId());
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter findCoverletter = findCoverletterOpt.get();
+
         List<Question> findQuestions = findCoverletter.getQuestions();
 
         assertTrue(findQuestions.size() >= 1);
@@ -140,7 +144,13 @@ public class CoverletterRepositoryTest {
         coverletter.setCompanyName("updatedTestCompany");
 
         // then
+<<<<<<< HEAD
         Coverletter findCoverletter = repository.findById(member, existCoverletterId);
+=======
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter findCoverletter = findCoverletterOpt.get();
+
+>>>>>>> 15dde09... Fix notification API erros
         assertEquals(coverletter.getId(), findCoverletter.getId());
         assertEquals(coverletter.getCompanyName(), findCoverletter.getCompanyName());
     }
@@ -176,8 +186,13 @@ public class CoverletterRepositoryTest {
         repository.delete(findCoverletter);
 
         // then
+<<<<<<< HEAD
         Coverletter deletedCoverletter = repository.findById(member, coverletterId);
         assertNull(deletedCoverletter);
+=======
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        assertNull(findCoverletterOpt.orElse(null));
+>>>>>>> 15dde09... Fix notification API erros
     }
 
     @Test
@@ -187,7 +202,12 @@ public class CoverletterRepositoryTest {
         long coverletterId = 1;
 
         // when
+<<<<<<< HEAD
         Coverletter existCoverletter = repository.findById(member, coverletterId);
+=======
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter existCoverletter = findCoverletterOpt.get();
+>>>>>>> 15dde09... Fix notification API erros
         repository.delete(existCoverletter);
 
         // then
@@ -206,7 +226,12 @@ public class CoverletterRepositoryTest {
         long coverletterId = 1;
 
         // when
+<<<<<<< HEAD
         Coverletter findCoverletter = repository.findById(member, coverletterId);
+=======
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter findCoverletter = findCoverletterOpt.get();
+>>>>>>> 15dde09... Fix notification API erros
 
         // then
         List<Question> findQuestions = findCoverletter.getQuestions();
@@ -222,7 +247,12 @@ public class CoverletterRepositoryTest {
         long coverletterId = 1;
 
         // when
+<<<<<<< HEAD
         Coverletter findCoverletter = repository.findById(member, coverletterId);
+=======
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
+        Coverletter findCoverletter = findCoverletterOpt.get();
+>>>>>>> 15dde09... Fix notification API erros
 
         // then
         List<Question> findQuestions = findCoverletter.getQuestions();
@@ -263,10 +293,13 @@ public class CoverletterRepositoryTest {
 
         // when
         int numberPerPage = 5;
-        List<Coverletter> coverletters = repository.findAll(member, 0, numberPerPage);
+        PageRequest request = new PageRequest();
+        request.setSize(numberPerPage);
+
+        Page<Coverletter> coverletters = repository.findAllByMember(request.of(), member);
 
         // then
-        assertEquals(coverletters.size(), numberPerPage);
+        assertEquals(coverletters.getContent().size(), numberPerPage);
     }
 
     @Test
@@ -276,10 +309,10 @@ public class CoverletterRepositoryTest {
         long coverletterID = -1;
 
         // when
-        Coverletter findCoverletter = repository.findById(member, coverletterID);
+        Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletterID, member);
 
         // then
-        assertNull(findCoverletter);
+        assertNull(findCoverletterOpt.orElse(null));
     }
 
     @Test
@@ -289,22 +322,24 @@ public class CoverletterRepositoryTest {
         Member anonymous = new Member(UUID.randomUUID().toString(), "", "");
 
         // when
-        List<Coverletter> coverletters = repository.findAll(anonymous, 1, 5);
+        Page<Coverletter> coverletters = repository.findAllByMember(new PageRequest().of(), anonymous);
 
         // then
-        assertTrue(coverletters.isEmpty());
+        assertFalse(coverletters.hasContent());
     }
 
+    @Transactional
     @Test
     @DisplayName("마감일이 있고, 마감일이 현재포함 미래이고, 지원하지 않은 모든 자기소개서를 조회한다")
     public void coverletterSelectTest6() {
         // given
-        // TODO : coverletter 엔티티 저장 로직 추가하기
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-        List<Coverletter> coverletters = repository.findByDeadline(member);
+        List<Coverletter> coverletters = repository.findAllByDeadlineGreaterThanEqual(Deadline.now());
 
         // then
-        System.out.println(coverletters.size());
+        assertTrue(coverletters.size() >= 1);
     }
 }

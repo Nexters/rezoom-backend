@@ -44,7 +44,7 @@ public class HashtagRepositoryTest {
         String hashtagValue = UUID.randomUUID().toString();
 
         // when
-        Hashtag findHashtag = repository.findByKey(member, hashtagValue);
+        Hashtag findHashtag = repository.findByMemberAndValue(member, hashtagValue);
 
         // then
         assertNull(findHashtag);
@@ -57,7 +57,7 @@ public class HashtagRepositoryTest {
         Member anonymous = new Member(UUID.randomUUID().toString(), "tester", "password");
 
         // when
-        List<Hashtag> findHashtags = repository.findAll(anonymous);
+        List<Hashtag> findHashtags = repository.findAllByMember(anonymous);
 
         // then
         assertTrue(findHashtags.isEmpty());

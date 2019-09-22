@@ -56,6 +56,19 @@ public class Deadline {
         }
     }
 
+
+    public static Deadline now() {
+        return new Deadline(LocalDateTime.now());
+    }
+
+    public long getRemainingHours() {
+        return LocalDateTime.now().until(this.deadline, ChronoUnit.HOURS);
+    }
+
+    public long getRemainingDays() {
+        return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
+    }
+
     @Override
     public String toString() {
         if (deadline == null) return "no deadline";
@@ -73,6 +86,7 @@ public class Deadline {
         return this.deadline.equals(deadline1.getDeadline());
     }
 
+<<<<<<< HEAD
     public long getRemainingHours() {
         return LocalDateTime.now().until(this.deadline, ChronoUnit.HOURS);
     }
@@ -81,4 +95,6 @@ public class Deadline {
         return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
     }
 >>>>>>> 5b2d019... Add Notification api & scheduler
+=======
+>>>>>>> 6ca043b... Fix notification API erros
 }

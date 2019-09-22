@@ -3,6 +3,7 @@ package com.nexters.rezoom.config.dto;
 import com.nexters.rezoom.config.exception.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
  **/
 @Getter
 public class ErrorResponse {
+
+    @Setter
     private String message;
     private int status;
     private List<FieldError> errors = new ArrayList<>();

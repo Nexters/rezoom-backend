@@ -42,7 +42,6 @@ public class Hashtag {
         this.value = value;
     }
 
-    // TODO:  상태를 바꾸지말고, 불변객체를 리턴하자
     public void setValue(String value) {
         this.value = value;
     }

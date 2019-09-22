@@ -72,6 +72,7 @@ public class Coverletter {
     )
     private List<Question> questions = new ArrayList<>();
 
+    @Setter
     @CreationTimestamp
     @Column(name = "create_date")
     private LocalDateTime createDate;

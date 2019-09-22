@@ -2,10 +2,10 @@ package com.nexters.rezoom.question;
 
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
-import com.nexters.rezoom.dto.CoverletterDto;
-import com.nexters.rezoom.dto.QuestionDto;
+import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.application.QuestionService;
+import com.nexters.rezoom.question.dto.QuestionDto;
 import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -85,7 +86,7 @@ public class QuestionServiceTest {
         String tagValue = "tag2(new)";
 
         // when
-        List<QuestionDto.ViewRes> questions = service.getQuestionsByHashtags(member, tagValue);
+        List<QuestionDto.ViewRes> questions = service.getQuestionsByHashtags(member, Collections.singletonList(tagValue));
 
         // then
         assertTrue(questions.size() >= 2);

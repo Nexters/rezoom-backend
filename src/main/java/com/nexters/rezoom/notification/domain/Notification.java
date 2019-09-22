@@ -28,6 +28,10 @@ public class Notification {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    // TODO : 원래는 join해야하는데,, jpa 더 학습해서 하는 걸로 합시다.
+    @Column(name = "company_name")
+    private String companyName;
+
     @Column(name = "coverletter_id")
     private long coverletterId;
 
@@ -51,7 +55,7 @@ public class Notification {
 
     @Override
     public String toString() {
-        return coverletterId + "번 자기소개서의 마감일이 " + remainingDays + "일(" + remainingHours + "시간) 남았습니다.";
+        return "[" + companyName + "] 자기소개서의 마감일이 " + remainingDays + "일(" + remainingHours + "시간) 남았습니다.";
     }
 
 }

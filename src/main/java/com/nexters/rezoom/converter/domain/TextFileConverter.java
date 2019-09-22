@@ -1,14 +1,10 @@
 package com.nexters.rezoom.converter.domain;
 
-import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
-import com.nexters.rezoom.coverletter.domain.ApplicationType;
-import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.question.domain.Question;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,6 +54,7 @@ public final class TextFileConverter extends CoverletterConverter {
 
     @Override
     public List<Question> parseQuestions() {
+
         // 1. load a file
         Scanner scanner = loadFile();
 
@@ -115,7 +112,7 @@ public final class TextFileConverter extends CoverletterConverter {
         }
 
         if (successFlag != 0)
-            throw new RuntimeException("파일 내용이 올바르지 않습니다.");
+            throw new IllegalArgumentException("파일 내용이 올바르지 않습니다.");
 
         // 3. return
         return questions;
@@ -125,8 +122,7 @@ public final class TextFileConverter extends CoverletterConverter {
         try {
             return new Scanner(file);
         } catch (FileNotFoundException e) {
-            System.out.println("파일을 찾을 수 없습니다");
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 

@@ -30,10 +30,6 @@ public class Member {
     @Column(name = "motto") // 좌우명
     private String motto;
 
-    @Setter
-    @Column(name = "profile_image_url")
-    private String profileImageUrl;
-
     @Builder.Default
     @OneToMany(
             mappedBy = "member",

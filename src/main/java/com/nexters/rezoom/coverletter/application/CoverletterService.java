@@ -1,24 +1,22 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.rezoom.config.dto.Paging;
 import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.dto.CoverletterDto;
-import com.nexters.rezoom.dto.QuestionDto;
 import com.nexters.rezoom.hashtag.domain.HashTagRepository;
+import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
+import com.nexters.rezoom.question.dto.QuestionDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Transactional
 @Service
@@ -50,15 +48,19 @@ public class CoverletterService {
         }
 
         coverletter.checkPassStatus();
-
         coverletterRepository.save(coverletter);
+
         return coverletter.getId();
     }
 
-    // TODO : save() 메소드와 구조가 매우 유사함 (개선할 필요가 있는지 검토하기)
+    // TODO : 문제 있음. hashtag key 문제로 create와 동일하게 작업.
+    // TODO : create_date 등의 추가 데이터 누락. 일일히 set 해줘야하는 문제 있음.
     public void update(Member member, long coverletterId, CoverletterDto.UpdateReq req) {
+        Coverletter existCoverletter = this.getCoverletter(member, coverletterId);
+
         Coverletter coverletter = req.toEntity();
         coverletter.setMember(member);
+        coverletter.setCreateDate(existCoverletter.getCreateDate());
 
         // set questions
         List<Question> questions = new ArrayList<>();
@@ -73,7 +75,6 @@ public class CoverletterService {
         }
 
         coverletter.checkPassStatus();
-
         coverletterRepository.save(coverletter);
     }
 
@@ -83,11 +84,9 @@ public class CoverletterService {
         return new CoverletterDto.ViewRes(findCoverletter);
     }
 
-    public CoverletterDto.ListRes getList(Member member, int pageNo) {
-        Paging paging = new Paging(pageNo);
-        List<Coverletter> findCoverletters = coverletterRepository.findAll(member, paging.getBeginRow(), paging.getNumberPerPage());
-
-        return new CoverletterDto.ListRes(findCoverletters);
+    public Page<CoverletterDto.ViewRes> getList(Member member, Pageable pageable) {
+        return coverletterRepository.findAllByMember(pageable, member)
+                .map(CoverletterDto.ViewRes::new);
     }
 
     public void delete(Member member, long id) {
@@ -96,18 +95,18 @@ public class CoverletterService {
     }
 
     private Coverletter getCoverletter(Member member, long id) {
-        Coverletter findCoverletter = coverletterRepository.findById(member, id);
-        if (findCoverletter == null) {
+        Optional<Coverletter> findCoverletter = coverletterRepository.findByIdAndMember(id, member);
+        if (!findCoverletter.isPresent()) {
             throw new EntityNotFoundException(ErrorCode.COVERLETTER_NOT_FOUND);
         }
 
-        return findCoverletter;
+        return findCoverletter.get();
     }
 
     /**
      * TODO : Key값이 애매하게 잡혀있어서, Merge를 사용할 수 없음 (개선하기)
      * 중복없이 hashtag를 question에 설정하기 위한 메소드
-     *
+     * <p>
      * > 중복O : 기존 해시태그 사용
      * > 중복X : 새로운 해시태그 생성
      */
@@ -115,7 +114,7 @@ public class CoverletterService {
         Set<Hashtag> resultHashtags = new HashSet<>();
 
         for (Hashtag hashtag : hashtags) {
-            Hashtag findHashtag = hashTagRepository.findByKey(member, hashtag.getValue());
+            Hashtag findHashtag = hashTagRepository.findByMemberAndValue(member, hashtag.getValue());
             if (findHashtag != null) {
                 resultHashtags.add(findHashtag);
                 continue;
@@ -130,4 +129,8 @@ public class CoverletterService {
         return resultHashtags;
     }
 
+    public CoverletterDto.ListRes searchByCompanyName(Member member, String companyName) {
+        List<Coverletter> coverletters = coverletterRepository.findAllByMemberAndCompanyNameStartsWith(member, companyName);
+        return new CoverletterDto.ListRes(coverletters);
+    }
 }

@@ -1,11 +1,12 @@
 package com.nexters.rezoom.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nexters.rezoom.coverletter.domain.*;
-import com.nexters.rezoom.dto.CoverletterDto;
-import com.nexters.rezoom.dto.MemberDto;
+import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.rezoom.member.dto.MemberDto;
 import com.nexters.rezoom.question.domain.Question;
 
 import java.io.File;
@@ -72,8 +73,11 @@ public class TestObjectUtils {
 
     private static <T> T loadDtoFromJsonFile(String fileName, Class<T> classType) {
         try {
-            File file = new File("src/test/java/com/nexters/rezoom/util/resource/" + fileName);
-            return new ObjectMapper().readValue(file, classType);
+            File file = new File("src/test/java/com/nexters/rezoom/resource/" + fileName);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+
+            return mapper.readValue(file, classType);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -38,7 +38,7 @@ public class EmailNotificator implements Notificator {
 
             Transport.send(mimeMessage);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

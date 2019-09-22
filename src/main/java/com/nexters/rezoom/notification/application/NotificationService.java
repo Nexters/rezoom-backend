@@ -2,17 +2,19 @@ package com.nexters.rezoom.notification.application;
 
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.dto.NotificationDto;
+import com.nexters.rezoom.coverletter.domain.Deadline;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.rezoom.notification.domain.Notification;
 import com.nexters.rezoom.notification.domain.NotificationMessage;
 import com.nexters.rezoom.notification.domain.NotificationRepository;
 import com.nexters.rezoom.notification.domain.NotificationSetting;
+import com.nexters.rezoom.notification.dto.NotificationDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -36,28 +38,29 @@ public class NotificationService {
     }
 
     public NotificationDto.ListRes getNotifications(Member member) {
+        List<Notification> notifications = notificationRepository.findAllByMember(member);
+        notifications.sort((c1, c2) -> c2.getCreateDate().compareTo(c1.getCreateDate()));
 
-        List<Notification> notifications = notificationRepository.selectAll(member);
         return new NotificationDto.ListRes(notifications);
     }
 
     @Transactional
     public void toggleCheck(Member member, long notificationId) {
-
-        Notification notification = notificationRepository.findById(member, notificationId);
-        notification.toggleChecked();
+        Optional<Notification> notification = notificationRepository.findByIdAndMember(notificationId, member);
+        notification.ifPresent(Notification::toggleChecked);
     }
 
     public void createNotifications() {
 
         // 모든 유저의 자기소개서를 가져온다. (단, 마감일이 있고 지원하지 않은 자기소개서만)
         // TODO : 휴먼 회원 제외하기?
-        List<Coverletter> coverletters = coverletterRepository.findAllByDeadline();
+        List<Coverletter> coverletters = coverletterRepository.findAllByDeadlineGreaterThanEqual(Deadline.now());
 
         // 가져온 자소서 리스트를 순회하며 알림 데이터를 notification table에 저장한다.
         for (Coverletter coverletter : coverletters) {
             Notification notification = Notification.builder()
                     .member(coverletter.getMember())
+                    .companyName(coverletter.getCompanyName())
                     .coverletterId(coverletter.getId())
                     .remainingDays(coverletter.getDeadline().getRemainingDays())
                     .remainingHours(coverletter.getDeadline().getRemainingHours())
@@ -70,19 +73,18 @@ public class NotificationService {
     public void sendNotifications() {
 
         // 알림을 받을 active user 조회
-        List<Member> receivers = memberRepository.findActiveMembers();
+        List<Member> receivers = memberRepository.findAll();
 
-        // notify
+        // notify 시작
         for (Member member : receivers) {
 
             // 해당 유저의 알림 데이터가 있는지 확인
-            List<Notification> notifications = notificationRepository.selectAll(member);
+            List<Notification> notifications = notificationRepository.findAllByMember(member);
+
+            // 유저의 알림 설정 조회
+            Set<NotificationSetting> notificationSettings = member.getNotificationSettings();
 
             for (Notification notification : notifications) {
-
-                // user 알림 설정 조회
-                Set<NotificationSetting> notificationSettings = member.getNotificationSettings();
-
                 NotificationMessage message = new NotificationMessage(
                         "자기소개서 마감일 알림",
                         notification.toString()

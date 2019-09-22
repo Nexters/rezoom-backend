@@ -1,5 +1,8 @@
 package com.nexters.rezoom.coverletter.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,21 +31,25 @@ public enum ApplicationHalf {
         this.typeNo = typeNo;
     }
 
+    @JsonCreator
     public static ApplicationHalf getValue(int typeNo) {
         return lookup.getOrDefault(typeNo, ApplicationHalf.ETC);
     }
 
-    public static ApplicationHalf getValueByName(String name) {
-        switch (name) {
+    public static ApplicationHalf getValueByName(String applicationHalf) {
+        switch (applicationHalf) {
             case "상반기":
                 return ApplicationHalf.FIRST_HALF;
             case "하반기":
                 return ApplicationHalf.SECOND_HALF;
+            case "수시":
+                return ApplicationHalf.ALWAYS;
             default:
                 return ApplicationHalf.ETC;
         }
     }
 
+    @JsonValue
     public int getTypeNo() {
         return this.typeNo;
     }

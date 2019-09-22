@@ -2,7 +2,6 @@ package com.nexters.rezoom.notification;
 
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.dto.NotificationDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.rezoom.notification.application.NotificationService;
@@ -10,6 +9,7 @@ import com.nexters.rezoom.notification.domain.Notification;
 import com.nexters.rezoom.notification.domain.NotificationRepository;
 import com.nexters.rezoom.notification.domain.NotificationSetting;
 import com.nexters.rezoom.notification.domain.NotificationType;
+import com.nexters.rezoom.notification.dto.NotificationDto;
 import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -80,8 +82,8 @@ public class NotificationServiceTest {
         notificationService.toggleCheck(member, notificationId);
 
         // then
-        Notification notification = notificationRepository.findById(member, notificationId);
-        assertTrue(notification.isChecked());
+        Optional<Notification> notification = notificationRepository.findByIdAndMember(notificationId, member);
+        assertTrue(notification.get().isChecked());
     }
 
     @Test

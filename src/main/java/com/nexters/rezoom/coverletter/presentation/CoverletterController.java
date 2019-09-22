@@ -1,8 +1,10 @@
 package com.nexters.rezoom.coverletter.presentation;
 
 import com.nexters.rezoom.coverletter.application.CoverletterService;
-import com.nexters.rezoom.dto.CoverletterDto;
+import com.nexters.rezoom.coverletter.dto.CoverletterDto;
+import com.nexters.rezoom.coverletter.dto.PageRequest;
 import com.nexters.rezoom.member.domain.Member;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -33,15 +35,20 @@ public class CoverletterController {
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member,
-                                          @RequestParam(required = false, defaultValue = "1") int pageNo) {
-        return service.getList(member, pageNo);
+    public Page<CoverletterDto.ViewRes> getList(@AuthenticationPrincipal Member member, final PageRequest pageRequest) {
+        return service.getList(member, pageRequest.of());
     }
 
     @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
     public CoverletterDto.ViewRes getView(@AuthenticationPrincipal Member member, @PathVariable long id) {
         return service.getView(member, id);
+    }
+
+    @GetMapping(value = "/search")
+    @ResponseStatus(HttpStatus.OK)
+    public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member, @RequestParam final String companyName) {
+        return service.searchByCompanyName(member, companyName);
     }
 
     @DeleteMapping(value = "{id}")

@@ -1,4 +1,4 @@
-package com.nexters.rezoom.dto;
+package com.nexters.rezoom.notification.dto;
 
 import com.nexters.rezoom.notification.domain.Notification;
 import lombok.AccessLevel;
@@ -38,6 +38,7 @@ public class NotificationDto {
         private long remainingDays;
         private long remainingHours;
         private boolean isChecked = false;
+        private String contents;
         private LocalDateTime createDate;
 
         public ViewRes(Notification notification) {
@@ -47,6 +48,7 @@ public class NotificationDto {
             this.remainingHours = notification.getRemainingHours();
             this.isChecked = notification.isChecked();
             this.createDate = notification.getCreateDate();
+            this.contents = notification.toString();
         }
 
     }

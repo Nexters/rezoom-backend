@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +37,8 @@ public class MemberRepositoryTest {
         repository.save(member);
 
         // when
-        Member findMember = repository.findById(member.getId());
+        Optional<Member> findMemberOpt = repository.findById(member.getId());
+        Member findMember = findMemberOpt.get();
 
         // then
         assertEquals(findMember.getId(), member.getId());
@@ -49,10 +51,11 @@ public class MemberRepositoryTest {
         String randomId = UUID.randomUUID().toString();
 
         // when
-        Member member = repository.findById(randomId);
+        Optional<Member> findMemberOpt = repository.findById(randomId);
+        Member findMember = findMemberOpt.orElse(null);
 
         // then
-        assertNull(member);
+        assertNull(findMember);
     }
 
     @Test
@@ -69,7 +72,8 @@ public class MemberRepositoryTest {
         repository.save(member);
 
         // then
-        Member updatedMember = repository.findById(member.getId());
+        Optional<Member> updatedMemberOpt = repository.findById(member.getId());
+        Member updatedMember = updatedMemberOpt.get();
         assertEquals(member.getName(), updatedMember.getName());
     }
 

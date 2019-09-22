@@ -64,7 +64,7 @@ public class HashtagServiceTest {
         List<String> findHashtagsRegisteredInQuestion = service.getMyHashtags(member);
 
         // then
-        List<String> findAllHashtags = repository.findAll(member).stream()
+        List<String> findAllHashtags = repository.findAllByMember(member).stream()
                                         .map(Hashtag::getValue)
                                         .collect(Collectors.toList());
 
