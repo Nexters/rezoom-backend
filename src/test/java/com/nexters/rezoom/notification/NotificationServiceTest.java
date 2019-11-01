@@ -86,8 +86,9 @@ public class NotificationServiceTest {
         assertTrue(notification.get().isChecked());
     }
 
-    @Test
-    @DisplayName("메일 알림 테스트")
+
+//    @Test
+//    @DisplayName("메일 알림 테스트")
     public void notificationTest3() {
         // given
         Member member = new Member("wlswodjs_@naver.com", "", "");

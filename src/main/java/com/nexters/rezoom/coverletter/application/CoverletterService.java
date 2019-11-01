@@ -4,9 +4,9 @@ import com.nexters.rezoom.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.config.exception.ErrorCode;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.hashtag.domain.HashTagRepository;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
+import com.nexters.rezoom.hashtag.domain.HashtagRepository;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
 import com.nexters.rezoom.question.dto.QuestionDto;
@@ -23,12 +23,12 @@ import java.util.*;
 public class CoverletterService {
 
     private final CoverletterRepository coverletterRepository;
-    private final HashTagRepository hashTagRepository;
+    private final HashtagRepository hashTagRepository;
 
     @Autowired
-    public CoverletterService(CoverletterRepository coverletterRepository, HashTagRepository hashTagRepository) {
+    public CoverletterService(CoverletterRepository coverletterRepository, HashtagRepository hashtagRepository) {
         this.coverletterRepository = coverletterRepository;
-        this.hashTagRepository = hashTagRepository;
+        this.hashTagRepository = hashtagRepository;
     }
 
     public long save(Member member, CoverletterDto.SaveReq req) {

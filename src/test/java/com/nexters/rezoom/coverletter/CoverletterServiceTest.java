@@ -27,7 +27,6 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Transactional
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class CoverletterServiceTest {
@@ -125,7 +124,7 @@ public class CoverletterServiceTest {
 
         // when
         // 처음 저장했던 데이터와 같은 데이터를 저장한다.
-        long savedCoverletterId2 = service.save(member, saveReq);
+        long savedCoverletterId2     = service.save(member, saveReq);
 
         // then
         assertTrue(beforeHashtagSize >= 1); // 테스트 데이터의 모든 문항은 최소 1개의 태그를 갖고 있다.
@@ -143,10 +142,11 @@ public class CoverletterServiceTest {
     @Transactional
     public void coverletterSelectTest1() {
         // given
-        long coverletterId = 1;
+        CoverletterDto.SaveReq req = TestObjectUtils.createCoverletterSaveReqDto();
+        long savedCoverletterId = service.save(member, req);
 
         // when
-        CoverletterDto.ViewRes coverletter = service.getView(member, coverletterId);
+        CoverletterDto.ViewRes coverletter = service.getView(member, savedCoverletterId);
 
         // then
         List<QuestionDto.ViewRes> questions = coverletter.getQuestions();
@@ -159,10 +159,11 @@ public class CoverletterServiceTest {
     @Transactional
     public void coverletterSelectTest2() {
         // given
-        long coverletterId = 1;
+        CoverletterDto.SaveReq req = TestObjectUtils.createCoverletterSaveReqDto();
+        long savedCoverletterId = service.save(member, req);
 
         // when
-        CoverletterDto.ViewRes coverletter = service.getView(member, coverletterId);
+        CoverletterDto.ViewRes coverletter = service.getView(member, savedCoverletterId);
 
         // then
         List<QuestionDto.ViewRes> questions = coverletter.getQuestions();

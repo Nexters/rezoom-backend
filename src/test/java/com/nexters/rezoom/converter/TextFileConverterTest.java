@@ -24,15 +24,15 @@ public class TextFileConverterTest {
     @DisplayName("txt파일을 coverletter 객체로 전환")
     public void test1() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "이베이 2018 하반기 신입.txt");
+        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "E사 2019 하반기 신입.txt");
         CoverletterConverter converter = new TextFileConverter(textFile);
 
         // when
         Coverletter coverletter = converter.convert();
 
         // then
-        assertEquals(coverletter.getCompanyName(), "이베이");
-        assertEquals(coverletter.getApplicationYear(), Year.of(2018));
+        assertEquals(coverletter.getCompanyName(), "E사");
+        assertEquals(coverletter.getApplicationYear(), Year.of(2019));
         assertEquals(coverletter.getApplicationHalf(), ApplicationHalf.SECOND_HALF);
         assertEquals(coverletter.getApplicationType(), ApplicationType.JUNIOR);
         assertEquals(coverletter.getQuestions().size(), 3);
@@ -67,7 +67,7 @@ public class TextFileConverterTest {
     // 잘못된 파일 넣어주면 됌
     public void test4() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "이베이 2018 하반기 신입.txt");
+        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "E사 2019 하반기 신입.txt");
         CoverletterConverter converter = new TextFileConverter(textFile);
 
         // when & then

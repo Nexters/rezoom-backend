@@ -11,6 +11,7 @@ import com.nexters.rezoom.question.dto.QuestionDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -40,13 +41,10 @@ public class QuestionService {
         return new QuestionDto.ViewRes(question);
     }
 
-<<<<<<< HEAD
     /**
      * 특정 해쉬태그가 존재하는 문항을 조회한다.
      */
-    public List<QuestionDto.ViewRes> getQuestionsByHashtags(Member member, String value) {
-        Hashtag findHashtag = hashTagService.getHashTag(member, value);
-=======
+    @Transactional
     public List<QuestionDto.ViewRes> getQuestionsByHashtags(Member member, List<String> hashtags) {
         // TODO : 해시태그로 문항 검색하는 SQL - 성능 테스트 필요
         Set<Question> questionSet = new HashSet<>();
@@ -59,7 +57,6 @@ public class QuestionService {
                 // do not anything
             }
         }
->>>>>>> 6ca043b... Fix notification API erros
 
         return questionSet.stream()
                 .map(QuestionDto.ViewRes::new)

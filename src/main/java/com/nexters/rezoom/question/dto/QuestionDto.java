@@ -17,16 +17,10 @@ public class QuestionDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
-<<<<<<< HEAD:src/main/java/com/nexters/rezoom/dto/QuestionDto.java
-        @NotNull
-=======
-
->>>>>>> 6ca043b... Fix notification API erros:src/main/java/com/nexters/rezoom/question/dto/QuestionDto.java
         @NotEmpty
         private String title;
 
         @NotEmpty
-        @Builder.Default
         private String contents;
 
         private Set<HashtagDto.SaveReq> hashtags = new HashSet<>();

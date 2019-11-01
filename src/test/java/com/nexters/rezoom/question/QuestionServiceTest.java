@@ -74,8 +74,6 @@ public class QuestionServiceTest {
         assertTrue(hashtags.size() >= 1);
     }
 
-    // @Transactional을 사용하면, context가 달라서 그런지 데이터가 없다고 나옴.
-    // @Transactional을 사용하지 않으면, 데이터가 자꾸 생성됌
     @Test
     @DisplayName("태그를 통해 문항을 조회할 수 있어야 한다")
     public void questionSelectTest3() {
@@ -92,7 +90,7 @@ public class QuestionServiceTest {
         assertTrue(questions.size() >= 2);
 
         // @transactional 문제로 삭제 로직 추가
-        coverletterService.delete(member, savedCoverletterId);
+        // coverletterService.delete(member, savedCoverletterId);
     }
 
 }

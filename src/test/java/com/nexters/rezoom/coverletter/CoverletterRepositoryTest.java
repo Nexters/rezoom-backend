@@ -1,9 +1,9 @@
 package com.nexters.rezoom.coverletter;
 
+import com.nexters.rezoom.coverletter.dto.PageRequest;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.coverletter.domain.Deadline;
-import com.nexters.rezoom.coverletter.dto.PageRequest;
 import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.question.domain.Question;
@@ -29,16 +29,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * Github : http://github.com/momentjin
  **/
 
-@Transactional
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class CoverletterRepositoryTest {
 
-    private static Member member;
     @Autowired
     private CoverletterRepository repository;
+
     @Autowired
     private QuestionRepository questionRepository;
+
+    private static Member member;
 
     @BeforeAll
     public static void createMember() {
@@ -59,13 +60,13 @@ public class CoverletterRepositoryTest {
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
         Coverletter findCoverletter = findCoverletterOpt.get();
 
-        assertEquals(coverletter.getId(), findCoverletter.getId());
-        assertEquals(coverletter.getCompanyName(), findCoverletter.getCompanyName());
-        assertEquals(coverletter.getApplicationYear(), findCoverletter.getApplicationYear());
-        assertEquals(coverletter.getApplicationHalf(), findCoverletter.getApplicationHalf());
-        assertEquals(coverletter.getApplicationType(), findCoverletter.getApplicationType());
-        assertEquals(coverletter.getJobType(), findCoverletter.getJobType());
-        assertEquals(coverletter.getDeadline(), findCoverletter.getDeadline());
+        assertEquals(coverletter.getId(),               findCoverletter.getId());
+        assertEquals(coverletter.getCompanyName(),      findCoverletter.getCompanyName());
+        assertEquals(coverletter.getApplicationYear(),  findCoverletter.getApplicationYear());
+        assertEquals(coverletter.getApplicationHalf(),  findCoverletter.getApplicationHalf());
+        assertEquals(coverletter.getApplicationType(),  findCoverletter.getApplicationType());
+        assertEquals(coverletter.getJobType(),          findCoverletter.getJobType());
+        assertEquals(coverletter.getDeadline(),         findCoverletter.getDeadline());
     }
 
     @Test
@@ -128,7 +129,6 @@ public class CoverletterRepositoryTest {
 
                 assertEquals(findHashtag, hashtag);
             }
-
         }
     }
 
@@ -137,20 +137,16 @@ public class CoverletterRepositoryTest {
     @Transactional
     public void coverletterUpdateTest1() {
         // given
-        long existCoverletterId = 1;
-        Coverletter coverletter = repository.findById(member, existCoverletterId);
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
         coverletter.setCompanyName("updatedTestCompany");
 
         // then
-<<<<<<< HEAD
-        Coverletter findCoverletter = repository.findById(member, existCoverletterId);
-=======
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
         Coverletter findCoverletter = findCoverletterOpt.get();
 
->>>>>>> 15dde09... Fix notification API erros
         assertEquals(coverletter.getId(), findCoverletter.getId());
         assertEquals(coverletter.getCompanyName(), findCoverletter.getCompanyName());
     }
@@ -160,8 +156,8 @@ public class CoverletterRepositoryTest {
     @Transactional
     public void coverletterUpdateTest2() {
         // given
-        long existCoverletterId = 1;
-        Coverletter coverletter = repository.findById(member, existCoverletterId);
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         List<Question> questions = coverletter.getQuestions();
         Question question = questions.get(0);
@@ -175,39 +171,33 @@ public class CoverletterRepositoryTest {
         assertNull(findQuestion);
     }
 
+    @Transactional
     @Test
     @DisplayName("삭제된 자기소개서를 조회하면 NULL을 반환한다")
     public void coverletterDeleteTest1() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-        Coverletter findCoverletter = repository.findById(member, coverletterId);
-        repository.delete(findCoverletter);
+        repository.delete(coverletter);
 
         // then
-<<<<<<< HEAD
-        Coverletter deletedCoverletter = repository.findById(member, coverletterId);
-        assertNull(deletedCoverletter);
-=======
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
         assertNull(findCoverletterOpt.orElse(null));
->>>>>>> 15dde09... Fix notification API erros
     }
 
+    @Transactional
     @Test
     @DisplayName("문항이 포함된 자기소개서를 삭제하면 문항도 삭제되어야 한다")
     public void coverletterDeleteTest2() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-<<<<<<< HEAD
-        Coverletter existCoverletter = repository.findById(member, coverletterId);
-=======
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
         Coverletter existCoverletter = findCoverletterOpt.get();
->>>>>>> 15dde09... Fix notification API erros
         repository.delete(existCoverletter);
 
         // then
@@ -223,15 +213,12 @@ public class CoverletterRepositoryTest {
     @Transactional
     public void coverletterSelectTest1() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-<<<<<<< HEAD
-        Coverletter findCoverletter = repository.findById(member, coverletterId);
-=======
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
         Coverletter findCoverletter = findCoverletterOpt.get();
->>>>>>> 15dde09... Fix notification API erros
 
         // then
         List<Question> findQuestions = findCoverletter.getQuestions();
@@ -244,15 +231,12 @@ public class CoverletterRepositoryTest {
     @Transactional
     public void coverletterSelectTest2() {
         // given
-        long coverletterId = 1;
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        repository.save(coverletter);
 
         // when
-<<<<<<< HEAD
-        Coverletter findCoverletter = repository.findById(member, coverletterId);
-=======
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
         Coverletter findCoverletter = findCoverletterOpt.get();
->>>>>>> 15dde09... Fix notification API erros
 
         // then
         List<Question> findQuestions = findCoverletter.getQuestions();

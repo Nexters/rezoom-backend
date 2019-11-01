@@ -28,7 +28,6 @@ public class Notification {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    // TODO : 원래는 join해야하는데,, jpa 더 학습해서 하는 걸로 합시다.
     @Column(name = "company_name")
     private String companyName;
 

@@ -1,5 +1,7 @@
 package com.nexters.rezoom.coverletter.domain;
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 @Embeddable
 public class Deadline {
 
+    @Getter
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
@@ -74,8 +77,6 @@ public class Deadline {
         if (deadline == null) return "no deadline";
         return this.deadline.toString();
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public boolean equals(Object o) {
@@ -83,18 +84,7 @@ public class Deadline {
         if (o == null || getClass() != o.getClass()) return false;
 
         Deadline deadline1 = (Deadline) o;
-        return this.deadline.equals(deadline1.getDeadline());
+        return this.deadline.equals(deadline1.deadline);
     }
 
-<<<<<<< HEAD
-    public long getRemainingHours() {
-        return LocalDateTime.now().until(this.deadline, ChronoUnit.HOURS);
-    }
-
-    public long getRemainingDays() {
-        return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
-    }
->>>>>>> 5b2d019... Add Notification api & scheduler
-=======
->>>>>>> 6ca043b... Fix notification API erros
 }

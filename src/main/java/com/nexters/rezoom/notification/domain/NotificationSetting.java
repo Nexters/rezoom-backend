@@ -1,6 +1,8 @@
 package com.nexters.rezoom.notification.domain;
 
 import com.nexters.rezoom.member.domain.Member;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Table
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NotificationSetting {
 
     @Id
