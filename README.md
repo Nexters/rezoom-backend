@@ -20,12 +20,16 @@
 
 <img src="https://github.com/momentjin/study/blob/master/resource/image/rezoom-screenshot1.png" width="400px"> <img src="https://github.com/momentjin/study/blob/master/resource/image/rezoom-screenshot3.png" width="400px">
 
-자기소개서 관리 어플리케이션입니다.
+자기소개서 관리 어플리케이션의 API Server입니다. [여기](https://github.com/momentjin/study/blob/master/%ED%86%A0%EC%9D%B4%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9A%8C%EA%B3%A0%EB%A1%9D.md)를 참고하면 프로젝트 회고록을 볼 수 있습니다.
 
+현재 지원하는 기능
 - 자기소개서 CRUD
 - 해시태그를 이용한 문항 검색
 - 서류 마감 N일전 알림 (현재는 Email 알림 기능만 지원)
 - .txt파일로 작성된 자기소개서 마이그레이션 (내용 형식 일치할 때만 가능)
+
+앞으로 추가할 기능
+- [issue link 참고](https://github.com/Nexters/rezoom-backend/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
 
 ### Built With
 - Java 8
