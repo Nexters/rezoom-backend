@@ -1,7 +1,8 @@
 # ReZoom API Server [![Build Status](https://travis-ci.org/Nexters/rezoom-backend.svg?branch=master)](https://travis-ci.org/Nexters/rezoom-backend) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [Click to open the demo version](http://15.164.44.50:8081/)
-
+- id : test@test.test
+- pw : test
 
 ## Table of Contents
 
