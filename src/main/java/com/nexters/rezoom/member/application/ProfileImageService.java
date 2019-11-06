@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 @Service
 public class ProfileImageService {
 
-    private final static String profileImageStorePath = "/Users/momentjin/Workspace/rezoom-backend/profileImages/";
+    private final static String profileImageStorePath = "./profileImages/";
 
     public void createProfileImage(Member member, MultipartFile multipartFile) {
         createDirectories();
