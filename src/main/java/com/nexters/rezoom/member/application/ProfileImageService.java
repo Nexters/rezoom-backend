@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 
 /**
  * Created by momentjin@gmail.com on 2019-10-23
@@ -22,10 +21,7 @@ public class ProfileImageService {
 
     private final static String profileImageStorePath = "./profileImages/";
 
-    // TODO : 오류 - 확장자가 다를 경우, 기존 파일 대치 불가
     public void createProfileImage(Member member, MultipartFile multipartFile) {
-        HashSet<String> set = new HashSet<>();
-        set.iterator();
         createDirectories();
         createFile(multipartFile, member);
     }
@@ -41,21 +37,38 @@ public class ProfileImageService {
     }
 
     private void createDirectories() {
+        if (FileUtils.isDirectory(profileImageStorePath)) {
+            return;
+        }
+
+        Path path = Paths.get(profileImageStorePath);
         try {
-            if (!new File(profileImageStorePath).exists()) {
-                Path path = Paths.get(profileImageStorePath);
-                Files.createDirectories(path);
-            }
+            Files.createDirectories(path);
         } catch (IOException e) {
             throw new RuntimeException("프로필 이미지 전용 폴더를 생성할 수 없습니다.");
         }
     }
 
     private void createFile(MultipartFile multipartFile, Member member) {
+        initProfileImage(member);
+
         File file = FileUtils.convertFile(multipartFile);
         final String fileName = member.getId() + "." + FileUtils.getFileExtension(file);
         File dest = new File(profileImageStorePath + fileName);
         file.renameTo(dest);
     }
 
+    /**
+     * 프로필 이미지를 삭제한다.
+     */
+    private void initProfileImage(Member member) {
+        File imageStoreDir = new File(profileImageStorePath);
+        File[] memberProfileImages = imageStoreDir.listFiles(file -> file.getName().contains(member.getId()));
+
+        if (memberProfileImages != null && memberProfileImages.length > 0) {
+            for (File profileImage : memberProfileImages) {
+                profileImage.delete();
+            }
+        }
+    }
 }
