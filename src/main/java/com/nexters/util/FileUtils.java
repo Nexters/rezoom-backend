@@ -35,6 +35,11 @@ public class FileUtils {
         }
     }
 
+    public static boolean isDirectory(String filePath) {
+        File resource = new File(filePath);
+        return resource.exists() && resource.isDirectory();
+    }
+
     private static String getMultipartFileName(MultipartFile multipartFile) {
         String fileName = multipartFile.getOriginalFilename();
         if (fileName == null || fileName.isEmpty()) {
