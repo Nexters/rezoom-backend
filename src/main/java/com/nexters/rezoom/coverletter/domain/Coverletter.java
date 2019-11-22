@@ -1,8 +1,7 @@
 package com.nexters.rezoom.coverletter.domain;
 
-import com.nexters.rezoom.config.jpa.YearAttributeConverter;
+import com.nexters.config.jpa.YearAttributeConverter;
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.question.domain.Question;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

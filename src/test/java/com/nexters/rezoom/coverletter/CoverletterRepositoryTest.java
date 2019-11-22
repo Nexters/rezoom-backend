@@ -1,14 +1,9 @@
 package com.nexters.rezoom.coverletter;
 
+import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.PageRequest;
-import com.nexters.rezoom.coverletter.domain.Coverletter;
-import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
-import com.nexters.rezoom.coverletter.domain.Deadline;
-import com.nexters.rezoom.hashtag.domain.Hashtag;
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.question.domain.Question;
-import com.nexters.rezoom.question.domain.QuestionRepository;
-import com.nexters.rezoom.util.TestObjectUtils;
+import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

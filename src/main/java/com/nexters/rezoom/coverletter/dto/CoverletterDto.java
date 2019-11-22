@@ -1,7 +1,6 @@
 package com.nexters.rezoom.coverletter.dto;
 
 import com.nexters.rezoom.coverletter.domain.*;
-import com.nexters.rezoom.question.dto.QuestionDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

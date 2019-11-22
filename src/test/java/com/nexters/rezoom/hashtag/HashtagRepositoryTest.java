@@ -1,7 +1,7 @@
 package com.nexters.rezoom.hashtag;
 
-import com.nexters.rezoom.hashtag.domain.Hashtag;
-import com.nexters.rezoom.hashtag.domain.HashtagRepository;
+import com.nexters.rezoom.coverletter.domain.Hashtag;
+import com.nexters.rezoom.coverletter.domain.HashtagRepository;
 import com.nexters.rezoom.member.domain.Member;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

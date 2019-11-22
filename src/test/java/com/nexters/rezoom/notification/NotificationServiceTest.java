@@ -10,7 +10,7 @@ import com.nexters.rezoom.notification.domain.NotificationRepository;
 import com.nexters.rezoom.notification.domain.NotificationSetting;
 import com.nexters.rezoom.notification.domain.NotificationType;
 import com.nexters.rezoom.notification.dto.NotificationDto;
-import com.nexters.rezoom.util.TestObjectUtils;
+import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

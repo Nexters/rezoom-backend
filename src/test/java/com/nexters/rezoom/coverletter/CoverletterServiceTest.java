@@ -1,15 +1,15 @@
 package com.nexters.rezoom.coverletter;
 
-import com.nexters.rezoom.config.exception.EntityNotFoundException;
+import com.nexters.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
+import com.nexters.rezoom.coverletter.application.HashtagService;
 import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.IsApplication;
 import com.nexters.rezoom.coverletter.domain.IsPass;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
-import com.nexters.rezoom.hashtag.application.HashtagService;
+import com.nexters.rezoom.coverletter.dto.QuestionDto;
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.question.dto.QuestionDto;
-import com.nexters.rezoom.util.TestObjectUtils;
+import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

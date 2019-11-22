@@ -1,6 +1,6 @@
 package com.nexters.rezoom.converter;
 
-import com.nexters.rezoom.converter.domain.ConvertService;
+import com.nexters.rezoom.converter.domain.ConverterService;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.member.domain.Member;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,12 +21,12 @@ public class ConverterServiceTest {
     private static Member member;
 
     private final CoverletterService coverletterService;
-    private final ConvertService convertService;
+    private final ConverterService converterService;
 
     @Autowired
-    public ConverterServiceTest(CoverletterService coverletterService, ConvertService convertService) {
+    public ConverterServiceTest(CoverletterService coverletterService, ConverterService converterService) {
         this.coverletterService = coverletterService;
-        this.convertService = convertService;
+        this.converterService = converterService;
     }
 
     @BeforeAll

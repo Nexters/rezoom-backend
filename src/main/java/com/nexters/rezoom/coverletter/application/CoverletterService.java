@@ -1,15 +1,11 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.rezoom.config.exception.EntityNotFoundException;
-import com.nexters.rezoom.config.exception.ErrorCode;
-import com.nexters.rezoom.coverletter.domain.Coverletter;
-import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
+import com.nexters.config.exception.EntityNotFoundException;
+import com.nexters.config.exception.ErrorCode;
+import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
-import com.nexters.rezoom.hashtag.domain.Hashtag;
-import com.nexters.rezoom.hashtag.domain.HashtagRepository;
+import com.nexters.rezoom.coverletter.dto.QuestionDto;
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.question.domain.Question;
-import com.nexters.rezoom.question.dto.QuestionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

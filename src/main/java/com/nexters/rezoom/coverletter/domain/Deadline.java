@@ -16,6 +16,8 @@ import java.time.temporal.ChronoUnit;
 @Embeddable
 public class Deadline {
 
+    // TODO : 현재 DTO에서 타입이 안맞아 오류가 발생한다. localdatetime에 대한 컨버터를 수정할 수 있는지 검토하고 해결하자
+
     @Getter
     @Column(name = "deadline")
     private LocalDateTime deadline;

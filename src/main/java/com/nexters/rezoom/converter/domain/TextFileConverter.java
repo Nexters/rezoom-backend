@@ -1,7 +1,7 @@
 package com.nexters.rezoom.converter.domain;
 
-import com.nexters.rezoom.hashtag.domain.Hashtag;
-import com.nexters.rezoom.question.domain.Question;
+import com.nexters.rezoom.coverletter.domain.Hashtag;
+import com.nexters.rezoom.coverletter.domain.Question;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.time.Year;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,5 +74,19 @@ public class TextFileConverterTest {
 
         // when & then
         assertThrows(RuntimeException.class, converter::convert);
+    }
+
+    @Test
+    public void test5() {
+        HashSet<String> set = new HashSet<>();
+        set.add("A");
+        set.add("B");
+        set.add("C");
+        set.add("D");
+
+        Iterator<String> it = set.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
     }
 }

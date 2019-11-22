@@ -1,8 +1,8 @@
 package com.nexters.rezoom.member.application;
 
-import com.nexters.rezoom.config.exception.EntityNotFoundException;
-import com.nexters.rezoom.config.exception.ErrorCode;
-import com.nexters.rezoom.config.exception.InvalidValueException;
+import com.nexters.config.exception.EntityNotFoundException;
+import com.nexters.config.exception.ErrorCode;
+import com.nexters.config.exception.InvalidValueException;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.rezoom.member.dto.MemberDto;

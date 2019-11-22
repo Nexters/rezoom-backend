@@ -3,7 +3,7 @@ package com.nexters.rezoom.converter.domain;
 import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
-import com.nexters.rezoom.question.domain.Question;
+import com.nexters.rezoom.coverletter.domain.Question;
 
 import java.io.File;
 import java.time.Year;

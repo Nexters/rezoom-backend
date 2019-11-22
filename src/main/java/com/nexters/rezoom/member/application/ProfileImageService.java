@@ -1,7 +1,7 @@
 package com.nexters.rezoom.member.application;
 
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.util.FileUtils;
+import com.nexters.util.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 
 /**
  * Created by momentjin@gmail.com on 2019-10-23
@@ -21,7 +22,10 @@ public class ProfileImageService {
 
     private final static String profileImageStorePath = "./profileImages/";
 
+    // TODO : 오류 - 확장자가 다를 경우, 기존 파일 대치 불가
     public void createProfileImage(Member member, MultipartFile multipartFile) {
+        HashSet<String> set = new HashSet<>();
+        set.iterator();
         createDirectories();
         createFile(multipartFile, member);
     }
