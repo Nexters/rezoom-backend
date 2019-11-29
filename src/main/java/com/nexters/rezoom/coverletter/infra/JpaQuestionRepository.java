@@ -1,5 +1,7 @@
 package com.nexters.rezoom.coverletter.infra;
 
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.nexters.rezoom.coverletter.domain.QQuestion;
 import com.nexters.rezoom.coverletter.domain.Question;
 import com.nexters.rezoom.coverletter.domain.QuestionRepository;
 import com.nexters.rezoom.member.domain.Member;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Transactional
@@ -21,38 +22,30 @@ public class JpaQuestionRepository implements QuestionRepository {
     @PersistenceContext
     private EntityManager em;
 
-    @Override
     public Question findByKey(long questionId, Member member) {
-        TypedQuery<Question> query = em.createQuery(
-                "SELECT q FROM Question q " + "INNER JOIN q.coverletter c " +
-                        "WHERE q.id =:id AND c.member =:member", Question.class);
-        query.setParameter("id", questionId);
-        query.setParameter("member", member);
-        List<Question> result = query.getResultList();
-        return result.isEmpty() ? null : result.get(0);
+        JPAQuery query = new JPAQuery(em);
+        QQuestion qQuestion = QQuestion.question;
+
+        return query.from(qQuestion)
+                .where(qQuestion.id.eq(questionId).and(qQuestion.coverletter.member.eq(member)))
+                .uniqueResult(qQuestion);
     }
 
-    @Override
     public Page<Question> findAllByMember(Pageable pageable, Member member) {
-        TypedQuery<Question> query = em.createQuery(
-                "SELECT q FROM Question q " + "INNER JOIN q.coverletter c " +
-                        "WHERE c.member =:member ORDER BY q.id DESC", Question.class);
-        query.setParameter("member", member);
-        query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-        query.setMaxResults(pageable.getPageSize());
+        JPAQuery query = new JPAQuery(em);
+        QQuestion qQuestion = QQuestion.question;
 
+        List<Question> questions = query.from(qQuestion)
+                .where(qQuestion.coverletter.member.eq(member))
+                .offset(pageable.getPageNumber())
+                .limit(pageable.getPageSize())
+                .list(qQuestion);
 
-        TypedQuery<Long> countQuery = em.createQuery(
-                "SELECT COUNT(q) FROM Question q " + "INNER JOIN q.coverletter c " +
-                        "WHERE c.member =:member", Long.class);
-        countQuery.setParameter("member", member);
+        long countOfAllQuestion = query.from(qQuestion)
+                .where(qQuestion.coverletter.member.eq(member))
+                .count();
 
-        long count = countQuery.getSingleResult();
-
-        Page<Question> pages = new PageImpl<>(query.getResultList(), pageable, count);
-        return pages;
+        return new PageImpl<>(questions, pageable, countOfAllQuestion);
     }
-
-
 
 }
