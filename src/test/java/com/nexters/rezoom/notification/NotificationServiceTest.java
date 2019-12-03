@@ -2,6 +2,7 @@ package com.nexters.rezoom.notification;
 
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
+import com.nexters.rezoom.coverletter.domain.Deadline;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.rezoom.notification.application.NotificationService;
@@ -11,105 +12,130 @@ import com.nexters.rezoom.notification.domain.NotificationSetting;
 import com.nexters.rezoom.notification.domain.NotificationType;
 import com.nexters.rezoom.notification.dto.NotificationDto;
 import com.nexters.util.TestObjectUtils;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by momentjin@gmail.com on 2019-09-02
  * Github : http://github.com/momentjin
  */
 
-@Transactional
-@SpringBootTest
+@SpringBootTest(classes = {NotificationService.class})
 @ExtendWith(SpringExtension.class)
 public class NotificationServiceTest {
 
     @Autowired
     private NotificationService notificationService;
 
-    @Autowired
+    private static Member member;
+    @MockBean
     private NotificationRepository notificationRepository;
-
-    @Autowired
+    @MockBean
     private CoverletterRepository coverletterRepository;
-
-    @Autowired
+    @MockBean
     private MemberRepository memberRepository;
 
-    @Test
-    @DisplayName("마감일 알림 데이터 생성 테스트")
-    public void notificationTest1() {
-        // given
-        Member member = new Member("test", "", "");
-        Coverletter coverletter1 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
-        Coverletter coverletter2 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+    @BeforeAll
+    public static void setup() {
+        member = TestObjectUtils.createTestMember();
+    }
 
-        coverletterRepository.save(coverletter1);
-        coverletterRepository.save(coverletter2);
+    /**
+     * 테스트일시 기준, 자기소개서 마감일이 지나지 않았다면 Notification 데이터가 생성되어야 한다.
+     */
+    @Test
+    public void notification_생성_성공() {
+        // given
+        LocalDateTime deadlineDateTime = LocalDateTime.now().plusDays(5);
+        Deadline baseDeadline = new Deadline(deadlineDateTime);
+        Coverletter coverletter = Coverletter.builder()
+                .id(10L)
+                .companyName("companyName")
+                .member(member)
+                .deadline(baseDeadline)
+                .build();
+
+        given(coverletterRepository.findAllByDeadlineGreaterThanEqual(any(Deadline.class)))
+                .willReturn(Collections.singletonList(coverletter));
+
+        given(notificationRepository.findAllByMember(member))
+                .willReturn(Collections.singletonList(Notification.builder()
+                        .build()));
 
         // when
         notificationService.createNotifications();
 
         // then
+        verify(notificationRepository, atLeastOnce()).save(any(Notification.class));
+
         NotificationDto.ListRes notifications = notificationService.getNotifications(member);
-        assertEquals(notifications.getNotifications().size(), 2);
+        assertEquals(notifications.getNotifications().size(), 1);
     }
 
     @Test
-    @DisplayName("마감일 알림을 읽었으면 isChecked는 True이어야 한다")
-    public void notificationTest2() {
+    public void notification_조회시_isChecked는_TRUE() {
         // given
-        Member member = new Member("test", "", "");
+        given(notificationRepository.findAllByMember(any(Member.class)))
+                .willReturn(Collections.singletonList(Notification.builder().build()));
 
-        Coverletter coverletter1 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
-        coverletterRepository.save(coverletter1);
-
-        notificationService.createNotifications();
+        // 알림 조회
         NotificationDto.ListRes notifications = notificationService.getNotifications(member);
         long notificationId = notifications.getNotifications().get(0).getId();
 
         // when
-        notificationService.toggleCheck(member, notificationId);
+        when(notificationRepository.findByIdAndMember(anyLong(), any(Member.class)))
+                .thenReturn(Optional.of(Notification.builder().build()));
+
+        Notification resultNotification = notificationService.toggleCheck(member, notificationId);
 
         // then
-        Optional<Notification> notification = notificationRepository.findByIdAndMember(notificationId, member);
-        assertTrue(notification.get().isChecked());
+        assertTrue(resultNotification.isChecked());
     }
 
-
-//    @Test
-//    @DisplayName("메일 알림 테스트")
-    public void notificationTest3() {
+    /**
+     * 약 5s동안 실행되므로, 필요시 @Test 설정해서 테스트
+     */
+    public void 이메일_알림_테스트() {
         // given
-        Member member = new Member("wlswodjs_@naver.com", "", "");
+        Member member = new Member("s_wlswodjs@naver.com", "tester", "password");
+        NotificationSetting setting = new NotificationSetting(member, NotificationType.EMAIL);
+        member.addNotificationSetting(setting);
 
-        NotificationSetting setting1 = new NotificationSetting(member, NotificationType.EMAIL);
-        member.addNotificationSetting(setting1);
+        given(memberRepository.findAll())
+                .willReturn(Collections.singletonList(member));
 
-        memberRepository.save(member);
-
-        Coverletter coverletter1 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
-        coverletterRepository.save(coverletter1);
-
-        Coverletter coverletter2 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
-        coverletterRepository.save(coverletter2);
-
-        notificationService.createNotifications();
+        given(notificationRepository.findAllByMember(member)).willReturn(
+                Collections.singletonList(
+                        Notification.builder()
+                                .id(12L)
+                                .companyName("testCompany")
+                                .remainingHours(24)
+                                .remainingDays(1)
+                                .coverletterId(51L)
+                                .member(member)
+                                .createDate(LocalDateTime.now())
+                                .build()
+                ));
 
         // when
         notificationService.sendNotifications();
 
         // then
-        // 성공 결과는 수신자의 이메일을 확인하라..
+        // 성공 결과는 수신자의 이메일을 확인...
     }
 }

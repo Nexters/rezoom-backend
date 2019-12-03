@@ -1,7 +1,9 @@
 package com.nexters.rezoom.coverletter;
 
+import com.nexters.RezoomApplication;
 import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.PageRequest;
+import com.nexters.rezoom.coverletter.infra.JpaQuestionRepository;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,8 +11,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +29,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * Github : http://github.com/momentjin
  **/
 
-@SpringBootTest
+@DataJpaTest
+@SpringBootTest(classes = JpaQuestionRepository.class)
+@ContextConfiguration(classes = RezoomApplication.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(SpringExtension.class)
 public class CoverletterRepositoryTest {
 
@@ -53,8 +61,9 @@ public class CoverletterRepositoryTest {
 
         // then
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletter.getId(), member);
-        Coverletter findCoverletter = findCoverletterOpt.get();
+        Coverletter findCoverletter = findCoverletterOpt.orElse(null);
 
+        assertNotNull(findCoverletter);
         assertEquals(coverletter.getId(),               findCoverletter.getId());
         assertEquals(coverletter.getCompanyName(),      findCoverletter.getCompanyName());
         assertEquals(coverletter.getApplicationYear(),  findCoverletter.getApplicationYear());

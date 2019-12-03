@@ -63,7 +63,6 @@ public class QuestionDto {
         private String companyName;
         private String title;
         private String contents;
-        //        private Set<HashtagDto.ViewRes> hashtags;
         private Set<String> hashtags;
 
         public ViewRes(long id, long coverletterId, String companyName, String title, String contents, Set<String> hashtags) {

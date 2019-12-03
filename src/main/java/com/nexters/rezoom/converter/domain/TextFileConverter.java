@@ -83,6 +83,7 @@ public final class TextFileConverter extends CoverletterConverter {
 
                 while (scanner.hasNext()) {
                     String contentsLine = scanner.nextLine();
+
                     if (contentsLine.equals("END")) break;
 
                     sb.append(contentsLine).append("\n");
@@ -92,6 +93,7 @@ public final class TextFileConverter extends CoverletterConverter {
                     contents = sb.toString();
             }
 
+            // 태그
             else if (line.startsWith("T")) {
                 line = line.substring(4);
                 hashtags = Arrays.stream(line.split(", "))

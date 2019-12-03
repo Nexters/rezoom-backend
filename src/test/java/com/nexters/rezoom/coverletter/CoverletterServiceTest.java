@@ -2,32 +2,30 @@ package com.nexters.rezoom.coverletter;
 
 import com.nexters.config.exception.EntityNotFoundException;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
-import com.nexters.rezoom.coverletter.application.HashtagService;
-import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
-import com.nexters.rezoom.coverletter.domain.IsApplication;
-import com.nexters.rezoom.coverletter.domain.IsPass;
+import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.coverletter.dto.QuestionDto;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = {CoverletterService.class})
 @ExtendWith(SpringExtension.class)
 public class CoverletterServiceTest {
 
@@ -36,43 +34,66 @@ public class CoverletterServiceTest {
     @Autowired
     private CoverletterService service;
 
-    @Autowired
-    private HashtagService hashtagService;
+    @MockBean
+    private CoverletterRepository repository;
+
+    @MockBean
+    private HashtagRepository hashtagRepository;
 
     @BeforeAll
-    public static void createMember() {
+    public static void setup() {
         member = new Member("test", "", "");
     }
 
     @Test
-    @DisplayName("자기소개서 정보가 정상적으로 저장되어야 한다")
-    @Transactional
-    public void coverletterSaveTest1() {
+    public void 자기소개서_정보_저장() {
+
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
 
+        Coverletter coverletter = saveReq.toEntity();
+        coverletter.setQuestions(saveReq.getQuestions().stream()
+                .map(QuestionDto.SaveReq::toEntity)
+                .collect(Collectors.toList()));
+
+        given(repository.findByIdAndMember(coverletter.getId(), member))
+                .willReturn(Optional.of(coverletter));
+
         // when
-        long savedCoverletterId = service.save(member, saveReq);
+        when(repository.save(any()))
+                .thenReturn(Coverletter.builder().id(coverletter.getId()).build());
+
+        service.save(member, saveReq);
 
         // then
-        CoverletterDto.ViewRes viewRes = service.getView(member, savedCoverletterId);
+        CoverletterDto.ViewRes viewRes = service.getView(member, coverletter.getId());
 
-        assertEquals(viewRes.getId(), savedCoverletterId);
-        assertEquals(viewRes.getCompanyName(), "testCompany");
-        assertEquals(viewRes.getApplicationHalf(), ApplicationHalf.FIRST_HALF);
-        assertEquals(viewRes.getApplicationYear(), Year.of(2019));
-        assertEquals(viewRes.getDeadline(), LocalDateTime.of(2019, 4, 30, 18, 0));
-        assertEquals(viewRes.getIsApplication(), IsApplication.YES);
-        assertEquals(viewRes.getIsPass(), IsPass.PASS);
-        assertEquals(viewRes.getJobType(), "backend engineer");
+        assertEquals(viewRes.getId(), coverletter.getId());
+        assertEquals(viewRes.getCompanyName(), saveReq.getCompanyName());
+        assertEquals(viewRes.getApplicationHalf(), saveReq.getApplicationHalf());
+        assertEquals(viewRes.getApplicationYear(), Year.of(saveReq.getApplicationYear()));
+        assertEquals(viewRes.getDeadline(), saveReq.getDeadline());
+        assertEquals(viewRes.getIsApplication(), saveReq.getIsApplication());
+        assertEquals(viewRes.getIsPass(), saveReq.getIsPass());
+        assertEquals(viewRes.getJobType(), saveReq.getJobType());
     }
 
     @Test
-    @DisplayName("자기소개서를 저장하면, 문항도 저장되어야 한다")
-    @Transactional
-    public void coverletterSaveTest2() {
+    public void 자기소개서를_저장하면_문항도_저장된다() {
+
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
+
+        Coverletter coverletter = saveReq.toEntity();
+        coverletter.setQuestions(saveReq.getQuestions().stream()
+                .map(QuestionDto.SaveReq::toEntity)
+                .collect(Collectors.toList()));
+
+        given(repository.findByIdAndMember(coverletter.getId(), member))
+                .willReturn(Optional.of(coverletter));
+
+        given(repository.save(any()))
+                .willReturn(Coverletter.builder().id(coverletter.getId()).build());
 
         // when
         long savedCoverletterId = service.save(member, saveReq);
@@ -89,13 +110,22 @@ public class CoverletterServiceTest {
     }
 
     @Test
-    @DisplayName("자기소개서를 저장하면, 태그도 저장되어야 한다")
-    @Transactional
-    public void coverletterSaveTest3() {
+    public void 자기소개서를_저장하면_해시태그도_저장된다() {
         // given
         CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
 
+        Coverletter coverletter = saveReq.toEntity();
+        coverletter.setQuestions(saveReq.getQuestions().stream()
+                .map(QuestionDto.SaveReq::toEntity)
+                .collect(Collectors.toList()));
+
+        given(repository.findByIdAndMember(coverletter.getId(), member))
+                .willReturn(Optional.of(coverletter));
+
         // when
+        when(repository.save(any()))
+                .thenReturn(Coverletter.builder().id(coverletter.getId()).build());
+
         long savedCoverletterId = service.save(member, saveReq);
 
         // then
@@ -112,63 +142,57 @@ public class CoverletterServiceTest {
     }
 
     @Test
-    @DisplayName("DB에 저장된 해쉬태그와 같은 Value를 가지는 Hashtag는 중복 저장되지 않는다")
-    // @Transactional - 문제..
-    public void coverletterSaveTest4() {
+    public void 자기소개서를_조회하면_문항도_조회된다() {
         // given
-        CoverletterDto.SaveReq saveReq = TestObjectUtils.createCoverletterSaveReqDto();
-        long savedCoverletterId = service.save(member, saveReq);
+        List<Question> questions = Arrays.asList(
+                new Question("title1", "contents1"),
+                new Question("title2", "contents2"));
 
-        List<String> hashtags = hashtagService.getMyHashtags(member);
-        int beforeHashtagSize = hashtags.size();
+        Coverletter coverletter = Coverletter.builder()
+                .companyName("mock test")
+                .build();
+
+        coverletter.setQuestions(questions);
+
+        given(repository.findByIdAndMember(coverletter.getId(), member))
+                .willReturn(Optional.of(coverletter));
 
         // when
-        // 처음 저장했던 데이터와 같은 데이터를 저장한다.
-        long savedCoverletterId2     = service.save(member, saveReq);
+        CoverletterDto.ViewRes resultCoverletter = service.getView(member, coverletter.getId());
 
         // then
-        assertTrue(beforeHashtagSize >= 1); // 테스트 데이터의 모든 문항은 최소 1개의 태그를 갖고 있다.
-
-        List<String> hashtags2 = hashtagService.getMyHashtags(member);
-        assertEquals(beforeHashtagSize, hashtags2.size());
-
-        // 임시 코드
-        service.delete(member, savedCoverletterId);
-        service.delete(member, savedCoverletterId2);
+        List<QuestionDto.ViewRes> resultQuestions = resultCoverletter.getQuestions();
+        assertEquals(2, resultQuestions.size());
     }
 
     @Test
-    @DisplayName("문항이 있는 자기소개서를 조회하면, 문항도 같이 조회되어야 한다.")
-    @Transactional
-    public void coverletterSelectTest1() {
+    public void 자기소개서를_조회하면_태그도_조회된다() {
         // given
-        CoverletterDto.SaveReq req = TestObjectUtils.createCoverletterSaveReqDto();
-        long savedCoverletterId = service.save(member, req);
+        Hashtag h1 = new Hashtag("tag1");
+        Hashtag h2 = new Hashtag("tag2");
+        Hashtag h3 = new Hashtag("tag3");
+
+        List<Question> questions = Arrays.asList(
+                new Question("title1", "contents1", new HashSet<>(Arrays.asList(h1, h2))),
+                new Question("title2", "contents2", new HashSet<>(Arrays.asList(h2, h3))));
+
+        Coverletter coverletter = Coverletter.builder()
+                .companyName("mock test")
+                .build();
+
+        coverletter.setQuestions(questions);
+
+        given(repository.findByIdAndMember(coverletter.getId(), member))
+                .willReturn(Optional.of(coverletter));
 
         // when
-        CoverletterDto.ViewRes coverletter = service.getView(member, savedCoverletterId);
+
+        CoverletterDto.ViewRes resultCoverletter = service.getView(member, coverletter.getId());
 
         // then
-        List<QuestionDto.ViewRes> questions = coverletter.getQuestions();
-        assertNotNull(questions);
-        assertTrue(questions.size() > 0);
-    }
+        List<QuestionDto.ViewRes> resultQuestions = resultCoverletter.getQuestions();
 
-    @Test
-    @DisplayName("태그가 포함된 문항이 있는 자기소개서를 조회하면, 태그도 같이 조회되어야 한다")
-    @Transactional
-    public void coverletterSelectTest2() {
-        // given
-        CoverletterDto.SaveReq req = TestObjectUtils.createCoverletterSaveReqDto();
-        long savedCoverletterId = service.save(member, req);
-
-        // when
-        CoverletterDto.ViewRes coverletter = service.getView(member, savedCoverletterId);
-
-        // then
-        List<QuestionDto.ViewRes> questions = coverletter.getQuestions();
-
-        for (QuestionDto.ViewRes q : questions) {
+        for (QuestionDto.ViewRes q : resultQuestions) {
             Set<String> findHashtags = q.getHashtags();
             assertNotNull(findHashtags);
             assertTrue(findHashtags.size() > 0);
@@ -176,10 +200,11 @@ public class CoverletterServiceTest {
     }
 
     @Test
-    @DisplayName("자기소개서 조회시 없으면 EntityNotFoundException 발생")
-    public void coverletterSelectTest3() {
+    public void 조회된_자기소개서가_NULL아면_EntityNotFoundException() {
         // given
         long findCoverletterId = -1;
+
+        given(repository.findByIdAndMember(findCoverletterId, member)).willReturn(Optional.empty());
 
         // when & then
         assertThrows(EntityNotFoundException.class, () -> {

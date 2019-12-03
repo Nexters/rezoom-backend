@@ -1,14 +1,15 @@
-package com.nexters.rezoom.hashtag;
+package com.nexters.rezoom.coverletter.hashtag;
 
 import com.nexters.rezoom.coverletter.domain.Hashtag;
 import com.nexters.rezoom.coverletter.domain.HashtagRepository;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -22,24 +23,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Github : http://github.com/momentjin
  */
 
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(SpringExtension.class)
 public class HashtagRepositoryTest {
 
+    private static Member member;
     @Autowired
     private HashtagRepository repository;
 
-
-    private static Member member;
-
     @BeforeAll
     public static void createMember() {
-        member = new Member("test", "", "");
+        member = TestObjectUtils.createTestMember();
     }
 
     @Test
-    @DisplayName("태그 단건 조회시 없으면 NULL을 반환한다")
-    public void hashtagSelectTest1() {
+    public void 태그_단건_조회시_없으면_NULL() {
         // given
         String hashtagValue = UUID.randomUUID().toString();
 
@@ -51,10 +50,9 @@ public class HashtagRepositoryTest {
     }
 
     @Test
-    @DisplayName("태그 리스트 조회시 없으면 EMPTY를 반환한다")
-    public void hashtagSelectTest2() {
+    public void 태그_리스트_조회시_없으면_EMPTY() {
         // given
-        Member anonymous = new Member(UUID.randomUUID().toString(), "tester", "password");
+        Member anonymous = new Member(UUID.randomUUID().toString(), "", "");
 
         // when
         List<Hashtag> findHashtags = repository.findAllByMember(anonymous);

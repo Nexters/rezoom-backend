@@ -1,5 +1,7 @@
 package com.nexters.rezoom.notification.application;
 
+import com.nexters.config.exception.EntityNotFoundException;
+import com.nexters.config.exception.ErrorCode;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
 import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.coverletter.domain.Deadline;
@@ -39,15 +41,17 @@ public class NotificationService {
 
     public NotificationDto.ListRes getNotifications(Member member) {
         List<Notification> notifications = notificationRepository.findAllByMember(member);
-        notifications.sort((c1, c2) -> c2.getCreateDate().compareTo(c1.getCreateDate()));
+        notifications.sort((c1, c2) -> c2.getCreateDate().compareTo(c1.getCreateDate())); // 내림차순 정렬
 
         return new NotificationDto.ListRes(notifications);
     }
 
     @Transactional
-    public void toggleCheck(Member member, long notificationId) {
+    public Notification toggleCheck(Member member, long notificationId) {
         Optional<Notification> notification = notificationRepository.findByIdAndMember(notificationId, member);
         notification.ifPresent(Notification::toggleChecked);
+
+        return notification.orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
     }
 
     public void createNotifications() {

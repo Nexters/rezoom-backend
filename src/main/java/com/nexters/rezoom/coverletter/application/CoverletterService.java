@@ -44,9 +44,9 @@ public class CoverletterService {
         }
 
         coverletter.checkPassStatus();
-        coverletterRepository.save(coverletter);
+        Coverletter savedCoverletter = coverletterRepository.save(coverletter);
 
-        return coverletter.getId();
+        return savedCoverletter.getId();
     }
 
     // TODO : 문제 있음. hashtag key 문제로 create와 동일하게 작업.
@@ -83,6 +83,11 @@ public class CoverletterService {
     public Page<CoverletterDto.ViewRes> getList(Member member, Pageable pageable) {
         return coverletterRepository.findAllByMember(pageable, member)
                 .map(CoverletterDto.ViewRes::new);
+    }
+
+    public CoverletterDto.ListRes searchByCompanyName(Member member, String companyName) {
+        List<Coverletter> coverletters = coverletterRepository.findAllByMemberAndCompanyNameStartsWith(member, companyName);
+        return new CoverletterDto.ListRes(coverletters);
     }
 
     public void delete(Member member, long id) {
@@ -125,8 +130,5 @@ public class CoverletterService {
         return resultHashtags;
     }
 
-    public CoverletterDto.ListRes searchByCompanyName(Member member, String companyName) {
-        List<Coverletter> coverletters = coverletterRepository.findAllByMemberAndCompanyNameStartsWith(member, companyName);
-        return new CoverletterDto.ListRes(coverletters);
-    }
+
 }

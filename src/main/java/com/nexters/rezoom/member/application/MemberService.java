@@ -49,9 +49,6 @@ public class MemberService {
 
     private Member getMember(String id) {
         Optional<Member> findMember = repository.findById(id);
-        if (!findMember.isPresent())
-            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND);
-
-        return findMember.get();
+        return findMember.orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 }

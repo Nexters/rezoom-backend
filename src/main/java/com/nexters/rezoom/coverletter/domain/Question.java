@@ -52,6 +52,11 @@ public class Question {
         this.id = id;
     }
 
+    public Question(String title, String contents, Set<Hashtag> hashtags) {
+        this(title, contents);
+        this.hashtags = hashtags;
+    }
+
     public void updateData(String title, String contents) {
         this.setTitle(title);
         this.setContents(contents);
