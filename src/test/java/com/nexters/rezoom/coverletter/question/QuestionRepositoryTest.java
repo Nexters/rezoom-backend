@@ -1,6 +1,8 @@
-package com.nexters.rezoom.question;
+package com.nexters.rezoom.coverletter.question;
 
+import com.nexters.RezoomApplication;
 import com.nexters.rezoom.coverletter.domain.*;
+import com.nexters.rezoom.coverletter.infra.JpaQuestionRepository;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,7 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +26,18 @@ import static org.junit.jupiter.api.Assertions.*;
  * Github : http://github.com/momentjin
  */
 
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest(classes = {JpaQuestionRepository.class})
+@ContextConfiguration(classes = RezoomApplication.class)
 @ExtendWith(SpringExtension.class)
 public class QuestionRepositoryTest {
 
-    @Autowired
-    private CoverletterRepository coverletterRepository;
-
+    private static Member member;
     @Autowired
     private QuestionRepository repository;
-
-    private static Member member;
+    @Autowired
+    private CoverletterRepository coverletterRepository;
 
     @BeforeAll
     public static void createMember() {
@@ -39,48 +45,35 @@ public class QuestionRepositoryTest {
     }
 
     @Test
-    @DisplayName("문항을 조회하면 자기소개서 정보도 함께 조회되어야 한다.")
-    @Transactional
-    public void questionSelectTest1() {
+    public void 문항을_조회하면_자기소개서도_조회된다() {
         // given
-        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
-        coverletterRepository.save(coverletter);
-
-        if (coverletter.getId() == 0 || coverletter.getQuestions().size() == 0)
-            fail();
-
-        long savedQuestionId = coverletter.getQuestions().get(0).getId();
-        if (savedQuestionId == 0)
-            fail(); // id가 0이면 저장이 안됐다는 말과 같다.
+        Coverletter savedCoverletter = saveCoverletter();
+        long savedQuestionId = savedCoverletter.getQuestions().get(0).getId();
 
         // when
         Question findQuestion = repository.findByKey(savedQuestionId, member);
 
         // then
         Coverletter findCoverletter = findQuestion.getCoverletter();
-        assertEquals(coverletter, findCoverletter);
+        assertEquals(savedCoverletter, findCoverletter);
     }
 
     @Test
     @DisplayName("문항을 조회하면 태그도 함께 조회되어야 한다.")
     @Transactional
-    public void questionSelectTest2() {
+    public void 문항을_조회하면_태그도_조회된다() {
         // given
-        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
-        coverletterRepository.save(coverletter);
-
-        if (coverletter.getId() == 0 || coverletter.getQuestions().size() == 0)
-            fail();
-
-        long savedQuestionId = coverletter.getQuestions().get(0).getId();
-        if (savedQuestionId == 0)
-            fail(); // id가 0이면 저장이 안됐다는 말과 같다.
+        Coverletter savedCoverletter = saveCoverletter();
+        long savedQuestionId = savedCoverletter.getQuestions().get(0).getId();
 
         // when
         Question findQuestion = repository.findByKey(savedQuestionId, member);
 
         // then
-        Question reqQuestion = coverletter.getQuestions().stream().filter(question -> question.getId() == savedQuestionId).findAny().get();
+        Question reqQuestion = savedCoverletter.getQuestions().stream()
+                .filter(question -> question.getId() == savedQuestionId)
+                .findAny().get();
+
         Set<Hashtag> reqHashtags = reqQuestion.getHashtags();
         Set<Hashtag> findHashtags = findQuestion.getHashtags();
 
@@ -89,7 +82,7 @@ public class QuestionRepositoryTest {
 
     @Test
     @DisplayName("없는 문항을 조회하면 NULL을 반환한다")
-    public void questionSelectTest3() {
+    public void 문항_조회_실패시_NULL() {
         // given
         long findQuestionId = -1;
 
@@ -98,5 +91,19 @@ public class QuestionRepositoryTest {
 
         // then
         assertNull(findQuestion);
+    }
+
+    private Coverletter saveCoverletter() {
+        Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
+        coverletterRepository.save(coverletter);
+
+        if (coverletter.getId() == 0 || coverletter.getQuestions().size() == 0)
+            fail();
+
+        long savedQuestionId = coverletter.getQuestions().get(0).getId();
+        if (savedQuestionId == 0)
+            fail(); // id가 0이면 저장이 안됐다는 말과 같다.
+
+        return coverletter;
     }
 }

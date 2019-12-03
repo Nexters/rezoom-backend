@@ -8,7 +8,7 @@ import com.nexters.rezoom.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Transactional
-@Service
+@Repository
 public class JpaQuestionRepository implements QuestionRepository {
 
     @PersistenceContext

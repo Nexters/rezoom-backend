@@ -5,13 +5,10 @@ import com.nexters.rezoom.converter.domain.TextFileConverter;
 import com.nexters.rezoom.coverletter.domain.ApplicationHalf;
 import com.nexters.rezoom.coverletter.domain.ApplicationType;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.time.Year;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,11 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class TextFileConverterTest {
 
+    private final static String RESOURCE_PATH = "src/test/java/com/nexters/rezoom/resource/";
+
     @Test
-    @DisplayName("txt파일을 coverletter 객체로 전환")
-    public void test1() {
+    public void 텍스트파일을_Covlertter객체로_변환할_수_있다() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "E사 2019 하반기 신입.txt");
+        File textFile = new File(RESOURCE_PATH + "E사 2019 하반기 신입.txt");
         CoverletterConverter converter = new TextFileConverter(textFile);
 
         // when
@@ -41,10 +39,9 @@ public class TextFileConverterTest {
     }
 
     @Test
-    @DisplayName("확장자가 txt가 아닐 때, RuntimeException 발생")
-    public void test2() {
+    public void 확장자가_다르면_RuntimeException() {
         // given
-        File nonTextFile = new File("src/test/java/com/nexters/rezoom/resource/" + "temp.md");
+        File nonTextFile = new File(RESOURCE_PATH + "temp.md");
 
         // when & then
         assertThrows(RuntimeException.class, () -> {
@@ -53,10 +50,9 @@ public class TextFileConverterTest {
     }
 
     @Test
-    @DisplayName("파일이 존재하지 않을 때, RuntimeException 발생")
-    public void test3() {
+    public void 파일이_존재하지_않으면_RunTimeException() {
         // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "temp999.txt");
+        File textFile = new File(RESOURCE_PATH + "temp999.txt");
 
         // when & then
         assertThrows(RuntimeException.class, () -> {
@@ -64,29 +60,17 @@ public class TextFileConverterTest {
         });
     }
 
-    // @Test
-    // @DisplayName("파일 파싱이 실패할 경우, RuntimeException 발생")
-    // 잘못된 파일 넣어주면 됌
-    public void test4() {
-        // given
-        File textFile = new File("src/test/java/com/nexters/rezoom/resource/" + "E사 2019 하반기 신입.txt");
-        CoverletterConverter converter = new TextFileConverter(textFile);
+    /**
+     * 파싱 형식과 일치하지 않는 케이스의 파일 넣어줘야합니다. (보류)
+     */
+//     @Test
+//    public void 파일_파싱이_실패하면_RunTimeException() {
+//        // given
+//        File textFile = new File(RESOURCE_PATH + "B사 2019 하반기 신입.txt");
+//        CoverletterConverter converter = new TextFileConverter(textFile);
+//
+//        // when & then
+//        assertThrows(RuntimeException.class, converter::convert);
+//    }
 
-        // when & then
-        assertThrows(RuntimeException.class, converter::convert);
-    }
-
-    @Test
-    public void test5() {
-        HashSet<String> set = new HashSet<>();
-        set.add("A");
-        set.add("B");
-        set.add("C");
-        set.add("D");
-
-        Iterator<String> it = set.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-    }
 }

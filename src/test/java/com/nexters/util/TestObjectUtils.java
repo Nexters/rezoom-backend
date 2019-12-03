@@ -19,6 +19,10 @@ import java.util.*;
  **/
 public class TestObjectUtils {
 
+    public static Member createTestMember() {
+        return new Member("test@test.test", "tester", "test");
+    }
+
     public static Coverletter createCoverletterHasQuestionAndHashtag(Member member) {
         Coverletter coverletter = createCoverletter(member);
 
@@ -80,4 +84,5 @@ public class TestObjectUtils {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 }

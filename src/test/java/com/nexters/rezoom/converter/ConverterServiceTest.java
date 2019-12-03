@@ -1,56 +1,54 @@
 package com.nexters.rezoom.converter;
 
 import com.nexters.rezoom.converter.domain.ConverterService;
-import com.nexters.rezoom.coverletter.application.CoverletterService;
+import com.nexters.rezoom.coverletter.domain.Coverletter;
+import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.multipart.MultipartFile;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by momentjin@gmail.com on 2019-08-30
  * Github : http://github.com/momentjin
  */
 
-@SpringBootTest
+@SpringBootTest(classes = {ConverterService.class})
 @ExtendWith(SpringExtension.class)
 public class ConverterServiceTest {
 
     private static Member member;
 
-    private final CoverletterService coverletterService;
-    private final ConverterService converterService;
-
     @Autowired
-    public ConverterServiceTest(CoverletterService coverletterService, ConverterService converterService) {
-        this.coverletterService = coverletterService;
-        this.converterService = converterService;
-    }
+    private ConverterService converterService;
+
+    @MockBean
+    private CoverletterRepository coverletterRepository;
 
     @BeforeAll
     public static void createMember() {
-        member = new Member("test", "", "");
+        member = TestObjectUtils.createTestMember();
     }
 
-
-    // @Test
-    // @DisplayName("파일 to 데이터베이스 기능 테스트")
-    public void test1() {
-        // given
-        // multipartfile <- convert(file) (TODO : how?)
+    @Test
+    public void 텍스트파일_변환_테스트_성공() {
+        MultipartFile[] multipartFiles = {new MultipartFileStub()};
 
         // when
-        // converterService.convertFromFileToCoverletter(member, multipartFiles);
+        converterService.convertFromFileToCoverletter(member, multipartFiles);
 
         // then
-        // CoverletterDto.ListRes coverletters = coverletterService.getList(member, 1);
-        // Optional<Coverletter> coverletterOptional = coverletters.getCoverletters().stream()
-        //        .filter(coverletter -> coverletter.getCompanyName().equals(companyName))
-        //        .findAny();
-
-        // assertTrue(coverletterOptional.isPresent());
+        verify(coverletterRepository, atLeastOnce()).save(any(Coverletter.class));
     }
 
 }

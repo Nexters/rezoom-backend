@@ -19,9 +19,10 @@ import java.util.Properties;
  */
 public class EmailNotificator implements Notificator {
 
+    private final static String EMAIL_PROP_PATH = "src/main/resources/email-account.yml";
+
     @Override
     public void notifyToClient(Member member, NotificationMessage message) {
-
         Properties emailSenderInfoProps = this.getEmailSenderInfoProps();
         String senderId = emailSenderInfoProps.getProperty("id");
         String senderPassword = emailSenderInfoProps.getProperty("password");
@@ -54,10 +55,9 @@ public class EmailNotificator implements Notificator {
     }
 
     private Properties getEmailSenderInfoProps() {
-        String fileName = "src/main/resources/email-account.yml";
         Properties properties = new Properties();
         try {
-            properties.load(new FileReader(fileName));
+            properties.load(new FileReader(EMAIL_PROP_PATH));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

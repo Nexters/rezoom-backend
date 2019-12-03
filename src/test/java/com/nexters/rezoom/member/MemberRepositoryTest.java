@@ -2,79 +2,68 @@ package com.nexters.rezoom.member;
 
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
+import com.nexters.util.TestObjectUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by momentjin@gmail.com on 2019-07-24
  * Github : http://github.com/momentjin
  */
-@Transactional
-@SpringBootTest
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(SpringExtension.class)
 public class MemberRepositoryTest {
+
+    private static Member member;
 
     @Autowired
     private MemberRepository repository;
 
+    @BeforeAll
+    public static void setup() {
+        member = TestObjectUtils.createTestMember();
+    }
 
     @Test
     @DisplayName("id로 Member Entity를 조회할 수 있다")
-    public void memberSelectTest1() {
+    public void 멤버_조회_성공() {
         // given
-        Member member = new Member("test@test.test", "tester", "test");
         repository.save(member);
 
         // when
         Optional<Member> findMemberOpt = repository.findById(member.getId());
-        Member findMember = findMemberOpt.get();
+        Member findMember = findMemberOpt.orElse(null);
 
         // then
+        assertNotNull(findMember);
         assertEquals(findMember.getId(), member.getId());
     }
 
     @Test
     @DisplayName("없는 id로 Member Entity를 조회하면 NULL을 반환한다")
-    public void memberSelectTest2() {
+    public void 멤버_조회시_없으면_NULL() {
         // given
         String randomId = UUID.randomUUID().toString();
 
         // when
         Optional<Member> findMemberOpt = repository.findById(randomId);
-        Member findMember = findMemberOpt.orElse(null);
 
         // then
-        assertNull(findMember);
+        assertFalse(findMemberOpt.isPresent());
     }
 
-    @Test
-    @DisplayName("회원 정보를 수정할 수 있다")
-    public void memberUpdateTest1() {
-        // given
-        Member member = new Member("test@test.test", "tester", "test");
-        repository.save(member);
-
-        String newName = UUID.randomUUID().toString().substring(0, 3);
-
-        // when
-        member.setName(newName);
-        repository.save(member);
-
-        // then
-        Optional<Member> updatedMemberOpt = repository.findById(member.getId());
-        Member updatedMember = updatedMemberOpt.get();
-        assertEquals(member.getName(), updatedMember.getName());
-    }
 
 }
