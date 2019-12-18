@@ -2,7 +2,6 @@ package com.nexters.config.security;
 
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,17 +15,17 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private MemberRepository repository;
+    private final MemberRepository repository;
+
+    public UserDetailsServiceImpl(MemberRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> findMember = repository.findById(username);
-        if (!findMember.isPresent()) {
-            throw new UsernameNotFoundException(username);
-        }
+        Member member = findMember.orElseThrow(() -> new UsernameNotFoundException(username));
 
-        Member member = findMember.get();
         return new CustomUserDetail(member.getId(), member.getPassword(), member.getName());
     }
 
