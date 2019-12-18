@@ -4,6 +4,7 @@ import com.nexters.rezoom.notification.domain.NotificationSetting;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -12,6 +13,8 @@ import java.util.Set;
 @Getter
 @Table(name = "member")
 @Entity
+@Builder
+@AllArgsConstructor
 public class Member {
 
     @Id
@@ -29,6 +32,15 @@ public class Member {
     @Setter
     @Column(name = "motto") // 좌우명
     private String motto;
+
+    @Column(name = "provider_type")
+    private String providerType;
+
+    @Column(name = "access_token")
+    private String accessToken;
+
+    @Column(name = "expires_at")
+    private LocalDateTime expiresAt;
 
     @Builder.Default
     @OneToMany(
