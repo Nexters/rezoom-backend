@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.member.domain.Member;
+import com.nexters.rezoom.member.domain.RezoomMember;
 import com.nexters.rezoom.member.dto.MemberDto;
 
 import java.io.File;
@@ -19,8 +20,12 @@ import java.util.*;
  **/
 public class TestObjectUtils {
 
-    public static Member createTestMember() {
-        return new Member("test@test.test", "tester", "test");
+    public static RezoomMember createTestMember() {
+        return RezoomMember.RezoomMemberBuilder()
+                .id("test@test.test")
+                .name("tester")
+                .password("test")
+                .build();
     }
 
     public static Coverletter createCoverletterHasQuestionAndHashtag(Member member) {

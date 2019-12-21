@@ -50,9 +50,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서 정보가 정상적으로 저장되어야 한다.")
     @Transactional
-    public void coverletterSaveTest1() {
+    public void 자기소개서_정보_저장_테스트() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
 
@@ -74,9 +73,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서를 저장하면, 문항도 저장되어야 한다")
     @Transactional
-    public void coverletterSaveTest2() {
+    public void 자기소개서_저장시_문항도_저장된다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
 
@@ -97,9 +95,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서 내 문항에 태그가 포함되어 있으면 함께 저장해야 한다")
     @Transactional
-    public void coverletterSaveTest3() {
+    public void 자기소개서_저장시_태그도_저장된다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         List<Question> questions = coverletter.getQuestions();
@@ -137,9 +134,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("id가 있는 자기소개서를 저장하면 수정되어야 한다")
     @Transactional
-    public void coverletterUpdateTest1() {
+    public void 자기소개서_수정_테스트() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);
@@ -156,9 +152,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서 수정시 문항을 삭제하면, DB에서도 제거해야 한다")
     @Transactional
-    public void coverletterUpdateTest2() {
+    public void 자기소개서_수정시_문항삭제하면_DB에서도_제거된다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);
@@ -177,8 +172,7 @@ public class CoverletterRepositoryTest {
 
     @Transactional
     @Test
-    @DisplayName("삭제된 자기소개서를 조회하면 NULL을 반환한다")
-    public void coverletterDeleteTest1() {
+    public void 없는_자기소개서_조회시_NULL을_반환한다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);
@@ -193,8 +187,7 @@ public class CoverletterRepositoryTest {
 
     @Transactional
     @Test
-    @DisplayName("문항이 포함된 자기소개서를 삭제하면 문항도 삭제되어야 한다")
-    public void coverletterDeleteTest2() {
+    public void 문항이_포함된_자기소개서_삭제시_문항도_삭제된다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);
@@ -213,9 +206,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("문항이 있는 자기소개서를 조회하면, 문항도 같이 조회되어야 한다.")
     @Transactional
-    public void coverletterSelectTest1() {
+    public void 자기소개서_조회시_문항도_조회된다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);
@@ -231,9 +223,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("태그가 포함된 문항이 있는 자기소개서를 조회하면, 태그도 같이 조회되어야 한다")
     @Transactional
-    public void coverletterSelectTest2() {
+    public void 자기소개서_조회시_태그도_조회된다() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);
@@ -253,9 +244,8 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서 리스트 조회 페이징 테스트")
     @Transactional
-    public void coverletterSelectTest3() {
+    public void 자기소개서_리스트_조회_페이징_테스트() {
         // given
         Coverletter coverletter0 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         Coverletter coverletter1 = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
@@ -291,8 +281,7 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서 조회시 없으면 NULL을 반환해야 한다")
-    public void coverletterSelectTest4() {
+    public void 자기소개서_조회시_없으면_NULL을_반환한다() {
         // given
         long coverletterID = -1;
 
@@ -304,8 +293,7 @@ public class CoverletterRepositoryTest {
     }
 
     @Test
-    @DisplayName("자기소개서 리스트 조회시 없으면 EMPTY를 반환해야 한다")
-    public void coverletterSelectTest5() {
+    public void 자기소개서_리스트_조회시_Empty_반환() {
         // given
         Member anonymous = new Member(UUID.randomUUID().toString(), "", "");
 
@@ -319,7 +307,7 @@ public class CoverletterRepositoryTest {
     @Transactional
     @Test
     @DisplayName("마감일이 있고, 마감일이 현재포함 미래이고, 지원하지 않은 모든 자기소개서를 조회한다")
-    public void coverletterSelectTest6() {
+    public void coverletterSelectTest() {
         // given
         Coverletter coverletter = TestObjectUtils.createCoverletterHasQuestionAndHashtag(member);
         repository.save(coverletter);

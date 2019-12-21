@@ -12,9 +12,9 @@ public enum CustomOAuthProvider {
 
     KAKAO {
         @Override
-        public ClientRegistration.Builder getBuilder(String registrationId) {
-            return getBuilder(registrationId, ClientAuthenticationMethod.POST, DEFAULT_LOGIN_REDIRECT_URL)
-                    .scope("profile")
+        public ClientRegistration.Builder getBuilder() {
+            return getBuilder("kakao", ClientAuthenticationMethod.POST)
+                    .scope("profile", "talk_message")
                     .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                     .tokenUri("https://kauth.kakao.com/oauth/token")
                     .userInfoUri("https://kapi.kakao.com/v2/user/me")
@@ -27,16 +27,16 @@ public enum CustomOAuthProvider {
     private static final String DEFAULT_LOGIN_REDIRECT_URL = "{baseUrl}/login/oauth2/code/{registrationId}";
 
     protected final ClientRegistration.Builder getBuilder(String registrationId,
-                                                          ClientAuthenticationMethod method, String redirectUri) {
+                                                          ClientAuthenticationMethod method) {
 
         ClientRegistration.Builder builder = ClientRegistration.withRegistrationId(registrationId);
         builder.clientAuthenticationMethod(method);
         builder.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE);
-        builder.redirectUriTemplate(redirectUri);
+        builder.redirectUriTemplate(CustomOAuthProvider.DEFAULT_LOGIN_REDIRECT_URL);
         return builder;
     }
 
-    public abstract ClientRegistration.Builder getBuilder(String registrationId);
+    public abstract ClientRegistration.Builder getBuilder();
 
 }
 

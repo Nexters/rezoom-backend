@@ -4,7 +4,6 @@ import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class MemberRepositoryTest {
     }
 
     @Test
-    @DisplayName("id로 Member Entity를 조회할 수 있다")
     public void 멤버_조회_성공() {
         // given
         repository.save(member);
@@ -53,7 +51,6 @@ public class MemberRepositoryTest {
     }
 
     @Test
-    @DisplayName("없는 id로 Member Entity를 조회하면 NULL을 반환한다")
     public void 멤버_조회시_없으면_NULL() {
         // given
         String randomId = UUID.randomUUID().toString();
