@@ -143,6 +143,8 @@ public class NotificationServiceTest {
     }
 
     /**
+     * 테스트 필요시, @Test 설정해서 테스트
+     * <p>
      * 본 테스트를 수행하기 위해선 access_token이 필요합니다.
      * 1. 웹브라우저를 통해 다음 URL을 입력해서 access_token 획득하기
      * 2. member table에 해당하는 row를 찾아 access_token 조회
@@ -151,7 +153,6 @@ public class NotificationServiceTest {
      * access_token 획득 URL = http://localalhost:8080/oauth2/authorization/kakao
      * ex) http://localalhost:8080/oauth2/authorization/kakao
      */
-    @Test
     public void 카카오톡_알림_테스트() {
         // given
         OAuth2Member member = OAuth2Member.OAuth2MemberBuilder()
