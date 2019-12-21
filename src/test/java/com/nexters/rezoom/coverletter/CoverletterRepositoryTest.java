@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Github : http://github.com/momentjin
  **/
 
+@Sql(scripts = "classpath:data.sql")
 @DataJpaTest
 @SpringBootTest(classes = JpaQuestionRepository.class)
 @ContextConfiguration(classes = RezoomApplication.class)
