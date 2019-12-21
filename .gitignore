@@ -38,3 +38,5 @@ src/main/resources/application-dev.yml
 src/main/resources/email-account.yml
 
 profileImages
+
+.DS_Store
