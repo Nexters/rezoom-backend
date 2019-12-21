@@ -1,29 +1,31 @@
 package com.nexters.rezoom.member.domain;
 
 import com.nexters.rezoom.notification.domain.NotificationSetting;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "member")
 @Entity
-@Builder
-@AllArgsConstructor
 public class Member {
 
     @Id
     @Column(name = "member_id")
-    private String id;
+    protected String id;
 
     @Setter
     @Column(name = "name")
-    private String name;
+    protected String name;
 
     @Setter
     @Column(name = "password")
@@ -33,19 +35,9 @@ public class Member {
     @Column(name = "motto") // 좌우명
     private String motto;
 
-    @Column(name = "provider_type")
-    private String providerType;
-
-    @Column(name = "access_token")
-    private String accessToken;
-
-    @Column(name = "expires_at")
-    private LocalDateTime expiresAt;
-
-    @Builder.Default
     @OneToMany(
             mappedBy = "member",
-            fetch = FetchType.EAGER, cascade = CascadeType.ALL
+            fetch = FetchType.LAZY, cascade = CascadeType.ALL
     )
     private Set<NotificationSetting> notificationSettings = new HashSet<>();
 

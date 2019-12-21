@@ -6,7 +6,6 @@ import com.nexters.rezoom.coverletter.infra.JpaQuestionRepository;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,6 @@ public class QuestionRepositoryTest {
     }
 
     @Test
-    @DisplayName("문항을 조회하면 태그도 함께 조회되어야 한다.")
     @Transactional
     public void 문항을_조회하면_태그도_조회된다() {
         // given
@@ -81,7 +79,6 @@ public class QuestionRepositoryTest {
     }
 
     @Test
-    @DisplayName("없는 문항을 조회하면 NULL을 반환한다")
     public void 문항_조회_실패시_NULL() {
         // given
         long findQuestionId = -1;

@@ -2,6 +2,7 @@ package com.nexters.rezoom.notification.domain;
 
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.notification.application.EmailNotificator;
+import com.nexters.rezoom.notification.application.KakaoNotificator;
 import com.nexters.rezoom.notification.application.NoneNotificator;
 import com.nexters.rezoom.notification.application.Notificator;
 
@@ -15,7 +16,8 @@ import java.util.Map;
 public enum NotificationType {
 
     EMAIL(0, new EmailNotificator()),
-    NONE(1, new NoneNotificator());
+    KAKAO(1, new KakaoNotificator()),
+    NONE(9, new NoneNotificator());
 
     private static final Map<Integer, NotificationType> lookup = new HashMap<>();
 

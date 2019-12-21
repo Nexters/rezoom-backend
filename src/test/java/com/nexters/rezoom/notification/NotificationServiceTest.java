@@ -5,6 +5,7 @@ import com.nexters.rezoom.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.coverletter.domain.Deadline;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
+import com.nexters.rezoom.member.domain.OAuth2Member;
 import com.nexters.rezoom.notification.application.NotificationService;
 import com.nexters.rezoom.notification.domain.Notification;
 import com.nexters.rezoom.notification.domain.NotificationRepository;
@@ -43,10 +44,13 @@ public class NotificationServiceTest {
     private NotificationService notificationService;
 
     private static Member member;
+
     @MockBean
     private NotificationRepository notificationRepository;
+
     @MockBean
     private CoverletterRepository coverletterRepository;
+
     @MockBean
     private MemberRepository memberRepository;
 
@@ -129,13 +133,56 @@ public class NotificationServiceTest {
                                 .coverletterId(51L)
                                 .member(member)
                                 .createDate(LocalDateTime.now())
-                                .build()
-                ));
+                                .build()));
 
         // when
         notificationService.sendNotifications();
 
         // then
         // 성공 결과는 수신자의 이메일을 확인...
+    }
+
+    /**
+     * 본 테스트를 수행하기 위해선 access_token이 필요합니다.
+     * 1. 웹브라우저를 통해 다음 URL을 입력해서 access_token 획득하기
+     * 2. member table에 해당하는 row를 찾아 access_token 조회
+     * 3. [access_token]에 실제 access_token 값 입력
+     * <p>
+     * access_token 획득 URL = http://localalhost:8080/oauth2/authorization/kakao
+     * ex) http://localalhost:8080/oauth2/authorization/kakao
+     */
+    @Test
+    public void 카카오톡_알림_테스트() {
+        // given
+        OAuth2Member member = OAuth2Member.OAuth2MemberBuilder()
+                .id("test")
+                .name("tester")
+                .providerType("kakao")
+                .accessToken("cDgT_8Vqwi6QR43vCfKxw7cj4FC_7AvGIkiycgo9dRoAAAFvKF32xw")
+                .build();
+
+        NotificationSetting setting = new NotificationSetting(member, NotificationType.KAKAO);
+        member.addNotificationSetting(setting);
+
+        given(memberRepository.findAll())
+                .willReturn(Collections.singletonList(member));
+
+        given(notificationRepository.findAllByMember(member)).willReturn(
+                Collections.singletonList(
+                        Notification.builder()
+                                .id(12L)
+                                .companyName("testCompany")
+                                .remainingHours(24)
+                                .remainingDays(1)
+                                .coverletterId(51L)
+                                .member(member)
+                                .createDate(LocalDateTime.now())
+                                .build()));
+
+        // when
+        notificationService.sendNotifications();
+
+        // then
+        // 성공 결과는 수신자의 카톡을 확인..
     }
 }
