@@ -1,6 +1,5 @@
 package com.nexters.config.security;
 
-import com.nexters.config.security.oauth2.MyOAuth2SuccessHandler;
 import com.nexters.config.security.oauth2.kakao.KakaoOAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -12,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * Created by JaeeonJin on 2018-08-02.
@@ -22,13 +22,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private RESTAuthenticationEntryPoint authenticationEntryPoint;
+    private AuthenticationSuccessHandler oAuth2SuccessHandler;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder,
-                             RESTAuthenticationEntryPoint authenticationEntryPoint) {
+    public WebSecurityConfig(UserDetailsService userDetailsService,
+                             BCryptPasswordEncoder bCryptPasswordEncoder,
+                             RESTAuthenticationEntryPoint authenticationEntryPoint,
+                             AuthenticationSuccessHandler oAuth2SuccessHandler) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
     }
 
     @Override
@@ -39,7 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // disables cors and csrf
-        http.cors().and().csrf().disable();
+        http
+                .cors().and()
+                .csrf()
+                .disable();
 
         // authenticate
         http.authorizeRequests()
@@ -58,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .userInfoEndpoint()
                 .customUserType(KakaoOAuth2User.class, "kakao").and()
-                .successHandler(new MyOAuth2SuccessHandler());
+                .successHandler(oAuth2SuccessHandler);
 
         // set filters
         http

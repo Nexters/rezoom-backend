@@ -32,20 +32,25 @@ public class JpaQuestionRepository implements QuestionRepository {
     }
 
     public Page<Question> findAllByMember(Pageable pageable, Member member) {
-        JPAQuery query = new JPAQuery(em);
         QQuestion qQuestion = QQuestion.question;
 
-        List<Question> questions = query.from(qQuestion)
+        List<Question> questions = createJpaQuery()
+                .from(qQuestion)
                 .where(qQuestion.coverletter.member.eq(member))
                 .offset(pageable.getPageNumber())
                 .limit(pageable.getPageSize())
                 .list(qQuestion);
 
-        long countOfAllQuestion = query.from(qQuestion)
+        long countOfAllQuestion = createJpaQuery()
+                .from(qQuestion)
                 .where(qQuestion.coverletter.member.eq(member))
                 .count();
 
         return new PageImpl<>(questions, pageable, countOfAllQuestion);
+    }
+
+    private JPAQuery createJpaQuery() {
+        return new JPAQuery(em);
     }
 
 }

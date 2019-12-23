@@ -26,6 +26,9 @@ public class MemberService {
 
     public MemberDto.ViewRes getMemberInfo(String id) {
         Member findMember = getMember(id);
+        if (findMember == null)
+            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND);
+
         return new MemberDto.ViewRes(findMember);
     }
 
@@ -61,7 +64,7 @@ public class MemberService {
 
     private Member getMember(String id) {
         Optional<Member> findMember = repository.findById(id);
-        return findMember.orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        return findMember.orElse(null);
     }
 
     private void checkExistMember(String id) {
