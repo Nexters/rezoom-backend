@@ -5,7 +5,6 @@ import lombok.Getter;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -16,13 +15,9 @@ import java.time.temporal.ChronoUnit;
 @Embeddable
 public class Deadline {
 
-    // TODO : 현재 DTO에서 타입이 안맞아 오류가 발생한다. localdatetime에 대한 컨버터를 수정할 수 있는지 검토하고 해결하자
-
     @Getter
     @Column(name = "deadline")
     private LocalDateTime deadline;
-
-    private final static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm";
 
     public Deadline() {
         this.deadline = null;
@@ -32,38 +27,11 @@ public class Deadline {
         this.deadline = deadline;
     }
 
-    public Deadline(String datetimeStr) {
-        if (datetimeStr == null || datetimeStr.isEmpty()) {
-            this.deadline = null;
-            return;
-        }
-
-        this.deadline = this.convertLocalDateTime(datetimeStr);
-    }
-
-    /**
-     * Domain Rule
-     * - 현재 시간 기준, 마감일 초과 여부 검사
-     * @return 마감일 경과했으면 true
-     */
     public boolean isExpired() {
-        if (deadline == null) return false;
+        if (deadline == null)
+            return false;
+
         return deadline.isBefore(LocalDateTime.now());
-    }
-
-    private LocalDateTime convertLocalDateTime(String datetimeStr) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
-            return LocalDateTime.parse(datetimeStr, formatter);
-        } catch (Exception e) {
-            // do not anything
-            return null;
-        }
-    }
-
-
-    public static Deadline now() {
-        return new Deadline(LocalDateTime.now());
     }
 
     public long getRemainingHours() {
@@ -72,6 +40,10 @@ public class Deadline {
 
     public long getRemainingDays() {
         return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
+    }
+
+    public static Deadline now() {
+        return new Deadline(LocalDateTime.now());
     }
 
     @Override
