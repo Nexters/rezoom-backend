@@ -95,9 +95,10 @@ public abstract class CoverletterConverter {
 
         String companyName = coverletterInfos[COMPANY_NAME_IDX];
         int applicationYear = Integer.parseInt(coverletterInfos[APPLICATION_YEAR_IDX]);
-        ApplicationHalf applicationHalf = ApplicationHalf.getValueByName(coverletterInfos[APPLICATION_HALF_IDX]);
-        ApplicationType applicationType = ApplicationType.getValueByName(coverletterInfos[APPLICATION_TYPE_IDX]);
+        ApplicationHalf applicationHalf = ApplicationHalf.valueOf(coverletterInfos[APPLICATION_HALF_IDX]);
+        ApplicationType applicationType = ApplicationType.valueOf(coverletterInfos[APPLICATION_TYPE_IDX]);
 
+        // todo : 아래 코드 수정, 멤버 셋팅 등 다 해야함.
         return Coverletter.builder()
                 .companyName(companyName)
                 .applicationYear(Year.of(applicationYear))

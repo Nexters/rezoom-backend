@@ -1,8 +1,9 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.config.exception.EntityNotFoundException;
-import com.nexters.config.exception.ErrorCode;
+import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.coverletter.domain.Hashtag;
+import com.nexters.rezoom.coverletter.domain.HashtagRepository;
 import com.nexters.rezoom.coverletter.domain.Question;
 import com.nexters.rezoom.coverletter.domain.QuestionRepository;
 import com.nexters.rezoom.coverletter.dto.QuestionDto;
@@ -21,11 +22,11 @@ import java.util.stream.Collectors;
 public class QuestionService {
 
     private final QuestionRepository repository;
-    private final HashtagService hashTagService;
+    private final HashtagRepository hashtagRepository;
 
-    public QuestionService(QuestionRepository repository, HashtagService hashTagService) {
+    public QuestionService(QuestionRepository repository, HashtagRepository hashtagRepository) {
         this.repository = repository;
-        this.hashTagService = hashTagService;
+        this.hashtagRepository = hashtagRepository;
     }
 
     /**
@@ -34,7 +35,7 @@ public class QuestionService {
     public QuestionDto.ViewRes getView(long questionId, Member member) {
         Question question = repository.findByKey(questionId, member);
         if (question == null) {
-            throw new EntityNotFoundException(ErrorCode.QUESTION_NOT_FOUND);
+            throw new EntityNotFoundException(ErrorType.QUESTION_NOT_FOUND);
         }
 
         return new QuestionDto.ViewRes(question);
@@ -49,7 +50,9 @@ public class QuestionService {
         Set<Question> questionSet = new HashSet<>();
         for (String hasthag : hashtags) {
             try {
-                Hashtag findHashtag = hashTagService.getHashTag(member, hasthag);
+                Hashtag findHashtag = hashtagRepository.findByMemberAndValue(member, hasthag)
+                        .orElseThrow(() -> new EntityNotFoundException(ErrorType.HASHTAG_NOT_FOUND));
+
                 questionSet.addAll(findHashtag.getQuestions());
             } catch (EntityNotFoundException e) {
                 // TODO : 개선할 필요가 있어 보인다.

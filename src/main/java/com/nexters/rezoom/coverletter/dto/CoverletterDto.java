@@ -30,8 +30,8 @@ public class CoverletterDto {
 
         private ApplicationHalf applicationHalf = ApplicationHalf.ETC;
         private ApplicationType applicationType = ApplicationType.ETC;
-        private IsPass isPass = IsPass.ETC;
-        private IsApplication isApplication = IsApplication.ETC;
+        private PassState passState = PassState.ETC;
+        private ApplicationState applicationState = ApplicationState.ETC;
         private LocalDateTime deadline;
         private String jobType;
         private List<QuestionDto.SaveReq> questions = new ArrayList<>();
@@ -42,8 +42,8 @@ public class CoverletterDto {
                     .applicationHalf(applicationHalf)
                     .applicationType(applicationType)
                     .applicationYear(Year.of(applicationYear))
-                    .isPass(isPass)
-                    .isApplication(isApplication)
+                    .passState(passState)
+                    .applicationState(applicationState)
                     .deadline(new Deadline(deadline))
                     .jobType(jobType)
                     .build();
@@ -65,8 +65,8 @@ public class CoverletterDto {
 
         private ApplicationHalf applicationHalf = ApplicationHalf.ETC;
         private ApplicationType applicationType = ApplicationType.ETC;
-        private IsPass isPass = IsPass.ETC;
-        private IsApplication isApplication = IsApplication.ETC;
+        private PassState passState = PassState.ETC;
+        private ApplicationState applicationState = ApplicationState.ETC;
         private LocalDateTime deadline;
         private String jobType;
         private List<QuestionDto.UpdateReq> questions;
@@ -78,8 +78,8 @@ public class CoverletterDto {
                     .applicationHalf(applicationHalf)
                     .applicationType(applicationType)
                     .applicationYear(Year.of(applicationYear))
-                    .isApplication(isApplication)
-                    .isPass(isPass)
+                    .applicationState(applicationState)
+                    .passState(passState)
                     .deadline(new Deadline(deadline))
                     .jobType(jobType)
                     .build();
@@ -111,8 +111,8 @@ public class CoverletterDto {
         private ApplicationType applicationType;
         private ApplicationHalf applicationHalf;
         private LocalDateTime deadline;
-        private IsApplication isApplication;
-        private IsPass isPass;
+        private ApplicationState applicationState;
+        private PassState passState;
         private String jobType;
         private LocalDateTime createDate;
         private LocalDateTime updateDate;
@@ -125,8 +125,8 @@ public class CoverletterDto {
             this.applicationType = coverletter.getApplicationType();
             this.applicationHalf = coverletter.getApplicationHalf();
             this.deadline = coverletter.getDeadline() == null ? null : coverletter.getDeadline().getDeadline();
-            this.isApplication = coverletter.getIsApplication();
-            this.isPass = coverletter.getIsPass();
+            this.applicationState = coverletter.getApplicationState();
+            this.passState = coverletter.getPassState();
             this.jobType = coverletter.getJobType();
             this.createDate = coverletter.getCreateDate();
             this.updateDate = coverletter.getUpdateDate();

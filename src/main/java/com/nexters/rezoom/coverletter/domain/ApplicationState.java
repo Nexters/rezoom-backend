@@ -5,9 +5,9 @@ package com.nexters.rezoom.coverletter.domain;
  * Github : http://github.com/momentjin
  **/
 
-public enum ApplicationType {
-    INTERN,
-    JUNIOR,
-    SENIOR,
+public enum ApplicationState {
+    WAIT,
+    NO,
+    YES,
     ETC
 }

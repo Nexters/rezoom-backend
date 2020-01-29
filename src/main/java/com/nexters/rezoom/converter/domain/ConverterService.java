@@ -16,7 +16,7 @@ import java.io.File;
 @Service
 public class ConverterService {
 
-    private CoverletterRepository coverletterRepository;
+    private final CoverletterRepository coverletterRepository;
 
     public ConverterService(CoverletterRepository coverletterRepository) {
         this.coverletterRepository = coverletterRepository;
@@ -24,20 +24,24 @@ public class ConverterService {
 
     public void convertFromFileToCoverletter(Member member, MultipartFile[] files) {
         for (MultipartFile multipartFile : files) {
-            File file = null;
+            saveFile(member, multipartFile);
+        }
+    }
 
-            try {
-                file = FileUtils.convertFile(multipartFile);
-                String fileExtension = FileUtils.getFileExtension(file);
+    private void saveFile(Member member, MultipartFile multipartFile) {
+        File file = null;
 
-                CoverletterConverter converter = ConverterFactory.createConverterByExtension(fileExtension, file);
-                Coverletter coverletter = converter.convert();
-                coverletter.setMember(member);
+        try {
+            file = FileUtils.convertFile(multipartFile);
+            String fileExtension = FileUtils.getFileExtension(file);
 
-                coverletterRepository.save(coverletter);
-            } finally {
-                if (file != null) file.delete();
-            }
+            CoverletterConverter converter = ConverterFactory.createConverterByExtension(fileExtension, file);
+            Coverletter coverletter = converter.convert();
+            coverletter.setMember(member);
+
+            coverletterRepository.save(coverletter);
+        } finally {
+            if (file != null) file.delete();
         }
     }
 

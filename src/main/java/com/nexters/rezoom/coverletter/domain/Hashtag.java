@@ -2,6 +2,7 @@ package com.nexters.rezoom.coverletter.domain;
 
 import com.nexters.rezoom.member.domain.Member;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "hashtag")
+@EqualsAndHashCode(of = {"member", "value"})
 public class Hashtag {
 
     @Id
@@ -52,25 +54,6 @@ public class Hashtag {
     public void setId(long id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return id + " " + value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Hashtag hashTag = (Hashtag) o;
-        return Objects.equals(member, hashTag.member) && Objects.equals(value, hashTag.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(member, value);
-    }
-
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;

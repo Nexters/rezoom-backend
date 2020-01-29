@@ -1,7 +1,7 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.config.exception.EntityNotFoundException;
-import com.nexters.config.exception.ErrorCode;
+import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.coverletter.dto.QuestionDto;
@@ -56,7 +56,6 @@ public class CoverletterService {
 
         Coverletter coverletter = req.toEntity();
         coverletter.setMember(member);
-        coverletter.setCreateDate(existCoverletter.getCreateDate());
 
         // set questions
         List<Question> questions = new ArrayList<>();
@@ -98,7 +97,7 @@ public class CoverletterService {
     private Coverletter getCoverletter(Member member, long id) {
         Optional<Coverletter> findCoverletter = coverletterRepository.findByIdAndMember(id, member);
         if (!findCoverletter.isPresent()) {
-            throw new EntityNotFoundException(ErrorCode.COVERLETTER_NOT_FOUND);
+            throw new EntityNotFoundException(ErrorType.COVERLETTER_NOT_FOUND);
         }
 
         return findCoverletter.get();
@@ -115,9 +114,10 @@ public class CoverletterService {
         Set<Hashtag> resultHashtags = new HashSet<>();
 
         for (Hashtag hashtag : hashtags) {
-            Hashtag findHashtag = hashTagRepository.findByMemberAndValue(member, hashtag.getValue());
-            if (findHashtag != null) {
-                resultHashtags.add(findHashtag);
+
+            Optional<Hashtag> optionalHashtag = hashTagRepository.findByMemberAndValue(member, hashtag.getValue());
+            if (optionalHashtag.isPresent()) {
+                resultHashtags.add(optionalHashtag.get());
                 continue;
             }
 

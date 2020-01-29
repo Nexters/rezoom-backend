@@ -1,8 +1,8 @@
 package com.nexters.rezoom.member.application;
 
-import com.nexters.config.exception.EntityNotFoundException;
-import com.nexters.config.exception.ErrorCode;
-import com.nexters.config.exception.InvalidValueException;
+import com.nexters.global.exception.BusinessException;
+import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
 import com.nexters.rezoom.member.domain.OAuth2Member;
@@ -27,14 +27,16 @@ public class MemberService {
     public MemberDto.ViewRes getMemberInfo(String id) {
         Member findMember = getMember(id);
         if (findMember == null)
-            throw new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND);
+            throw new EntityNotFoundException(ErrorType.MEMBER_NOT_FOUND);
 
         return new MemberDto.ViewRes(findMember);
     }
 
     public void signUp(MemberDto.SignUpReq req) {
         checkExistMember(req.getId());
-        repository.save(new Member(req.getId(), req.getName(), encoder.encode(req.getPassword())));
+
+        Member member = new Member(req.getId(), req.getName(), encoder.encode(req.getPassword()));
+        repository.save(member);
     }
 
     @Transactional
@@ -53,13 +55,10 @@ public class MemberService {
 
     @Transactional
     public void updateMemberInfo(String id, MemberDto.UpdateReq req) {
-        // TODO : object mapping 필요
-        Member findMember = getMember(id);
+        Member findMember = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorType.MEMBER_NOT_FOUND));
 
-        if (!req.getName().isEmpty())
-            findMember.setName(req.getName());
-
-        findMember.setMotto(req.getMotto());
+        findMember.updateMemberInfo(req.getName(), req.getMotto());
     }
 
     private Member getMember(String id) {
@@ -69,7 +68,7 @@ public class MemberService {
 
     private void checkExistMember(String id) {
         repository.findById(id).ifPresent(member -> {
-            throw new InvalidValueException(ErrorCode.EMAIL_DUPLICATION);
+            throw new BusinessException(ErrorType.EMAIL_DUPLICATION);
         });
     }
 }

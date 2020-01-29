@@ -1,10 +1,7 @@
 package com.nexters.rezoom.member.domain;
 
 import com.nexters.rezoom.notification.domain.NotificationSetting;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Getter
 @Table(name = "member")
 @Entity
+@EqualsAndHashCode(of = {"id"})
 public class Member {
 
     @Id
@@ -32,7 +30,7 @@ public class Member {
     private String password;
 
     @Setter
-    @Column(name = "motto") // 좌우명
+    @Column(name = "motto")
     private String motto;
 
     @OneToMany(
@@ -47,20 +45,12 @@ public class Member {
         this.password = password;
     }
 
+    public void updateMemberInfo(String name, String motto) {
+        this.name = name;
+        this.motto = motto;
+    }
+
     public void addNotificationSetting(NotificationSetting notificationSetting) {
         this.notificationSettings.add(notificationSetting);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Member member = (Member) o;
-        return Objects.equals(id, member.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.hashtag;
 
-import com.nexters.config.exception.EntityNotFoundException;
+import com.nexters.global.exception.EntityNotFoundException;
 import com.nexters.rezoom.coverletter.application.HashtagService;
 import com.nexters.rezoom.coverletter.domain.Hashtag;
 import com.nexters.rezoom.coverletter.domain.HashtagRepository;

@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.domain;
 
-import com.nexters.config.jpa.YearAttributeConverter;
+import com.nexters.global.config.jpa.YearAttributeConverter;
 import com.nexters.rezoom.member.domain.Member;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,18 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Builder
 @Getter
 @Entity
 @Table(name = "coverletter")
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@EqualsAndHashCode(of = "id")
 public class Coverletter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coverletter_id")
-    private long id;
+    private Long id;
 
     @Setter
     @ManyToOne(fetch = FetchType.EAGER)
@@ -38,47 +36,56 @@ public class Coverletter {
     @Embedded
     private Deadline deadline;
 
-    @Builder.Default
     @Column(name = "application_type")
-    private ApplicationType applicationType = ApplicationType.ETC;
+    private ApplicationType applicationType;
 
-    @Builder.Default
     @Column(name = "application_half")
-    private ApplicationHalf applicationHalf = ApplicationHalf.ETC;
+    private ApplicationHalf applicationHalf;
 
-    @Builder.Default
-    @Column(name = "is_application")
-    private IsApplication isApplication = IsApplication.ETC;
+    @Column(name = "application_state")
+    private ApplicationState applicationState;
 
-    @Builder.Default
     @Column(name = "application_year")
     @Convert(converter = YearAttributeConverter.class)
-    private Year applicationYear = Year.of(LocalDateTime.now().getYear());
+    private Year applicationYear;
 
-    @Builder.Default
     @Column(name = "job_type")
-    private String jobType = "";
+    private String jobType;
 
-    @Builder.Default
-    @Column(name = "is_pass")
-    private IsPass isPass = IsPass.ETC;
+    @Column(name = "pass_state")
+    private PassState passState;
 
-    @Builder.Default
     @OneToMany(
             mappedBy = "coverletter",
-            fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Question> questions = new ArrayList<>();
+    private List<Question> questions;
 
-    @Setter
     @CreationTimestamp
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
+    @Column(name = "created_at")
+    private LocalDateTime created_at;
 
     @UpdateTimestamp
-    @Column(name = "update_date")
-    private LocalDateTime updateDate;
+    @Column(name = "updated_at")
+    private LocalDateTime updated_at;
+
+    @Builder
+    public Coverletter(Member member, String companyName, Deadline deadline, ApplicationType applicationType,
+                       ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
+                       String jobType, PassState passState) {
+
+        this.member = member;
+        this.companyName = companyName;
+        this.deadline = deadline;
+        this.applicationHalf = applicationHalf;
+        this.applicationType = applicationType;
+        this.applicationState = applicationState;
+        this.applicationYear = applicationYear;
+        this.jobType = jobType;
+        this.passState = passState;
+        this.questions = new ArrayList<>();
+    }
 
     /**
      * Domain rule.
@@ -87,13 +94,13 @@ public class Coverletter {
      */
 
     public void checkPassStatus() {
-        if (this.isApplication == IsApplication.WAIT) {
-            this.isPass = IsPass.WAIT;
+        if (this.applicationState == ApplicationState.WAIT) {
+            this.passState = PassState.WAIT;
             return;
         }
 
-        if (this.isApplication == IsApplication.NO) {
-            this.isPass = IsPass.FAIL;
+        if (this.applicationState == ApplicationState.NO) {
+            this.passState = PassState.FAIL;
             return;
         }
     }
@@ -118,18 +125,4 @@ public class Coverletter {
         this.questions.add(question);
         question.setCoverletter(this); // 양방향 연관관계 설정
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Coverletter that = (Coverletter) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
 }

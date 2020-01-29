@@ -61,11 +61,11 @@ public class TestObjectUtils {
                 .applicationType(ApplicationType.ETC)
                 .applicationYear(Year.of(2018))
                 .jobType("backend developer")
-                .isApplication(IsApplication.WAIT)
-                .isPass(IsPass.ETC)
+                .applicationState(ApplicationState.WAIT)
+                .passState(PassState.ETC)
                 .deadline(new Deadline(LocalDateTime.now()))
-                .isApplication(IsApplication.ETC)
-                .isPass(IsPass.ETC)
+                .applicationState(ApplicationState.ETC)
+                .passState(PassState.ETC)
                 .deadline(new Deadline(LocalDateTime.now().plusDays(5)))
                 .build();
     }

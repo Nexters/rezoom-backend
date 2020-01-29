@@ -1,6 +1,7 @@
 package com.nexters.rezoom.coverletter.domain;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "question")
+@EqualsAndHashCode(of = {"id"})
 public class Question {
 
     @Id
@@ -31,7 +33,7 @@ public class Question {
     private Coverletter coverletter;
 
     @ManyToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @JoinTable(
@@ -57,37 +59,16 @@ public class Question {
         this.hashtags = hashtags;
     }
 
-    public void updateData(String title, String contents) {
-        this.setTitle(title);
-        this.setContents(contents);
-    }
-
-    public void setTitle(String title) {
+    public void updateData(String title, String contents, Set<Hashtag> hashtags) {
         this.title = title;
-    }
-
-    public void setContents(String contents) {
         this.contents = contents;
+
+        if (hashtags != null)
+            this.hashtags = hashtags;
     }
 
     public void setHashtags(Set<Hashtag> hashtags) {
         this.hashtags = hashtags;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Question question = (Question) o;
-
-        // question id가 0이면 새롭게 생성된 데이터이므로, 항상 false를 반환한다.
-        if (question.id == 0) return false;
-        else return id == question.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     @Override
