@@ -1,7 +1,7 @@
 package com.nexters.rezoom.member.application;
 
 import com.nexters.global.exception.BusinessException;
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
@@ -27,7 +27,7 @@ public class MemberService {
     public MemberDto.ViewRes getMemberInfo(String id) {
         Member findMember = getMember(id);
         if (findMember == null)
-            throw new EntityNotFoundException(ErrorType.MEMBER_NOT_FOUND);
+            throw new BusinessException(ErrorType.MEMBER_NOT_FOUND);
 
         return new MemberDto.ViewRes(findMember);
     }
@@ -56,7 +56,7 @@ public class MemberService {
     @Transactional
     public void updateMemberInfo(String id, MemberDto.UpdateReq req) {
         Member findMember = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorType.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorType.MEMBER_NOT_FOUND));
 
         findMember.updateMemberInfo(req.getName(), req.getMotto());
     }

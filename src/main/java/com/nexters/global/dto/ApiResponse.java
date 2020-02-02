@@ -14,7 +14,6 @@ public class ApiResponse<T> {
     private String message;
     private T data;
 
-
     @Builder
     private ApiResponse(String message, T data, ResponseType responseType) {
         this.message = message;

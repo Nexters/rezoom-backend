@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter;
 
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
@@ -200,14 +200,14 @@ public class CoverletterServiceTest {
     }
 
     @Test
-    public void 조회된_자기소개서가_NULL아면_EntityNotFoundException() {
+    public void 조회된_자기소개서가_NULL아면_BusinessException() {
         // given
         long findCoverletterId = -1;
 
         given(repository.findByIdAndMember(findCoverletterId, member)).willReturn(Optional.empty());
 
         // when & then
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             service.getView(member, findCoverletterId);
         });
     }

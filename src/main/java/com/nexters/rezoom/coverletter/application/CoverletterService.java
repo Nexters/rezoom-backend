@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.coverletter.domain.*;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
@@ -97,7 +97,7 @@ public class CoverletterService {
     private Coverletter getCoverletter(Member member, long id) {
         Optional<Coverletter> findCoverletter = coverletterRepository.findByIdAndMember(id, member);
         if (!findCoverletter.isPresent()) {
-            throw new EntityNotFoundException(ErrorType.COVERLETTER_NOT_FOUND);
+            throw new BusinessException(ErrorType.COVERLETTER_NOT_FOUND);
         }
 
         return findCoverletter.get();

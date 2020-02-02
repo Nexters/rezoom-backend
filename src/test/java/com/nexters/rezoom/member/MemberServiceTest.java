@@ -1,7 +1,7 @@
 package com.nexters.rezoom.member;
 
 import com.nexters.global.exception.BusinessException;
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.domain.MemberRepository;
@@ -86,13 +86,13 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void 멤버_조회_실패하면_EntityNotFoundException() {
+    public void 멤버_조회_실패하면_BusinessException() {
         // given
         given(memberRepository.findById(anyString()))
                 .willReturn(Optional.empty());
 
         // when & then
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             service.getMemberInfo(anyString());
         });
     }

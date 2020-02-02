@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.hashtag;
 
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.rezoom.coverletter.application.HashtagService;
 import com.nexters.rezoom.coverletter.domain.Hashtag;
 import com.nexters.rezoom.coverletter.domain.HashtagRepository;
@@ -60,7 +60,7 @@ public class HashtagServiceTest {
     }
 
     @Test
-    public void 해시태그_조회_실패시_EntityNotFoundException() {
+    public void 해시태그_조회_실패시_BusinessException() {
         // given
         String tagValue = UUID.randomUUID().toString();
 
@@ -68,7 +68,7 @@ public class HashtagServiceTest {
         when(repository.findByMemberAndValue(any(), any()))
                 .thenReturn(null);
 
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             service.getHashTag(member, tagValue);
         });
     }

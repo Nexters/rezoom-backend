@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.question;
 
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.rezoom.coverletter.application.HashtagService;
 import com.nexters.rezoom.coverletter.application.QuestionService;
 import com.nexters.rezoom.coverletter.domain.Coverletter;
@@ -47,13 +47,13 @@ public class QuestionServiceTest {
     }
 
     @Test
-    public void 문항_조회_실패시_EntityNotFoundException() {
+    public void 문항_조회_실패시_BusinessException() {
         // given
         given(questionRepository.findByKey(anyLong(), any(Member.class)))
                 .willReturn(null);
 
         // when & then
-        assertThrows(EntityNotFoundException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             service.getView(anyLong(), any(Member.class));
         });
     }

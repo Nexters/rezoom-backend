@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.coverletter.domain.Hashtag;
 import com.nexters.rezoom.coverletter.domain.HashtagRepository;
@@ -36,6 +36,6 @@ public class HashtagService {
 
     public Hashtag getHashTag(Member member, String value) {
         return repository.findByMemberAndValue(member, value)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorType.HASHTAG_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorType.HASHTAG_NOT_FOUND));
     }
 }

@@ -1,6 +1,6 @@
 package com.nexters.rezoom.coverletter.application;
 
-import com.nexters.global.exception.EntityNotFoundException;
+import com.nexters.global.exception.BusinessException;
 import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.coverletter.domain.Hashtag;
 import com.nexters.rezoom.coverletter.domain.HashtagRepository;
@@ -35,7 +35,7 @@ public class QuestionService {
     public QuestionDto.ViewRes getView(long questionId, Member member) {
         Question question = repository.findByKey(questionId, member);
         if (question == null) {
-            throw new EntityNotFoundException(ErrorType.QUESTION_NOT_FOUND);
+            throw new BusinessException(ErrorType.QUESTION_NOT_FOUND);
         }
 
         return new QuestionDto.ViewRes(question);
@@ -51,10 +51,10 @@ public class QuestionService {
         for (String hasthag : hashtags) {
             try {
                 Hashtag findHashtag = hashtagRepository.findByMemberAndValue(member, hasthag)
-                        .orElseThrow(() -> new EntityNotFoundException(ErrorType.HASHTAG_NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException(ErrorType.HASHTAG_NOT_FOUND));
 
                 questionSet.addAll(findHashtag.getQuestions());
-            } catch (EntityNotFoundException e) {
+            } catch (BusinessException e) {
                 // TODO : 개선할 필요가 있어 보인다.
                 // do not anything
             }
