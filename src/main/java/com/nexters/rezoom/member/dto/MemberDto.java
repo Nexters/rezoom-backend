@@ -13,6 +13,7 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SignUpReq {
+
         @Email
         private String id;
 

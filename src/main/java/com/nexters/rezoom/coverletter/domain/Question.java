@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -20,7 +19,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
-    private long id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -49,7 +48,7 @@ public class Question {
         this.hashtags = new HashSet<>();
     }
 
-    public Question(long id, String title, String contents) {
+    public Question(Long id, String title, String contents) {
         this(title, contents);
         this.id = id;
     }

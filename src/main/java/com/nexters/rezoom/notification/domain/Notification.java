@@ -21,7 +21,7 @@ public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Setter
     @ManyToOne(fetch = FetchType.EAGER)
@@ -32,21 +32,21 @@ public class Notification {
     private String companyName;
 
     @Column(name = "coverletter_id")
-    private long coverletterId;
+    private Long coverletterId;
 
     @Column(name = "remaining_days")
-    private long remainingDays;
+    private Long remainingDays;
 
     @Column(name = "remaining_hours")
-    private long remainingHours;
+    private Long remainingHours;
 
     @Column(name = "is_checked")
     @Builder.Default
     private boolean isChecked = false;
 
     @CreationTimestamp
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     public void toggleChecked() {
         this.isChecked = true;

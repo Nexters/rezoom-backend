@@ -4,7 +4,6 @@ import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.notification.application.NotificationService;
 import com.nexters.rezoom.notification.dto.NotificationDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +22,12 @@ public class NotificationController {
     }
 
     @GetMapping("")
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<NotificationDto.ListRes> getNotifications(@AuthenticationPrincipal Member member) {
         return ApiResponse.success(notificationService.getNotifications(member));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ApiResponse toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") long notificationId) {
+    public ApiResponse toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") Long notificationId) {
         return ApiResponse.success(notificationService.toggleCheck(member, notificationId));
     }
 

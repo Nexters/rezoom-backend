@@ -1,6 +1,9 @@
 package com.nexters.rezoom.member.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -21,14 +24,12 @@ public class OAuth2Member extends Member {
     @Column(name = "provider_type")
     private String providerType;
 
-    @Setter
     @Column(name = "access_token")
     private String accessToken;
 
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    @Setter
     @Column(name = "expires_it")
     private LocalDateTime expiresIn;
 
@@ -39,6 +40,12 @@ public class OAuth2Member extends Member {
         this.providerType = providerType;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.expiresIn = expiresIn;
+    }
+
+    public void updateOAuth2MemberInfo(String name, String accessToken, LocalDateTime expiresIn) {
+        this.name = name;
+        this.accessToken = accessToken;
         this.expiresIn = expiresIn;
     }
 

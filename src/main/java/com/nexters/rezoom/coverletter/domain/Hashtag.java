@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +20,7 @@ public class Hashtag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hashtag_id")
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -51,7 +50,7 @@ public class Hashtag {
         this.member = member;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

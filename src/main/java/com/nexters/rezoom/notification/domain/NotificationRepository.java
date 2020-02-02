@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    Optional<Notification> findByIdAndMember(long id, Member member);
-    List<Notification> findAllByMember(Member member);
+    Optional<Notification> findByIdAndMember(Long id, Member member);
+
+    List<Notification> findAllByMemberOrderByCreatedAtDesc(Member member);
 }

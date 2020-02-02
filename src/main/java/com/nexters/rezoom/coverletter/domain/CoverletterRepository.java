@@ -18,11 +18,7 @@ import java.util.Optional;
 public interface CoverletterRepository extends JpaRepository<Coverletter, Long> {
 
     Optional<Coverletter> findByIdAndMember(Long id, Member member);
-
     Page<Coverletter> findAllByMember(Pageable pageable, Member member);
-
     List<Coverletter> findAllByDeadlineGreaterThanEqual(Deadline deadline);
-
     List<Coverletter> findAllByMemberAndCompanyNameStartsWith(Member member, String companyName);
-
 }

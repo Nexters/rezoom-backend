@@ -35,7 +35,7 @@ public class QuestionDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class UpdateReq {
         @Positive
-        private long id;
+        private Long id;
 
         @NotEmpty
         private String title;
@@ -58,14 +58,14 @@ public class QuestionDto {
 
     @Getter
     public static class ViewRes {
-        private long id;
-        private long coverletterId;
+        private Long id;
+        private Long coverletterId;
         private String companyName;
         private String title;
         private String contents;
         private Set<String> hashtags;
 
-        public ViewRes(long id, long coverletterId, String companyName, String title, String contents, Set<String> hashtags) {
+        public ViewRes(Long id, Long coverletterId, String companyName, String title, String contents, Set<String> hashtags) {
             this.id = id;
             this.coverletterId = coverletterId;
             this.companyName = companyName;

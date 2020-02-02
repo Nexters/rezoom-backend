@@ -1,12 +1,8 @@
 package com.nexters.rezoom.member.domain;
 
-import com.nexters.rezoom.notification.domain.NotificationSetting;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
@@ -33,12 +29,6 @@ public class Member {
     @Column(name = "motto")
     private String motto;
 
-    @OneToMany(
-            mappedBy = "member",
-            fetch = FetchType.LAZY, cascade = CascadeType.ALL
-    )
-    private Set<NotificationSetting> notificationSettings = new HashSet<>();
-
     public Member(String id, String name, String password) {
         this.id = id;
         this.name = name;
@@ -48,9 +38,5 @@ public class Member {
     public void updateMemberInfo(String name, String motto) {
         this.name = name;
         this.motto = motto;
-    }
-
-    public void addNotificationSetting(NotificationSetting notificationSetting) {
-        this.notificationSettings.add(notificationSetting);
     }
 }

@@ -22,7 +22,7 @@ public class ConverterService {
         this.coverletterRepository = coverletterRepository;
     }
 
-    public void convertFromFileToCoverletter(Member member, MultipartFile[] files) {
+    public void convertFileToCoverletter(Member member, MultipartFile[] files) {
         for (MultipartFile multipartFile : files) {
             saveFile(member, multipartFile);
         }

@@ -24,12 +24,12 @@ import java.util.Map;
  * Created by momentjin@gmail.com on 2019-12-20
  * Github : http://github.com/momentjin
  */
-public class KakaoNotificator implements Notificator {
+public class KakaoNotifier implements Notifier {
 
     private final static String API_URL = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
     private RestTemplate restTemplate;
 
-    public KakaoNotificator() {
+    public KakaoNotifier() {
         this.restTemplate = new RestTemplate(Arrays.asList(
                 new FormHttpMessageConverter(),
                 new MappingJackson2HttpMessageConverter())

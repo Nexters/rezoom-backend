@@ -33,10 +33,10 @@ public class NotificationDto {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ViewRes {
 
-        private long id;
-        private long coverletterId;
-        private long remainingDays;
-        private long remainingHours;
+        private Long id;
+        private Long coverletterId;
+        private Long remainingDays;
+        private Long remainingHours;
         private boolean isChecked = false;
         private String contents;
         private LocalDateTime createDate;
@@ -47,7 +47,7 @@ public class NotificationDto {
             this.remainingDays = notification.getRemainingDays();
             this.remainingHours = notification.getRemainingHours();
             this.isChecked = notification.isChecked();
-            this.createDate = notification.getCreateDate();
+            this.createDate = notification.getCreatedAt();
             this.contents = notification.toString();
         }
 

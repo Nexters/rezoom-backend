@@ -40,14 +40,13 @@ public class NotificationService {
     }
 
     public NotificationDto.ListRes getNotifications(Member member) {
-        List<Notification> notifications = notificationRepository.findAllByMember(member);
-        notifications.sort((c1, c2) -> c2.getCreateDate().compareTo(c1.getCreateDate())); // 내림차순 정렬
+        List<Notification> notifications = notificationRepository.findAllByMemberOrderByCreatedAtDesc(member);
 
         return new NotificationDto.ListRes(notifications);
     }
 
     @Transactional
-    public Notification toggleCheck(Member member, long notificationId) {
+    public Notification toggleCheck(Member member, Long notificationId) {
         Optional<Notification> notification = notificationRepository.findByIdAndMember(notificationId, member);
         notification.ifPresent(Notification::toggleChecked);
 
@@ -83,10 +82,10 @@ public class NotificationService {
         for (Member member : receivers) {
 
             // 해당 유저의 알림 데이터가 있는지 확인
-            List<Notification> notifications = notificationRepository.findAllByMember(member);
+            List<Notification> notifications = notificationRepository.findAllByMemberOrderByCreatedAtDesc(member);
 
             // 유저의 알림 설정 조회
-            Set<NotificationSetting> notificationSettings = member.getNotificationSettings();
+            Set<NotificationSetting> notificationSettings = null; // member.getNotificationSettings();
 
             for (Notification notification : notifications) {
                 NotificationMessage message = new NotificationMessage(

@@ -2,7 +2,10 @@ package com.nexters.rezoom.coverletter.domain;
 
 import com.nexters.global.config.jpa.YearAttributeConverter;
 import com.nexters.rezoom.member.domain.Member;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Entity
@@ -75,6 +77,7 @@ public class Coverletter {
                        ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
                        String jobType, PassState passState) {
 
+        this.id = id;
         this.member = member;
         this.companyName = companyName;
         this.deadline = deadline;

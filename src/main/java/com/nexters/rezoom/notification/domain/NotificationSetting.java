@@ -19,7 +19,7 @@ public class NotificationSetting {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", nullable = false)

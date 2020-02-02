@@ -96,7 +96,7 @@ public class CoverletterServiceTest {
                 .willReturn(Coverletter.builder().id(coverletter.getId()).build());
 
         // when
-        long savedCoverletterId = service.save(member, saveReq);
+        Long savedCoverletterId = service.save(member, saveReq);
 
         // then
         CoverletterDto.ViewRes viewRes = service.getView(member, savedCoverletterId);
@@ -126,7 +126,7 @@ public class CoverletterServiceTest {
         when(repository.save(any()))
                 .thenReturn(Coverletter.builder().id(coverletter.getId()).build());
 
-        long savedCoverletterId = service.save(member, saveReq);
+        Long savedCoverletterId = service.save(member, saveReq);
 
         // then
         CoverletterDto.ViewRes viewRes = service.getView(member, savedCoverletterId);
@@ -202,7 +202,7 @@ public class CoverletterServiceTest {
     @Test
     public void 조회된_자기소개서가_NULL아면_BusinessException() {
         // given
-        long findCoverletterId = -1;
+        Long findCoverletterId = -1L;
 
         given(repository.findByIdAndMember(findCoverletterId, member)).willReturn(Optional.empty());
 

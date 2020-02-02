@@ -1,10 +1,10 @@
 package com.nexters.rezoom.notification.domain;
 
 import com.nexters.rezoom.member.domain.Member;
-import com.nexters.rezoom.notification.application.EmailNotificator;
-import com.nexters.rezoom.notification.application.KakaoNotificator;
-import com.nexters.rezoom.notification.application.NoneNotificator;
-import com.nexters.rezoom.notification.application.Notificator;
+import com.nexters.rezoom.notification.application.EmailNotifier;
+import com.nexters.rezoom.notification.application.KakaoNotifier;
+import com.nexters.rezoom.notification.application.NoneNotifier;
+import com.nexters.rezoom.notification.application.Notifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public enum NotificationType {
 
-    EMAIL(0, new EmailNotificator()),
-    KAKAO(1, new KakaoNotificator()),
-    NONE(9, new NoneNotificator());
+    EMAIL(0, new EmailNotifier()),
+    KAKAO(1, new KakaoNotifier()),
+    NONE(9, new NoneNotifier());
 
     private static final Map<Integer, NotificationType> lookup = new HashMap<>();
 
@@ -28,11 +28,11 @@ public enum NotificationType {
     }
 
     private int typeNo;
-    private Notificator notificator;
+    private Notifier notifier;
 
-    NotificationType(int typeNo, Notificator notificator) {
+    NotificationType(int typeNo, Notifier notifier) {
         this.typeNo = typeNo;
-        this.notificator = notificator;
+        this.notifier = notifier;
     }
 
     public static NotificationType getValue(int typeNo) {
@@ -40,7 +40,7 @@ public enum NotificationType {
     }
 
     public void notifyToClient(Member member, NotificationMessage message) {
-        notificator.notifyToClient(member, message);
+        notifier.notifyToClient(member, message);
     }
 
 }

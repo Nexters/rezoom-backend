@@ -32,7 +32,7 @@ public class QuestionService {
     /**
      * 문항 단건 조회
      */
-    public QuestionDto.ViewRes getView(long questionId, Member member) {
+    public QuestionDto.ViewRes getView(Long questionId, Member member) {
         Question question = repository.findByKey(questionId, member);
         if (question == null) {
             throw new BusinessException(ErrorType.QUESTION_NOT_FOUND);

@@ -42,6 +42,6 @@ public class PageRequest {
         if (this.sort != null)
             return org.springframework.data.domain.PageRequest.of(page - 1, size, sort);
 
-        return org.springframework.data.domain.PageRequest.of(page - 1, size, direction, "createDate");
+        return org.springframework.data.domain.PageRequest.of(page - 1, size, direction, "createdAt");
     }
 }

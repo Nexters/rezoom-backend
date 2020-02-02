@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface QuestionRepository {
 
-    Question findByKey(long questionId, Member member);
+    Question findByKey(Long questionId, Member member);
     Page<Question> findAllByMember(Pageable pageable, Member member);
 }

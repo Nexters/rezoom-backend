@@ -50,7 +50,7 @@ public class QuestionRepositoryTest {
     public void 문항을_조회하면_자기소개서도_조회된다() {
         // given
         Coverletter savedCoverletter = saveCoverletter();
-        long savedQuestionId = savedCoverletter.getQuestions().get(0).getId();
+        Long savedQuestionId = savedCoverletter.getQuestions().get(0).getId();
 
         // when
         Question findQuestion = repository.findByKey(savedQuestionId, member);
@@ -65,7 +65,7 @@ public class QuestionRepositoryTest {
     public void 문항을_조회하면_태그도_조회된다() {
         // given
         Coverletter savedCoverletter = saveCoverletter();
-        long savedQuestionId = savedCoverletter.getQuestions().get(0).getId();
+        Long savedQuestionId = savedCoverletter.getQuestions().get(0).getId();
 
         // when
         Question findQuestion = repository.findByKey(savedQuestionId, member);
@@ -84,7 +84,7 @@ public class QuestionRepositoryTest {
     @Test
     public void 문항_조회_실패시_NULL() {
         // given
-        long findQuestionId = -1;
+        Long findQuestionId = -1L;
 
         // when
         Question findQuestion = repository.findByKey(findQuestionId, member);
@@ -100,7 +100,7 @@ public class QuestionRepositoryTest {
         if (coverletter.getId() == 0 || coverletter.getQuestions().size() == 0)
             fail();
 
-        long savedQuestionId = coverletter.getQuestions().get(0).getId();
+        Long savedQuestionId = coverletter.getQuestions().get(0).getId();
         if (savedQuestionId == 0)
             fail(); // id가 0이면 저장이 안됐다는 말과 같다.
 

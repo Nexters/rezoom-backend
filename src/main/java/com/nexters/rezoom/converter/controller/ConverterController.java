@@ -3,9 +3,11 @@ package com.nexters.rezoom.converter.controller;
 import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.converter.domain.ConverterService;
 import com.nexters.rezoom.member.domain.Member;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -23,9 +25,8 @@ public class ConverterController {
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse convertFromFileToCoverletter(@AuthenticationPrincipal Member member, @RequestPart(name = "file") MultipartFile[] files) {
-        service.convertFromFileToCoverletter(member, files);
+        service.convertFileToCoverletter(member, files);
         return ApiResponse.builder().build();
     }
 

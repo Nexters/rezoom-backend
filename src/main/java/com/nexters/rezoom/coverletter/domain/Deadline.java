@@ -1,5 +1,6 @@
 package com.nexters.rezoom.coverletter.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import java.time.temporal.ChronoUnit;
  **/
 
 @Embeddable
+@EqualsAndHashCode(of = {"deadline"})
 public class Deadline {
 
     @Getter
@@ -34,11 +36,11 @@ public class Deadline {
         return deadline.isBefore(LocalDateTime.now());
     }
 
-    public long getRemainingHours() {
+    public Long getRemainingHours() {
         return LocalDateTime.now().until(this.deadline, ChronoUnit.HOURS);
     }
 
-    public long getRemainingDays() {
+    public Long getRemainingDays() {
         return LocalDateTime.now().until(this.deadline, ChronoUnit.DAYS);
     }
 
@@ -51,14 +53,4 @@ public class Deadline {
         if (deadline == null) return "no deadline";
         return this.deadline.toString();
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Deadline deadline1 = (Deadline) o;
-        return this.deadline.equals(deadline1.deadline);
-    }
-
 }

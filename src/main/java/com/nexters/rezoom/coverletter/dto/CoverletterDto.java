@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.time.Year;
@@ -25,15 +25,28 @@ public class CoverletterDto {
         @NotEmpty
         private String companyName;
 
-        @Min(2017)
-        private int applicationYear = LocalDateTime.now().getYear();
+        @NotNull
+        private Integer applicationYear;
 
-        private ApplicationHalf applicationHalf = ApplicationHalf.ETC;
-        private ApplicationType applicationType = ApplicationType.ETC;
-        private PassState passState = PassState.ETC;
-        private ApplicationState applicationState = ApplicationState.ETC;
+        @NotNull
+        private ApplicationHalf applicationHalf;
+
+        @NotNull
+        private ApplicationType applicationType;
+
+        @NotNull
+        private PassState passState;
+
+        @NotNull
+        private ApplicationState applicationState;
+
+        @NotNull
         private LocalDateTime deadline;
+
+        @NotNull
         private String jobType;
+
+        @NotNull
         private List<QuestionDto.SaveReq> questions = new ArrayList<>();
 
         public Coverletter toEntity() {
@@ -55,20 +68,33 @@ public class CoverletterDto {
     public static class UpdateReq {
 
         @Positive
-        private long id;
+        private Long id;
 
         @NotEmpty
         private String companyName;
 
-        @Min(2017)
+        @NotNull
         private int applicationYear;
 
-        private ApplicationHalf applicationHalf = ApplicationHalf.ETC;
-        private ApplicationType applicationType = ApplicationType.ETC;
-        private PassState passState = PassState.ETC;
-        private ApplicationState applicationState = ApplicationState.ETC;
+        @NotNull
+        private ApplicationHalf applicationHalf;
+
+        @NotNull
+        private ApplicationType applicationType;
+
+        @NotNull
+        private PassState passState;
+
+        @NotNull
+        private ApplicationState applicationState;
+
+        @NotNull
         private LocalDateTime deadline;
+
+        @NotNull
         private String jobType;
+
+        @NotNull
         private List<QuestionDto.UpdateReq> questions;
 
         public Coverletter toEntity() {
@@ -83,10 +109,6 @@ public class CoverletterDto {
                     .deadline(new Deadline(deadline))
                     .jobType(jobType)
                     .build();
-        }
-
-        public void setId(long id) {
-            this.id = id;
         }
     }
 

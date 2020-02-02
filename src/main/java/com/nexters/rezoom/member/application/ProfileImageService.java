@@ -1,5 +1,7 @@
 package com.nexters.rezoom.member.application;
 
+import com.nexters.global.exception.BusinessException;
+import com.nexters.global.exception.ErrorType;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.util.FileUtils;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,7 @@ public class ProfileImageService {
         File[] memberProfileImages = imageStoreDir.listFiles(file -> file.getName().contains(member.getId()));
 
         if (memberProfileImages == null || memberProfileImages.length == 0)
-            throw new RuntimeException("프로필 사진을 찾을 수 없습니다");
+            throw new BusinessException(ErrorType.PROFILE_IMG_NOT_FOUND);
 
         return memberProfileImages[0];
     }

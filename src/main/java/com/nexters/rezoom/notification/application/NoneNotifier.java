@@ -7,7 +7,7 @@ import com.nexters.rezoom.notification.domain.NotificationMessage;
  * Created by momentjin@gmail.com on 2019-09-06
  * Github : http://github.com/momentjin
  */
-public class NoneNotificator implements Notificator {
+public class NoneNotifier implements Notifier {
 
     @Override
     public void notifyToClient(Member member, NotificationMessage message) {

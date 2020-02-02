@@ -45,7 +45,7 @@ public class ConverterServiceTest {
         MultipartFile[] multipartFiles = {new MultipartFileStub()};
 
         // when
-        converterService.convertFromFileToCoverletter(member, multipartFiles);
+        converterService.convertFileToCoverletter(member, multipartFiles);
 
         // then
         verify(coverletterRepository, atLeastOnce()).save(any(Coverletter.class));

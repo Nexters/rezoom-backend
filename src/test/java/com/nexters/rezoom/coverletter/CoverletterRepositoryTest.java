@@ -285,7 +285,7 @@ public class CoverletterRepositoryTest {
     @Test
     public void 자기소개서_조회시_없으면_NULL을_반환한다() {
         // given
-        long coverletterID = -1;
+        Long coverletterID = -1L;
 
         // when
         Optional<Coverletter> findCoverletterOpt = repository.findByIdAndMember(coverletterID, member);

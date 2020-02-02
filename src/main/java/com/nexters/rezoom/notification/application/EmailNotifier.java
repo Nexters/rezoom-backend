@@ -12,12 +12,12 @@ import java.util.Properties;
 
 
 /**
- * Gmail Notificator
+ * Gmail Notifier
  * <p>
  * Created by momentjin@gmail.com on 2019-09-06
  * Github : http://github.com/momentjin
  */
-public class EmailNotificator implements Notificator {
+public class EmailNotifier implements Notifier {
 
     private final static String EMAIL_PROP_PATH = "src/main/resources/email-account.yml";
 

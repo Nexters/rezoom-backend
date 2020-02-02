@@ -7,7 +7,6 @@ import com.nexters.rezoom.coverletter.dto.QuestionDto;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +29,11 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<QuestionDto.ViewRes> getView(@AuthenticationPrincipal Member member, @PathVariable long id) {
+    public ApiResponse<QuestionDto.ViewRes> getView(@AuthenticationPrincipal Member member, @PathVariable Long id) {
         return ApiResponse.success(service.getView(id, member));
     }
 
     @GetMapping("/search")
-    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<List<QuestionDto.ViewRes>> getQuestionsByHashtags(@AuthenticationPrincipal Member member, @RequestParam List<String> hashtags) {
 
         // TODO : 해시태그 복수로 검색할 수 있도록 변경하기

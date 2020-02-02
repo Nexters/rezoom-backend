@@ -76,10 +76,10 @@ public class NotificationServiceTest {
 
         given(coverletterRepository.findAllByDeadlineGreaterThanEqual(any(Deadline.class)))
                 .willReturn(Collections.singletonList(coverletter));
-
-        given(notificationRepository.findAllByMember(member))
-                .willReturn(Collections.singletonList(Notification.builder()
-                        .build()));
+//
+//        given(notificationRepository.findAllByMember(member))
+//                .willReturn(Collections.singletonList(Notification.builder()
+//                        .build()));
 
         // when
         notificationService.createNotifications();
@@ -94,12 +94,12 @@ public class NotificationServiceTest {
     @Test
     public void notification_조회시_isChecked는_TRUE() {
         // given
-        given(notificationRepository.findAllByMember(any(Member.class)))
-                .willReturn(Collections.singletonList(Notification.builder().build()));
+//        given(notificationRepository.findAllByMember(any(Member.class)))
+//                .willReturn(Collections.singletonList(Notification.builder().build()));
 
         // 알림 조회
         NotificationDto.ListRes notifications = notificationService.getNotifications(member);
-        long notificationId = notifications.getNotifications().get(0).getId();
+        Long notificationId = notifications.getNotifications().get(0).getId();
 
         // when
         when(notificationRepository.findByIdAndMember(anyLong(), any(Member.class)))
@@ -118,22 +118,22 @@ public class NotificationServiceTest {
         // given
         Member member = new Member("s_wlswodjs@naver.com", "tester", "password");
         NotificationSetting setting = new NotificationSetting(member, NotificationType.EMAIL);
-        member.addNotificationSetting(setting);
+//        member.addNotificationSetting(setting);
 
         given(memberRepository.findAll())
                 .willReturn(Collections.singletonList(member));
 
-        given(notificationRepository.findAllByMember(member)).willReturn(
-                Collections.singletonList(
-                        Notification.builder()
-                                .id(12L)
-                                .companyName("testCompany")
-                                .remainingHours(24)
-                                .remainingDays(1)
-                                .coverletterId(51L)
-                                .member(member)
-                                .createDate(LocalDateTime.now())
-                                .build()));
+//        given(notificationRepository.findAllByMember(member)).willReturn(
+//                Collections.singletonList(
+//                        Notification.builder()
+//                                .id(12L)
+//                                .companyName("testCompany")
+//                                .remainingHours(24)
+//                                .remainingDays(1)
+//                                .coverletterId(51L)
+//                                .member(member)
+//                                .createdAt(LocalDateTime.now())
+//                                .build()));
 
         // when
         notificationService.sendNotifications();
@@ -163,22 +163,22 @@ public class NotificationServiceTest {
                 .build();
 
         NotificationSetting setting = new NotificationSetting(member, NotificationType.KAKAO);
-        member.addNotificationSetting(setting);
+//        member.addNotificationSetting(setting);
 
         given(memberRepository.findAll())
                 .willReturn(Collections.singletonList(member));
-
-        given(notificationRepository.findAllByMember(member)).willReturn(
-                Collections.singletonList(
-                        Notification.builder()
-                                .id(12L)
-                                .companyName("testCompany")
-                                .remainingHours(24)
-                                .remainingDays(1)
-                                .coverletterId(51L)
-                                .member(member)
-                                .createDate(LocalDateTime.now())
-                                .build()));
+//
+//        given(notificationRepository.findAllByMember(member)).willReturn(
+//                Collections.singletonList(
+//                        Notification.builder()
+//                                .id(12L)
+//                                .companyName("testCompany")
+//                                .remainingHours(24)
+//                                .remainingDays(1)
+//                                .coverletterId(51L)
+//                                .member(member)
+//                                .createdAt(LocalDateTime.now())
+//                                .build()));
 
         // when
         notificationService.sendNotifications();

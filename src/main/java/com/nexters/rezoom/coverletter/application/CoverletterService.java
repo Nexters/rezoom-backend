@@ -27,7 +27,7 @@ public class CoverletterService {
         this.hashTagRepository = hashtagRepository;
     }
 
-    public long save(Member member, CoverletterDto.SaveReq req) {
+    public Long save(Member member, CoverletterDto.SaveReq req) {
         Coverletter coverletter = req.toEntity();
         coverletter.setMember(member);
 
@@ -51,7 +51,7 @@ public class CoverletterService {
 
     // TODO : 문제 있음. hashtag key 문제로 create와 동일하게 작업.
     // TODO : create_date 등의 추가 데이터 누락. 일일히 set 해줘야하는 문제 있음.
-    public void update(Member member, long coverletterId, CoverletterDto.UpdateReq req) {
+    public void update(Member member, Long coverletterId, CoverletterDto.UpdateReq req) {
         Coverletter existCoverletter = this.getCoverletter(member, coverletterId);
 
         Coverletter coverletter = req.toEntity();
@@ -73,7 +73,7 @@ public class CoverletterService {
         coverletterRepository.save(coverletter);
     }
 
-    public CoverletterDto.ViewRes getView(Member member, long id) {
+    public CoverletterDto.ViewRes getView(Member member, Long id) {
         Coverletter findCoverletter = getCoverletter(member, id);
 
         return new CoverletterDto.ViewRes(findCoverletter);
@@ -89,12 +89,12 @@ public class CoverletterService {
         return new CoverletterDto.ListRes(coverletters);
     }
 
-    public void delete(Member member, long id) {
+    public void delete(Member member, Long id) {
         Coverletter findCoverletter = getCoverletter(member, id);
         coverletterRepository.delete(findCoverletter);
     }
 
-    private Coverletter getCoverletter(Member member, long id) {
+    private Coverletter getCoverletter(Member member, Long id) {
         Optional<Coverletter> findCoverletter = coverletterRepository.findByIdAndMember(id, member);
         if (!findCoverletter.isPresent()) {
             throw new BusinessException(ErrorType.COVERLETTER_NOT_FOUND);

@@ -1,7 +1,6 @@
 package com.nexters.rezoom.coverletter.infra;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.nexters.rezoom.coverletter.domain.QQuestion;
 import com.nexters.rezoom.coverletter.domain.Question;
 import com.nexters.rezoom.coverletter.domain.QuestionRepository;
 import com.nexters.rezoom.member.domain.Member;
@@ -15,6 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static com.nexters.rezoom.coverletter.domain.QQuestion.question;
+
 @Transactional
 @Repository
 public class JpaQuestionRepository implements QuestionRepository {
@@ -22,35 +23,28 @@ public class JpaQuestionRepository implements QuestionRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Question findByKey(long questionId, Member member) {
+    public Question findByKey(Long questionId, Member member) {
         JPAQuery query = new JPAQuery(em);
-        QQuestion qQuestion = QQuestion.question;
 
-        return query.from(qQuestion)
-                .where(qQuestion.id.eq(questionId).and(qQuestion.coverletter.member.eq(member)))
-                .uniqueResult(qQuestion);
+        return query.from(question)
+                .where(question.id.eq(questionId).and(question.coverletter.member.eq(member)))
+                .uniqueResult(question);
     }
 
     public Page<Question> findAllByMember(Pageable pageable, Member member) {
-        QQuestion qQuestion = QQuestion.question;
 
-        List<Question> questions = createJpaQuery()
-                .from(qQuestion)
-                .where(qQuestion.coverletter.member.eq(member))
+        List<Question> questions = new JPAQuery(em)
+                .from(question)
+                .where(question.coverletter.member.eq(member))
                 .offset(pageable.getPageNumber())
                 .limit(pageable.getPageSize())
-                .list(qQuestion);
+                .list(question);
 
-        long countOfAllQuestion = createJpaQuery()
-                .from(qQuestion)
-                .where(qQuestion.coverletter.member.eq(member))
+        Long countOfAllQuestion = new JPAQuery(em)
+                .from(question)
+                .where(question.coverletter.member.eq(member))
                 .count();
 
         return new PageImpl<>(questions, pageable, countOfAllQuestion);
     }
-
-    private JPAQuery createJpaQuery() {
-        return new JPAQuery(em);
-    }
-
 }
