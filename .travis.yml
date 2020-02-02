@@ -19,4 +19,4 @@ cache:
   - '$HOME/.m2'
 
 script:
-- mvn clean install -P ci
+  - mvn clean install -DskipTests -P ci
