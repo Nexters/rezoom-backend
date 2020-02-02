@@ -1,9 +1,9 @@
 package com.nexters.rezoom.core.domain.member.api;
 
-import com.nexters.rezoom.core.global.dto.ApiResponse;
+import com.nexters.rezoom.core.domain.member.api.dto.MemberDto;
 import com.nexters.rezoom.core.domain.member.application.RezoomMemberService;
 import com.nexters.rezoom.core.domain.member.domain.Member;
-import com.nexters.rezoom.core.domain.member.api.dto.MemberDto;
+import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +37,4 @@ public class MemberController {
         service.updateMemberInfo(member.getId(), req);
         return ApiResponse.success();
     }
-
 }

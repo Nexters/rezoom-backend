@@ -1,15 +1,15 @@
 package com.nexters.rezoom.core.domain.coverletter.question;
 
+import com.nexters.rezoom.core.domain.coverletter.api.dto.QuestionDto;
 import com.nexters.rezoom.core.domain.coverletter.application.HashtagService;
 import com.nexters.rezoom.core.domain.coverletter.application.QuestionService;
 import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
 import com.nexters.rezoom.core.domain.coverletter.domain.Hashtag;
 import com.nexters.rezoom.core.domain.coverletter.domain.Question;
 import com.nexters.rezoom.core.domain.coverletter.domain.QuestionRepository;
-import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.global.exception.BusinessException;
 import com.nexters.rezoom.util.TestObjectUtils;
-import com.nexters.rezoom.core.domain.coverletter.api.dto.QuestionDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,7 +62,7 @@ public class QuestionServiceTest {
     public void 문항을_조회하면_태그도_조회된다() {
         // given
         Question question = new Question("title", "question", new HashSet<>(Collections.singletonList(new Hashtag("tag1"))));
-        question.setCoverletter(Coverletter.builder()
+        question.setCoverletter(Coverletter.newCoverletterBuilder()
                 .member(member)
                 .companyName("test company")
                 .build());
@@ -89,7 +89,7 @@ public class QuestionServiceTest {
         q2.setHashtags(new HashSet<>(Collections.singletonList(hashtag)));
         hashtag.setQuestions(Arrays.asList(q1, q2));
 
-        Coverletter coverletter = Coverletter.builder()
+        Coverletter coverletter = Coverletter.existCoverletterBuilder()
                 .id(10L)
                 .companyName("test company")
                 .build();

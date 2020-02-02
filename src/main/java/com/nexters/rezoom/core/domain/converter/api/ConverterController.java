@@ -1,8 +1,8 @@
 package com.nexters.rezoom.core.domain.converter.api;
 
 import com.nexters.rezoom.core.domain.converter.domain.ConverterService;
-import com.nexters.rezoom.core.global.dto.ApiResponse;
 import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,5 +29,4 @@ public class ConverterController {
         converterService.convertFileToCoverletter(member, files);
         return ApiResponse.builder().build();
     }
-
 }

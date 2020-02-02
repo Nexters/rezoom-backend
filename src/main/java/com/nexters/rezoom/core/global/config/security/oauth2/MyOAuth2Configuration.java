@@ -43,5 +43,4 @@ public class MyOAuth2Configuration {
                 clientRegistration
         ));
     }
-
 }

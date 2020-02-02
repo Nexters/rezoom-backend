@@ -74,5 +74,4 @@ public class EmailNotifier implements Notifier {
             }
         });
     }
-
 }

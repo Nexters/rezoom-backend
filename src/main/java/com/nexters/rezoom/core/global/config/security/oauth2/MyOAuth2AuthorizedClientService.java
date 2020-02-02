@@ -1,7 +1,6 @@
 package com.nexters.rezoom.core.global.config.security.oauth2;
 
 import com.nexters.rezoom.core.domain.member.application.OAuth2MemberService;
-import com.nexters.rezoom.core.domain.member.application.RezoomMemberService;
 import com.nexters.rezoom.core.domain.member.domain.OAuth2Member;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -62,5 +61,4 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
     public void removeAuthorizedClient(String s, String s1) {
         throw new NotImplementedException();
     }
-
 }

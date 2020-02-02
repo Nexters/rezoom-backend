@@ -56,5 +56,4 @@ public class Notification {
     public String toString() {
         return "[" + companyName + "] 자기소개서의 마감일이 " + remainingDays + "일(" + remainingHours + "시간) 남았습니다.";
     }
-
 }

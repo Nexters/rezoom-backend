@@ -127,5 +127,4 @@ public final class TextFileConverter extends CoverletterConverter {
             throw new IllegalArgumentException(e);
         }
     }
-
 }

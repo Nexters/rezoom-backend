@@ -1,8 +1,8 @@
 package com.nexters.rezoom.core.domain.coverletter.api;
 
 import com.nexters.rezoom.core.domain.coverletter.application.HashtagService;
-import com.nexters.rezoom.core.global.dto.ApiResponse;
 import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +24,4 @@ public class HashtagController {
     public ApiResponse<List<String>> getMyHashtags(@AuthenticationPrincipal Member member) {
         return ApiResponse.success(service.getMyHashtags(member));
     }
-
 }

@@ -2,9 +2,9 @@ package com.nexters.rezoom.core.domain.notification.domain;
 
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.notification.application.EmailNotifier;
+import com.nexters.rezoom.core.domain.notification.application.KakaoNotifier;
 import com.nexters.rezoom.core.domain.notification.application.NoneNotifier;
 import com.nexters.rezoom.core.domain.notification.application.Notifier;
-import com.nexters.rezoom.core.domain.notification.application.KakaoNotifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,5 +42,4 @@ public enum NotificationType {
     public void notifyToClient(Member member, NotificationMessage message) {
         notifier.notifyToClient(member, message);
     }
-
 }

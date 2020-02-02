@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class QuestionDto {
+
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class SaveReq {
@@ -83,5 +84,4 @@ public class QuestionDto {
             this.hashtags = question.getHashtags().stream().map(Hashtag::getValue).collect(Collectors.toSet());
         }
     }
-
 }

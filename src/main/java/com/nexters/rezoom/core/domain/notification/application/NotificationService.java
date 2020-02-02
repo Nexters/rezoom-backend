@@ -3,15 +3,15 @@ package com.nexters.rezoom.core.domain.notification.application;
 import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
 import com.nexters.rezoom.core.domain.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.core.domain.coverletter.domain.Deadline;
-import com.nexters.rezoom.core.global.exception.BusinessException;
-import com.nexters.rezoom.core.global.exception.ErrorType;
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.member.domain.MemberRepository;
+import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
 import com.nexters.rezoom.core.domain.notification.domain.Notification;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationMessage;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationRepository;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationSetting;
-import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
+import com.nexters.rezoom.core.global.exception.BusinessException;
+import com.nexters.rezoom.core.global.exception.ErrorType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,5 +100,4 @@ public class NotificationService {
             }
         }
     }
-
 }

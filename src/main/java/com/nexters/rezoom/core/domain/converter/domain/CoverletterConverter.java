@@ -1,9 +1,7 @@
 package com.nexters.rezoom.core.domain.converter.domain;
 
-import com.nexters.rezoom.core.domain.coverletter.domain.ApplicationHalf;
-import com.nexters.rezoom.core.domain.coverletter.domain.ApplicationType;
-import com.nexters.rezoom.core.domain.coverletter.domain.Coverletter;
-import com.nexters.rezoom.core.domain.coverletter.domain.Question;
+import com.nexters.rezoom.core.domain.coverletter.domain.*;
+import com.nexters.rezoom.core.domain.member.domain.Member;
 
 import java.io.File;
 import java.time.Year;
@@ -36,8 +34,8 @@ public abstract class CoverletterConverter {
         checkFile(file);
     }
 
-    public Coverletter convert() {
-        Coverletter coverletter = this.createCoverletterByFileName();
+    public Coverletter convert(Member member) {
+        Coverletter coverletter = this.createCoverletterByFileName(member);
         List<Question> questions = this.parseQuestions();
         coverletter.setQuestions(questions);
 
@@ -90,7 +88,7 @@ public abstract class CoverletterConverter {
      *
      * @return Coverletter
      */
-    private Coverletter createCoverletterByFileName() {
+    private Coverletter createCoverletterByFileName(Member member) {
         String[] coverletterInfos = this.getCoverletterInfo(file.getName().replace("."+fileExtension, ""));
 
         String companyName = coverletterInfos[COMPANY_NAME_IDX];
@@ -98,12 +96,15 @@ public abstract class CoverletterConverter {
         ApplicationHalf applicationHalf = ApplicationHalf.valueOf(coverletterInfos[APPLICATION_HALF_IDX]);
         ApplicationType applicationType = ApplicationType.valueOf(coverletterInfos[APPLICATION_TYPE_IDX]);
 
-        // todo : 아래 코드 수정, 멤버 셋팅 등 다 해야함.
-        return Coverletter.builder()
+        return Coverletter.newCoverletterBuilder()
+                .member(member)
                 .companyName(companyName)
-                .applicationYear(Year.of(applicationYear))
-                .applicationHalf(applicationHalf)
                 .applicationType(applicationType)
+                .applicationHalf(applicationHalf)
+                .applicationState(ApplicationState.ETC)
+                .applicationYear(Year.of(applicationYear))
+                .jobType("")
+                .passState(PassState.ETC)
                 .build();
     }
 

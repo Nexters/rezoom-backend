@@ -1,10 +1,10 @@
 package com.nexters.rezoom.core.domain.coverletter.api;
 
-import com.nexters.rezoom.core.global.dto.ApiResponse;
-import com.nexters.rezoom.core.domain.coverletter.application.QuestionService;
 import com.nexters.rezoom.core.domain.coverletter.api.dto.PageRequest;
 import com.nexters.rezoom.core.domain.coverletter.api.dto.QuestionDto;
+import com.nexters.rezoom.core.domain.coverletter.application.QuestionService;
 import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,5 +39,4 @@ public class QuestionController {
 
         return ApiResponse.success(service.getQuestionsByHashtags(member, hashtags));
     }
-
 }

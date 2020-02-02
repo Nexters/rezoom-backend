@@ -23,6 +23,4 @@ class ConverterFactory {
 
         throw new BusinessException(ErrorType.UNSURPPOTED_FILE_EXTENTION);
     }
-
-
 }

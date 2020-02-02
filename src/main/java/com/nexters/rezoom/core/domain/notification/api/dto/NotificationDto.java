@@ -50,6 +50,5 @@ public class NotificationDto {
             this.createDate = notification.getCreatedAt();
             this.contents = notification.toString();
         }
-
     }
 }

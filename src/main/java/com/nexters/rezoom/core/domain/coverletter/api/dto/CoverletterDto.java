@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,19 +47,6 @@ public class CoverletterDto {
 
         @NotNull
         private List<QuestionDto.SaveReq> questions;
-
-        public Coverletter toEntity() {
-            return Coverletter.builder()
-                    .companyName(companyName)
-                    .applicationHalf(applicationHalf)
-                    .applicationType(applicationType)
-                    .applicationYear(Year.of(applicationYear))
-                    .passState(passState)
-                    .applicationState(applicationState)
-                    .deadline(new Deadline(deadline))
-                    .jobType(jobType)
-                    .build();
-        }
     }
 
     @Getter
@@ -98,7 +84,7 @@ public class CoverletterDto {
         private List<QuestionDto.UpdateReq> questions;
 
         public Coverletter toEntity() {
-            return Coverletter.builder()
+            return Coverletter.newCoverletterBuilder()
                     .id(id)
                     .companyName(companyName)
                     .applicationHalf(applicationHalf)

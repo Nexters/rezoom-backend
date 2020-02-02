@@ -36,7 +36,7 @@ public class ConverterService {
             String fileExtension = FileUtils.getFileExtension(file);
 
             CoverletterConverter converter = ConverterFactory.createConverterByExtension(fileExtension, file);
-            Coverletter coverletter = converter.convert();
+            Coverletter coverletter = converter.convert(member);
             coverletter.setMember(member);
 
             coverletterRepository.save(coverletter);
@@ -44,6 +44,4 @@ public class ConverterService {
             if (file != null) file.delete();
         }
     }
-
-
 }

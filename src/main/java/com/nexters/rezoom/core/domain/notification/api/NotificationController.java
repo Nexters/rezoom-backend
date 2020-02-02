@@ -1,9 +1,9 @@
 package com.nexters.rezoom.core.domain.notification.api;
 
-import com.nexters.rezoom.core.global.dto.ApiResponse;
 import com.nexters.rezoom.core.domain.member.domain.Member;
-import com.nexters.rezoom.core.domain.notification.application.NotificationService;
 import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
+import com.nexters.rezoom.core.domain.notification.application.NotificationService;
+import com.nexters.rezoom.core.global.dto.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,5 +30,4 @@ public class NotificationController {
     public ApiResponse toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") Long notificationId) {
         return ApiResponse.success(notificationService.toggleCheck(member, notificationId));
     }
-
 }

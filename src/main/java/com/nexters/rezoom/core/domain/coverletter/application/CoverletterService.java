@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Year;
 import java.util.*;
 
 @Transactional
@@ -28,7 +29,18 @@ public class CoverletterService {
     }
 
     public Long save(Member member, CoverletterDto.SaveReq req) {
-        Coverletter coverletter = req.toEntity();
+        Coverletter coverletter = Coverletter.newCoverletterBuilder()
+                .member(member)
+                .companyName(req.getCompanyName())
+                .applicationHalf(req.getApplicationHalf())
+                .applicationType(req.getApplicationType())
+                .applicationYear(Year.of(req.getApplicationYear()))
+                .passState(req.getPassState())
+                .applicationState(req.getApplicationState())
+                .deadline(new Deadline(req.getDeadline()))
+                .jobType(req.getJobType())
+                .build();
+
         coverletter.setMember(member);
 
         // set questions
@@ -52,10 +64,18 @@ public class CoverletterService {
     // TODO : 문제 있음. hashtag key 문제로 create와 동일하게 작업.
     // TODO : create_date 등의 추가 데이터 누락. 일일히 set 해줘야하는 문제 있음.
     public void update(Member member, Long coverletterId, CoverletterDto.UpdateReq req) {
-        Coverletter existCoverletter = this.getCoverletter(member, coverletterId);
-
-        Coverletter coverletter = req.toEntity();
-        coverletter.setMember(member);
+        Coverletter coverletter = Coverletter.existCoverletterBuilder()
+                .id(coverletterId)
+                .member(member)
+                .companyName(req.getCompanyName())
+                .applicationYear(Year.of(req.getApplicationYear()))
+                .applicationHalf(req.getApplicationHalf())
+                .applicationType(req.getApplicationType())
+                .passState((req.getPassState()))
+                .applicationState(req.getApplicationState())
+                .deadline(new Deadline(req.getDeadline()))
+                .jobType(req.getJobType())
+                .build();
 
         // set questions
         List<Question> questions = new ArrayList<>();
@@ -129,6 +149,4 @@ public class CoverletterService {
 
         return resultHashtags;
     }
-
-
 }

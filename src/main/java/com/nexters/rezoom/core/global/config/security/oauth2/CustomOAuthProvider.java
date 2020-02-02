@@ -37,6 +37,5 @@ public enum CustomOAuthProvider {
     }
 
     public abstract ClientRegistration.Builder getBuilder();
-
 }
 

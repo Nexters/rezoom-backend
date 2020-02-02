@@ -36,5 +36,4 @@ public class HashtagDto {
             this.value = hashTag.getValue();
         }
     }
-
 }

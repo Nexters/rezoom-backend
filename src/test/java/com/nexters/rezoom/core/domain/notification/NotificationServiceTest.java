@@ -5,14 +5,14 @@ import com.nexters.rezoom.core.domain.coverletter.domain.CoverletterRepository;
 import com.nexters.rezoom.core.domain.coverletter.domain.Deadline;
 import com.nexters.rezoom.core.domain.member.domain.Member;
 import com.nexters.rezoom.core.domain.member.domain.MemberRepository;
-import com.nexters.rezoom.util.TestObjectUtils;
 import com.nexters.rezoom.core.domain.member.domain.OAuth2Member;
+import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
 import com.nexters.rezoom.core.domain.notification.application.NotificationService;
 import com.nexters.rezoom.core.domain.notification.domain.Notification;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationRepository;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationSetting;
 import com.nexters.rezoom.core.domain.notification.domain.NotificationType;
-import com.nexters.rezoom.core.domain.notification.api.dto.NotificationDto;
+import com.nexters.rezoom.util.TestObjectUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,7 +67,7 @@ public class NotificationServiceTest {
         // given
         LocalDateTime deadlineDateTime = LocalDateTime.now().plusDays(5);
         Deadline baseDeadline = new Deadline(deadlineDateTime);
-        Coverletter coverletter = Coverletter.builder()
+        Coverletter coverletter = Coverletter.existCoverletterBuilder()
                 .id(10L)
                 .companyName("companyName")
                 .member(member)

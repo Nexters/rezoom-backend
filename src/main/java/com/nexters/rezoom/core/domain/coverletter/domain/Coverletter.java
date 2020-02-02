@@ -1,7 +1,7 @@
 package com.nexters.rezoom.core.domain.coverletter.domain;
 
-import com.nexters.rezoom.core.global.config.jpa.YearAttributeConverter;
 import com.nexters.rezoom.core.domain.member.domain.Member;
+import com.nexters.rezoom.core.global.config.jpa.YearAttributeConverter;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -72,7 +72,25 @@ public class Coverletter {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Builder
+    @Builder(builderMethodName = "newCoverletterBuilder")
+    public Coverletter(Member member, String companyName, Deadline deadline, ApplicationType applicationType,
+                       ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
+                       String jobType, PassState passState) {
+
+        this.member = member;
+        this.companyName = companyName;
+        this.deadline = deadline;
+        this.applicationHalf = applicationHalf;
+        this.applicationType = applicationType;
+        this.applicationState = applicationState;
+        this.applicationYear = applicationYear;
+        this.jobType = jobType;
+        this.passState = passState;
+        this.questions = new ArrayList<>();
+    }
+
+
+    @Builder(builderMethodName = "existCoverletterBuilder")
     public Coverletter(Long id, Member member, String companyName, Deadline deadline, ApplicationType applicationType,
                        ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
                        String jobType, PassState passState) {

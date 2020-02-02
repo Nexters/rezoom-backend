@@ -5,6 +5,7 @@ package com.nexters.rezoom.core.global.dto;
  * Github : http://github.com/momentjin
  */
 public enum ResponseType {
+
     SUCCESS,
     FAIL,
     ERROR

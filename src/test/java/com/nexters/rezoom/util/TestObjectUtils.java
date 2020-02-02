@@ -56,7 +56,7 @@ public class TestObjectUtils {
     }
 
     private static Coverletter createCoverletter(Member member) {
-        return Coverletter.builder()
+        return Coverletter.newCoverletterBuilder()
                 .companyName("testCompany")
                 .member(member)
                 .applicationHalf(ApplicationHalf.ETC)

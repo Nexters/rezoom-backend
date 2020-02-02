@@ -18,7 +18,6 @@ import java.util.Locale;
 @Configuration
 public class FormatingConfig {
 
-
     @Bean
     public Formatter<LocalTime> localTimeFormatter() {
         return new Formatter<LocalTime>() {

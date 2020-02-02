@@ -8,6 +8,7 @@ import java.time.Year;
  * Github : http://github.com/momentjin
  **/
 public class YearAttributeConverter implements AttributeConverter<Year, Short> {
+
     @Override
     public Short convertToDatabaseColumn(Year year) {
         if (year == null) return null;
