@@ -18,15 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/converter")
 public class ConverterController {
 
-    private ConverterService service;
+    private ConverterService converterService;
 
-    public ConverterController(ConverterService service) {
-        this.service = service;
+    public ConverterController(ConverterService converterService) {
+        this.converterService = converterService;
     }
 
     @PostMapping("")
     public ApiResponse convertFromFileToCoverletter(@AuthenticationPrincipal Member member, @RequestPart(name = "file") MultipartFile[] files) {
-        service.convertFileToCoverletter(member, files);
+        converterService.convertFileToCoverletter(member, files);
         return ApiResponse.builder().build();
     }
 

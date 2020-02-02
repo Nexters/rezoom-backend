@@ -55,8 +55,8 @@ public class NotificationService {
 
     public void createNotifications() {
 
-        // 모든 유저의 자기소개서를 가져온다. (단, 마감일이 있고 지원하지 않은 자기소개서만)
         // TODO : 휴먼 회원 제외하기?
+        // 모든 유저의 자기소개서를 가져온다. (단, 마감일이 있고 지원하지 않은 자기소개서만)
         List<Coverletter> coverletters = coverletterRepository.findAllByDeadlineGreaterThanEqual(Deadline.now());
 
         // 가져온 자소서 리스트를 순회하며 알림 데이터를 notification table에 저장한다.

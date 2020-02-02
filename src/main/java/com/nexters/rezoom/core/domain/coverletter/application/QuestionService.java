@@ -46,8 +46,7 @@ public class QuestionService {
      */
     @Transactional
     public List<QuestionDto.ViewRes> getQuestionsByHashtags(Member member, List<String> hashtags) {
-        // TODO : 해시태그로 문항 검색하는 SQL - 성능 테스트 필요
-        // todo : 쿼리 DSL 통해 SQL로 한번에 조회하기
+        // TODO : 해시태그로 문항 검색하는 SQL - 성능 테스트 필요, 쿼리 DSL 통해 SQL로 한번에 조회하기
         Set<Question> questionSet = new HashSet<>();
         for (String hasthag : hashtags) {
             try {
@@ -56,7 +55,6 @@ public class QuestionService {
 
                 questionSet.addAll(findHashtag.getQuestions());
             } catch (BusinessException e) {
-                // TODO : 개선할 필요가 있어 보인다.
                 // do not anything
             }
         }

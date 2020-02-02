@@ -34,9 +34,9 @@ public class QuestionController {
     }
 
     @GetMapping("/search")
-    public ApiResponse<List<QuestionDto.ViewRes>> getQuestionsByHashtags(@AuthenticationPrincipal Member member, @RequestParam List<String> hashtags) {
+    public ApiResponse<List<QuestionDto.ViewRes>> getQuestionsByHashtags(
+            @AuthenticationPrincipal Member member, @RequestParam List<String> hashtags) {
 
-        // TODO : 해시태그 복수로 검색할 수 있도록 변경하기
         return ApiResponse.success(service.getQuestionsByHashtags(member, hashtags));
     }
 
