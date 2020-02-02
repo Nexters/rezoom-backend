@@ -1,5 +1,6 @@
 package com.nexters.rezoom.coverletter.presentation;
 
+import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.coverletter.application.HashtagService;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class HashtagController {
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getMyHashtags(@AuthenticationPrincipal Member member) {
-        return service.getMyHashtags(member);
+    public ApiResponse<List<String>> getMyHashtags(@AuthenticationPrincipal Member member) {
+        return ApiResponse.success(service.getMyHashtags(member));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.nexters.rezoom.member;
 
+import com.nexters.global.exception.BusinessException;
 import com.nexters.global.exception.EntityNotFoundException;
 import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
@@ -66,7 +67,7 @@ public class MemberServiceTest {
                 .willReturn(Optional.of(new Member("", "", "")));
 
         // when & then (동일한 ID로 재가입해서 중복 테스트 수행)
-        assertThrows(InvalidValueException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             service.signUp(req);
         });
     }

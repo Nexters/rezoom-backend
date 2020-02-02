@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -43,7 +44,7 @@ public class HashtagRepositoryTest {
         String hashtagValue = UUID.randomUUID().toString();
 
         // when
-        Hashtag findHashtag = repository.findByMemberAndValue(member, hashtagValue);
+        Optional<Hashtag> findHashtag = repository.findByMemberAndValue(member, hashtagValue);
 
         // then
         assertNull(findHashtag);

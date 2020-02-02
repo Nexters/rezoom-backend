@@ -1,5 +1,6 @@
 package com.nexters.rezoom.member.presentation;
 
+import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.member.application.ProfileImageService;
 import com.nexters.rezoom.member.domain.Member;
 import org.springframework.http.HttpStatus;
@@ -29,16 +30,17 @@ public class ProfileImageController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProfileImageReq(@AuthenticationPrincipal Member member, @RequestPart MultipartFile file) {
+    public ApiResponse updateProfileImageReq(@AuthenticationPrincipal Member member, @RequestPart MultipartFile file) {
         profileImageService.createProfileImage(member, file);
+        return ApiResponse.success();
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public String getProfileImage(@AuthenticationPrincipal Member member) throws IOException {
+    public ApiResponse<String> getProfileImage(@AuthenticationPrincipal Member member) throws IOException {
         File profileImage = profileImageService.getProfileImage(member);
         byte[] profileImageBytes = Files.readAllBytes(profileImage.toPath());
 
-        return Base64.getEncoder().encodeToString(profileImageBytes);
+        return ApiResponse.success(Base64.getEncoder().encodeToString(profileImageBytes));
     }
 }

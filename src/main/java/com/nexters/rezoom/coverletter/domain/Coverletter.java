@@ -64,14 +64,14 @@ public class Coverletter {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     @Builder
-    public Coverletter(Member member, String companyName, Deadline deadline, ApplicationType applicationType,
+    public Coverletter(Long id, Member member, String companyName, Deadline deadline, ApplicationType applicationType,
                        ApplicationHalf applicationHalf, ApplicationState applicationState, Year applicationYear,
                        String jobType, PassState passState) {
 

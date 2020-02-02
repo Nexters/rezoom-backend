@@ -1,5 +1,6 @@
 package com.nexters.rezoom.member.presentation;
 
+import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.member.application.MemberService;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.member.dto.MemberDto;
@@ -23,20 +24,22 @@ public class MemberController {
 
     @GetMapping(value = "/me")
     @ResponseStatus(HttpStatus.OK)
-    public MemberDto.ViewRes getCurrentUserInfo(@AuthenticationPrincipal Member member) {
-        return service.getMemberInfo(member.getId());
+    public ApiResponse<MemberDto.ViewRes> getCurrentUserInfo(@AuthenticationPrincipal Member member) {
+        return ApiResponse.success(service.getMemberInfo((member.getId())));
     }
 
     @PostMapping(value = "/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@Valid @RequestBody MemberDto.SignUpReq req) {
+    public ApiResponse signUp(@Valid @RequestBody MemberDto.SignUpReq req) {
         service.signUp(req);
+        return ApiResponse.success();
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateMemberInfo(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberDto.UpdateReq req) {
+    public ApiResponse updateMemberInfo(@AuthenticationPrincipal Member member, @Valid @RequestBody MemberDto.UpdateReq req) {
         service.updateMemberInfo(member.getId(), req);
+        return ApiResponse.success();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.nexters.rezoom.notification.presentation;
 
+import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.member.domain.Member;
 import com.nexters.rezoom.notification.application.NotificationService;
 import com.nexters.rezoom.notification.dto.NotificationDto;
@@ -23,14 +24,14 @@ public class NotificationController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public NotificationDto.ListRes getNotifications(@AuthenticationPrincipal Member member) {
-        return notificationService.getNotifications(member);
+    public ApiResponse<NotificationDto.ListRes> getNotifications(@AuthenticationPrincipal Member member) {
+        return ApiResponse.success(notificationService.getNotifications(member));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") long notificationId) {
-        notificationService.toggleCheck(member, notificationId);
+    public ApiResponse toggleCheck(@AuthenticationPrincipal Member member, @PathVariable(name = "id") long notificationId) {
+        return ApiResponse.success(notificationService.toggleCheck(member, notificationId));
     }
 
 }

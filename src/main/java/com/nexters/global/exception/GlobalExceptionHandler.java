@@ -1,6 +1,8 @@
 package com.nexters.global.exception;
 
+import com.nexters.global.dto.ApiResponse;
 import com.nexters.global.dto.ErrorResponse;
+import com.nexters.global.dto.FieldErrorWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,26 +21,24 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    protected ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         final BindingResult bindingResult = e.getBindingResult();
-        final List<FieldError> errors = bindingResult.getFieldErrors();
-        final ErrorResponse response = new ErrorResponse(ErrorType.INVALID_INPUT_VALUE, errors);
+        final List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        final FieldErrorWrapper fieldErrorWrapper = FieldErrorWrapper.of(fieldErrors);
+        final ApiResponse response = ApiResponse.fail(fieldErrorWrapper, ErrorType.INVALID_INPUT_VALUE);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BusinessException.class)
-    protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
-        ErrorResponse response = new ErrorResponse(e.getErrorType());
-
+    protected ResponseEntity<ApiResponse> handleBusinessException(BusinessException e) {
+        ApiResponse response = ApiResponse.fail(e.getErrorType());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        ErrorResponse response = new ErrorResponse(ErrorType.SYSTEM_ERROR);
-        response.setMessage(e.getMessage());
-
+    protected ResponseEntity<ApiResponse> handleException(Exception e) {
+        ApiResponse response = ApiResponse.error(ErrorType.SYSTEM_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

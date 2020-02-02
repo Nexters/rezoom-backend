@@ -105,7 +105,7 @@ public class CoverletterDto {
     @Getter
     public static class ViewRes {
 
-        private long id;
+        private Long id;
         private String companyName;
         private Year applicationYear;
         private ApplicationType applicationType;
@@ -128,8 +128,8 @@ public class CoverletterDto {
             this.applicationState = coverletter.getApplicationState();
             this.passState = coverletter.getPassState();
             this.jobType = coverletter.getJobType();
-            this.createDate = coverletter.getCreateDate();
-            this.updateDate = coverletter.getUpdateDate();
+            this.createDate = coverletter.getCreatedAt();
+            this.updateDate = coverletter.getUpdatedAt();
             this.questions = coverletter.getQuestions().stream()
                     .map(QuestionDto.ViewRes::new)
                     .collect(Collectors.toList());

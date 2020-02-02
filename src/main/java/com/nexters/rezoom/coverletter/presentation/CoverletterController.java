@@ -1,5 +1,6 @@
 package com.nexters.rezoom.coverletter.presentation;
 
+import com.nexters.global.dto.ApiResponse;
 import com.nexters.rezoom.coverletter.application.CoverletterService;
 import com.nexters.rezoom.coverletter.dto.CoverletterDto;
 import com.nexters.rezoom.coverletter.dto.PageRequest;
@@ -23,37 +24,40 @@ public class CoverletterController {
 
     @PostMapping(value = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@AuthenticationPrincipal Member member, @Valid @RequestBody CoverletterDto.SaveReq req) {
+    public ApiResponse save(@AuthenticationPrincipal Member member, @Valid @RequestBody CoverletterDto.SaveReq req) {
         service.save(member, req);
+        return ApiResponse.success();
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@AuthenticationPrincipal Member member, @PathVariable long id, @Valid @RequestBody CoverletterDto.UpdateReq req) {
+    public ApiResponse update(@AuthenticationPrincipal Member member, @PathVariable long id, @Valid @RequestBody CoverletterDto.UpdateReq req) {
         service.update(member, id, req);
+        return ApiResponse.builder().build();
     }
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    public Page<CoverletterDto.ViewRes> getList(@AuthenticationPrincipal Member member, final PageRequest pageRequest) {
-        return service.getList(member, pageRequest.of());
+    public ApiResponse<Page<CoverletterDto.ViewRes>> getList(@AuthenticationPrincipal Member member, final PageRequest pageRequest) {
+        return ApiResponse.success(service.getList(member, pageRequest.of()));
     }
 
     @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ViewRes getView(@AuthenticationPrincipal Member member, @PathVariable long id) {
-        return service.getView(member, id);
+    public ApiResponse<CoverletterDto.ViewRes> getView(@AuthenticationPrincipal Member member, @PathVariable long id) {
+        return ApiResponse.success(service.getView(member, id));
     }
 
     @GetMapping(value = "/search")
     @ResponseStatus(HttpStatus.OK)
-    public CoverletterDto.ListRes getList(@AuthenticationPrincipal Member member, @RequestParam final String companyName) {
-        return service.searchByCompanyName(member, companyName);
+    public ApiResponse<CoverletterDto.ListRes> getList(@AuthenticationPrincipal Member member, @RequestParam final String companyName) {
+        return ApiResponse.success(service.searchByCompanyName(member, companyName));
     }
 
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal Member member, @PathVariable long id) {
+    public ApiResponse delete(@AuthenticationPrincipal Member member, @PathVariable long id) {
         service.delete(member, id);
+        return ApiResponse.success();
     }
 }
